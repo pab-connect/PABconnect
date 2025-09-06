@@ -2,7 +2,7 @@ export default function FormularioContato() {
   return (
     <div className="flex flex-col items-center gap-4">
       <p>Quer participar ou apoiar o projeto? Fale com a gente!</p>
-      <form className="flex flex-col gap-2 w-64 md:w-80">
+      <form className="flex flex-col gap-2 w-64 md:w-80" autoComplete="off">
         <input
           type="text"
           name="nome"

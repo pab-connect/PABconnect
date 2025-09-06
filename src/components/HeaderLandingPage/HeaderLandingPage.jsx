@@ -49,14 +49,14 @@ export default function HeaderLandingPage() {
           </ul>
         </nav>
 
-        {/* Login Desktop */}
-        <button className="hidden lg:block bg-transparent text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300">
+        {/* Login desktop */}
+        <button className="hidden lg:block cursor-pointer bg-transparent text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300">
           Entrar
         </button>
 
-        {/* Menu Hamburguer Mobile */}
+        {/* Menu hamburguer mobile */}
         <button
-          className="lg:hidden"
+          className="lg:hidden cursor-pointer"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
@@ -67,7 +67,7 @@ export default function HeaderLandingPage() {
         </button>
       </div>
 
-      {/* Menu Mobile */}
+      {/* Menu mobile */}
       {isMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 w-full bg-[#307039] z-50">
           <nav className="p-4">
@@ -113,7 +113,7 @@ export default function HeaderLandingPage() {
             {/* Botão Login Mobile */}
             <div className="mt-4 pt-4">
               <button
-                className="w-full bg-transparent text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
+                className="w-full bg-transparent cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Entrar
