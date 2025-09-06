@@ -1,6 +1,7 @@
 import { Menu, X, Search, CircleUserRoundIcon } from "lucide-react";
 
 export default function Header() {
+
   return (
     <header className="w-full bg-[#307039] text-white p-4 flex items-center justify-between">
       <h1 className="text-xl text-center leading-none">
@@ -28,7 +29,7 @@ export default function Header() {
       </div>
 
       {/* Mobile: botao de menu */}
-      <button className="lg:hidden">
+      <button className="lg:hidden" >
         <Menu className="w-7 h-7 text-[#DAD0F0]" />
       </button>
     </header>
