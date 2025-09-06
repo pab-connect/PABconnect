@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Menu, X, Search, CircleUserRoundIcon } from "lucide-react";
+import Sidebar from "../Sidebar/Sidebar";
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-[#307039] text-white p-4 flex items-center justify-between">
+    <header className="w-full bg-[#307039] text-white p-4 flex items-center justify-between relative">
       <h1 className="text-xl text-center leading-none">
         PAB<span className="block text-4xl font-bold -mt-1">CONNECT</span>
       </h1>
@@ -29,9 +32,16 @@ export default function Header() {
       </div>
 
       {/* Mobile: botao de menu */}
-      <button className="lg:hidden" >
-        <Menu className="w-7 h-7 text-[#DAD0F0]" />
+      <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? (
+          <X className="w-7 h-7 text-[#DAD0F0]" />
+        ) : (
+          <Menu className="w-7 h-7 text-[#DAD0F0]" />
+        )}
       </button>
+
+      {/* Mobile: sidebar */}
+      {isOpen && <Sidebar onClose={() => setIsOpen(false)} isDesktop={false} />}
     </header>
   );
 }
