@@ -1,26 +1,26 @@
 import { CalendarDays, Check, UserRound } from "lucide-react";
-import CardComoFunciona from "../CardComoFunciona/CardComoFunciona";
+import CardLandingPage from "../CardLandingPage/CardLandingPage";
 
 export default function ComoFunciona() {
   return (
     <section id="comoFunciona">
       <h2>Como funciona?</h2>
       <div>
-        <CardComoFunciona
+        <CardLandingPage
           icone={<UserRound />}
           titulo={"Crie seu perfil"}
           descricao={
             "Mostre suas habilidades, vídeos e trajetória como jogadora."
           }
         />
-        <CardComoFunciona
+        <CardLandingPage
           icone={<CalendarDays />}
           titulo={"Encontre peneiras"}
           descricao={
             "Busque eventos próximos com filtros por cidade e posição."
           }
         />
-        <CardComoFunciona
+        <CardLandingPage
           icone={<Check />}
           titulo={"Seja descoberta"}
           descricao={
