@@ -1,4 +1,5 @@
 import "./App.css";
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 
@@ -9,6 +10,7 @@ function App() {
       <div className="flex flex-1">
         <Sidebar isDesktop={true} />
       </div>
+      <Footer />
     </div>
   );
 }
