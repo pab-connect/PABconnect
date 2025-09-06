@@ -1,11 +1,16 @@
-import './App.css'
+import "./App.css";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   return (
-    <>
-      <h1 className='text-green-500'>PAB CONNECT</h1>
-    </>
-  )
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar isDesktop={true} />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
