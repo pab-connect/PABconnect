@@ -8,7 +8,7 @@ import Pratica from "../components/Pratica/Pratica";
 
 export default function LandingPage() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-[#DAD0F0]">
       <HeaderLandingPage />
       <Banner />
       <ComoFunciona />
@@ -16,6 +16,6 @@ export default function LandingPage() {
       <Pratica />
       <Contato />
       <Footer />
-    </>
+    </div>
   )
 }
