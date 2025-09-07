@@ -26,24 +26,34 @@ export default function Talentos() {
     },
   ];
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-[#DAD0F0]">
       <Header />
-      <div>
+      <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
-        <main>
-          <h2>Talentos</h2>
-          <Filtros />
-          <section id="jogadoras">
-            {jogadoras.map((j, index) => (
-              <CardTalentos
-                key={index}
-                imagem={j.imagem}
-                nome={j.nome}
-                posicao={j.posicao}
-                localizacao={j.localizacao}
-              />
-            ))}
-          </section>
+        <main className="flex flex-1 flex-col items-center gap-4 lg:ml-64 p-4 text-[#705C9B]">
+          <h2 className="text-2xl font-semibold mb-4">Talentos</h2>
+          <div className="flex flex-col md:flex-row-reverse gap-8">
+            {/* filtros - sidebar em desktop */}
+            <aside className="md:w-64 md:flex-shrink-0">
+              <Filtros />
+            </aside>
+
+            {/* cards - ocupa o resto do espaco */}
+            <section
+              id="jogadoras"
+              className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4"
+            >
+              {jogadoras.map((j, index) => (
+                <CardTalentos
+                  key={index}
+                  imagem={j.imagem}
+                  nome={j.nome}
+                  posicao={j.posicao}
+                  localizacao={j.localizacao}
+                />
+              ))}
+            </section>
+          </div>
         </main>
       </div>
       <Footer />
