@@ -1,10 +1,10 @@
-export default function InputBox({ label, placeholder, type }) {
+export default function InputBox({ label, placeholder, type, required = false }) {
   // Define autocomplete automaticamente
   const autoCompleteMap = {
     text: "name",
     email: "email",
     password: "new-password",
-    number: "off"
+    number: "off",
   };
 
   const autoComplete = autoCompleteMap[type] || "off";
@@ -19,6 +19,7 @@ export default function InputBox({ label, placeholder, type }) {
         type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}
+        required={required}
         className="border mt-1 rounded-lg focus:outline-[#281452] h-12 w-full px-5 placeholder:text-lg"
         {...numberProps}
       />

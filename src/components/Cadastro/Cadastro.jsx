@@ -65,10 +65,10 @@ export default function Cadastro({ toggle }) {
       )}
 
       {tipo === "jogadora" && step > 0 && (
-        <JogadorCadastro step={step} setStep={setStep} />
+        <JogadorCadastro/>
       )}
       {tipo === "agente" && step > 0 && (
-        <AgenteCadastro step={step} setStep={setStep} />
+        <AgenteCadastro/>
       )}
     </div>
   );
