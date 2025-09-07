@@ -73,7 +73,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
 
       {/* Sidebar */}
       <aside className="fixed top-0 right-0 h-full w-80 bg-[#314334] text-white p-4 z-50 lg:hidden transform transition-transform duration-300 ease-in-out">
-        {/* Botao de fechar */}
+        {/* botao de fechar */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl text-center leading-none">
             PAB<span className="block text-2xl font-bold -mt-1">CONNECT</span>
