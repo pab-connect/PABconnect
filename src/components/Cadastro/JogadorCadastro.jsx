@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputBox from "./InputBox";
 import logo from "/logo-text.png";
 import UploadAndDisplayImage from "./UploadAndDisplayImage";
+import CadastroConcluido from "./CadastroConcluido";
 
 export default function JogadorCadastro() {
   const estadosBR = [
@@ -17,7 +18,7 @@ export default function JogadorCadastro() {
 
   return (
     <div className="w-screen min-h-screen overflow-y-auto flex flex-col items-center font-(family-name:--font-poppins)">
-      <main className="bg-white w-full max-w-3xl rounded-xl overflow-x-hidden">
+      <main className="bg-white w-full max-w-3xl overflow-x-hidden">
         
         {/* Step 1: Informações Pessoais */}
         {step === 1 && (
@@ -131,14 +132,17 @@ export default function JogadorCadastro() {
                 Voltar
               </button>
               <button
-                type="submit"
+                type="button"
                 className="h-14 w-1/2 bg-[#307039] text-white font-semibold rounded-lg text-lg cursor-pointer transition-all duration-300 hover:bg-[#24582b] hover:scale-105"
-              >
-                Finalizar
+                onClick={() => setStep(4)}
+                >
+                Finaliza
               </button>
+
             </div>
           </section>
         )}
+        {step === 4 && <CadastroConcluido />}
 
       </main>
     </div>
