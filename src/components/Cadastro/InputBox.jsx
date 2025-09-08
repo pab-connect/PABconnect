@@ -20,7 +20,7 @@ export default function InputBox({ label, placeholder, type, required = false })
         placeholder={placeholder}
         autoComplete={autoComplete}
         required={required}
-        className="border mt-1 rounded-lg focus:outline-[#281452] h-12 w-full px-5 placeholder:text-lg"
+        className="border mt-1 rounded-lg focus:outline-[#281452] h-12 md:h-10 w-full px-5 placeholder:text-lg"
         {...numberProps}
       />
     </div>

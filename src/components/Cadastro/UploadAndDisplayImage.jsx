@@ -12,7 +12,7 @@ const UploadAndDisplayImage = () => {
         <div className="flex flex-col items-center gap-4">
           <img
             alt="preview"
-            className="w-64 h-64 object-cover rounded-md shadow-md"
+            className="w-64 md:w-48 h-64 md:h-48 object-cover rounded-md shadow-md"
             src={URL.createObjectURL(selectedImage)}
           />
           <button

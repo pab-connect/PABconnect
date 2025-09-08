@@ -2,7 +2,7 @@ import logo from "/logo-text.png";
 
 export default function CadastroConcluido() {
   return (
-    <div className="bg-[#307039] h-screen w-screen flex items-center justify-center">
+    <div className="bg-[#307039] md:bg-transparent h-screen w-screen flex items-center justify-center">
         <section className="w-4/5 h-2/4 bg-white rounded-xl flex flex-col justify-center items-center p-10 text-center">
         <img src={logo} className="w-35 mb-6" alt="logo" />
         <h2 className="font-extrabold text-xl text-[#4f3882] mb-4">
