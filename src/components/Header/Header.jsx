@@ -6,7 +6,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-[#307039] text-white p-4 flex items-center justify-between relative">
+    <header className="fixed top-0 left-0 right-0 w-full bg-[#307039] text-white p-4 flex items-center justify-between z-50">
       <h1 className="text-xl text-center leading-none">
         PAB<span className="block text-4xl font-bold -mt-1">CONNECT</span>
       </h1>
