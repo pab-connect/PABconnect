@@ -1,5 +1,6 @@
 import CriarPostIndexJogadora from "../components/CriarPostIndexJogadora/CriarPostIndexJogadora"
 import PostUser from "../components/PostUser/PostUser"
+import PostMarta from "../components/PostMarta/PostMarta"
 
 export default function IndexJogadora() {
     return (
@@ -8,6 +9,7 @@ export default function IndexJogadora() {
                 <CriarPostIndexJogadora />
                 <hr className="w-full my-4 border-t-2 border-[#9f92bc]" />
                 <PostUser />
+                <PostMarta />
             </div>
         </div>
     )
