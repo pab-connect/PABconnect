@@ -19,13 +19,13 @@ export default function JogadorCadastro() {
     <>
       {/* --- STEP 1 --- */}
       {step === 1 && (
-        <section className="w-full md:h-3/4 md:w-4/5 p-10 md:p-16 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
-          <img src={logo} className="w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
+        <section className="w-full md:h-3/4 md:w-4/5 p-10 md:p-16 sm:p-20 sm:mt-10 md:mt-0 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
+          <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
           <h2 className="font-extrabold text-2xl text-center text-[#4f3882] mb-5">
             Cadastro de jogadora - Informações Pessoais
           </h2>
           <form className="w-full flex flex-col items-center gap-4">
-            <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-10 mb-10">
+            <div className="grid sm:grid-cols-2 w-full grid-cols-1 gap-y-5 gap-x-10 mb-10">
               <InputBox required label="Nome*" placeholder="Ex: Maria Silva" type="text" />
               <InputBox required label="Email*" placeholder="Ex: maria@gmail.com" type="email" />
               <InputBox required label="Senha*" placeholder="" type="password" />
@@ -41,7 +41,7 @@ export default function JogadorCadastro() {
             </div>
             <button
               type="button"
-              className="h-14 md:h-12 md:w-3/6 w-full bg-[#307039] text-white font-semibold rounded-lg text-lg cursor-pointer transition-all duration-300 hover:bg-[#24582b] hover:scale-105"
+              className="h-14 sm:w-2/3 sm:text-xl md:h-12 md:w-3/6 w-full bg-[#307039] text-white font-semibold rounded-lg text-lg cursor-pointer transition-all duration-300 hover:bg-[#24582b] hover:scale-105"
               onClick={() => setStep(2)}
             >
               Continuar
@@ -53,13 +53,13 @@ export default function JogadorCadastro() {
 
       {/* --- STEP 2 --- */}
       {step === 2 && (
-        <section className="w-full md:h-3/4 md:w-4/5 p-10 md:p-16 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
-          <img src={logo} className="w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
+        <section className="w-full md:h-3/4 md:w-4/5 sm:p-20 md:mt-0 sm:mt-10 p-10 md:p-16 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
+          <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
           <h2 className="font-extrabold text-2xl text-center text-[#4f3882] mb-5">
             Cadastro de jogadora - Dados Atléticos
           </h2>
           <form className="w-full flex flex-col items-center gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-10 mb-10 w-full">
+            <div className="grid grid-cols-1 sm:w-3/5 md:w-full md:grid-cols-2 gap-y-5 gap-x-10 mb-10 w-full">
               <InputBox required label="Posição*" placeholder="Ex: Atacante" type="text"/>
               <InputBox label="Clube" placeholder="Ex: Corinthians" type="text"/>
               <InputBox required label="Altura*" placeholder="Ex: 165cm" type="number"/>
@@ -72,11 +72,11 @@ export default function JogadorCadastro() {
                 </select>
               </div>
             </div>
-            <div className="flex gap-4 w-full md:justify-center">
-              <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 bg-gray-400 text-white font-semibold rounded-lg text-lg hover:scale-105 hover:shadow-md transition-all" onClick={() => setStep(1)}>
+            <div className="flex gap-4 w-full sm:justify-center">
+              <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 sm:w-2/5 bg-gray-400 text-white font-semibold rounded-lg text-lg hover:scale-105 hover:shadow-md transition-all" onClick={() => setStep(1)}>
                 Voltar
               </button>
-              <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 bg-[#307039] text-white font-semibold rounded-lg text-lg hover:bg-[#24582b] hover:scale-105 transition-all" onClick={() => setStep(3)}>
+              <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 sm:w-2/5 bg-[#307039] text-white font-semibold rounded-lg text-lg hover:bg-[#24582b] hover:scale-105 transition-all" onClick={() => setStep(3)}>
                 Continuar
               </button>
             </div>
@@ -86,8 +86,8 @@ export default function JogadorCadastro() {
 
       {/* --- STEP 3 --- */}
       {step === 3 && (
-        <section className="w-full md:h-3/4 md:w-4/5 p-10 md:p-16 md:m-5 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
-          <img src={logo} className="w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
+        <section className="w-full md:h-3/4 md:w-4/5 sm:p-20 md:mt-0 sm:mt-10 p-10 md:p-16 md:m-5 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
+          <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
           <h2 className="font-extrabold text-2xl text-center text-[#4f3882] mb-5">
             Cadastro de jogadora - Mídia
           </h2>
@@ -96,11 +96,11 @@ export default function JogadorCadastro() {
           <p className="my-10 text-center text-lg hover:text-[#307039] cursor-pointer">
             Clique em finalizar para concluir o cadastro
           </p>
-          <div className="flex gap-4 w-full md:justify-center">
-            <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 bg-gray-400 text-white font-semibold rounded-lg text-lg hover:scale-105 hover:shadow-md transition-all" onClick={() => setStep(2)}>
+          <div className="flex gap-4 w-full sm:justify-center">
+            <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 sm:w-2/5 bg-gray-400 text-white font-semibold rounded-lg text-lg hover:scale-105 hover:shadow-md transition-all" onClick={() => setStep(2)}>
               Voltar
             </button>
-            <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 bg-[#307039] text-white font-semibold rounded-lg text-lg hover:bg-[#24582b] hover:scale-105 transition-all" onClick={() => setStep(4)}>
+            <button type="button" className="h-14 md:h-12 w-1/2 md:w-1/3 sm:w-2/5 bg-[#307039] text-white font-semibold rounded-lg text-lg hover:bg-[#24582b] hover:scale-105 transition-all" onClick={() => setStep(4)}>
               Finalizar
             </button>
           </div>

@@ -11,23 +11,23 @@ export default function Cadastro() {
     <>
       {/* --- PASSO 1: Escolher tipo de conta --- */}
       {step === 0 && (
-        <section className="w-full md:bg-white md:rounded-2xl md:w-4/5 flex flex-col justify-center items-center p-10 md:p-20">
+        <section className="w-full md:bg-white md:rounded-2xl sm:mt-20 md:mt-0 md:w-4/5 flex flex-col justify-center items-center p-10 md:p-20">
           <img
             src={logo}
-            className="w-50 mb-8 transition-transform duration-300 hover:scale-105"
+            className="w-50 sm:w-75 md:w-50 mb-8 transition-transform duration-300 hover:scale-105"
             alt="logo"
           />
-          <h2 className="font-extrabold text-3xl my-5 text-[#4f3882] mb-10 transition-colors duration-300 hover:text-[#281452]">
+          <h2 className="font-extrabold sm:text-4xl md:text-3xl text-3xl my-5 text-[#4f3882] mb-10 transition-colors duration-300 hover:text-[#281452]">
             Cadastro
           </h2>
 
           <form className="flex flex-col gap-4 items-center text-center w-full">
-            <p className="text-lg mb-5">
+            <p className="text-lg md:text-lg sm:text-xl mb-5">
               Primeiro, que tipo de conta você deseja cadastrar?
             </p>
 
             <div className="flex gap-5 justify-center mb-10 text-lg">
-              <label className="flex items-center gap-2 cursor-pointer hover:text-[#5d3aff]">
+              <label className="flex sm:text-2xl md:text-lg items-center gap-2 cursor-pointer hover:text-[#5d3aff]">
                 <input
                   type="radio"
                   value="jogadora"
@@ -37,7 +37,7 @@ export default function Cadastro() {
                 />
                 Jogadora
               </label>
-              <label className="flex items-center gap-2 cursor-pointer hover:text-[#5d3aff]">
+              <label className="flex sm:text-2xl md:text-lg items-center gap-2 cursor-pointer hover:text-[#5d3aff]">
                 <input
                   type="radio"
                   value="agente"
@@ -51,7 +51,7 @@ export default function Cadastro() {
 
             <button
               type="button"
-              className="h-14 md:w-xs w-full bg-[#307039] text-white font-semibold rounded-lg text-lg cursor-pointer transition-all duration-300 hover:bg-[#24582b] hover:scale-105"
+              className="h-14 sm:text-xl md:text-lg sm:w-xs md:w-xs w-full bg-[#307039] text-white font-semibold rounded-lg text-lg cursor-pointer transition-all duration-300 hover:bg-[#24582b] hover:scale-105"
               onClick={() => setStep(1)}
             >
               Continuar

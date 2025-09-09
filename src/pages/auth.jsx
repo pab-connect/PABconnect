@@ -8,25 +8,25 @@ function Auth() {
 
   return (
     <div className="w-full min-h-full md:min-h-screen overflow-y-auto md:flex md:bg-[#DAD0f0] md:items-center md:justify-center font-(family-name:--font-poppins)">
-      <main className="md:relative bg-white w-full sm:w-full md:w-4/5 md:max-w-5xl md:min-w-[760px] flex justify-center overflow-hidden md:rounded-2xl md:shadow-xl">        
+      <main className="md:relative bg-white md:bg-transparent w-full sm:w-full md:w-4/5 md:max-w-5xl md:min-w-[760px] flex justify-center overflow-hidden md:rounded-2xl ">        
         {/* --- LOGIN --- */}
         <section
-          className={`md:w-1/2 sm:w-2/3 flex md:bg-white flex-col justify-center rounded-l-2xl items-center p-10 py-12 sm:p-15 sm:mt-15 ${
+          className={`md:w-1/2 sm:w-2/3 flex md:bg-white flex-col justify-center rounded-l-2xl items-center p-10 py-12 sm:p-15 sm:mt-15 md:p-10 md:mt-0 ${
             isRegister ? "hidden" : ""
           }`}
         >
           <img
             src={logo}
-            className="w-50 sm:w-75 my-8 transition-transform duration-300 hover:scale-105"
+            className="w-50 sm:w-75 md:w-50 my-8 transition-transform duration-300 hover:scale-105"
             alt="logo"
           />
 
-          <h2 className="font-extrabold text-3xl sm:text-4xl my-5 text-[#4f3882] transition-colors duration-300 hover:text-[#281452]">
+          <h2 className="font-extrabold text-3xl sm:text-4xl md:text-3xl my-5 text-[#4f3882] transition-colors duration-300 hover:text-[#281452]">
             LOGIN
           </h2>
 
           <form className="flex flex-col gap-4 text-center items-center w-full">
-            <p className="sm:text-xl">Utilize seu email para logar no site</p>
+            <p className="sm:text-xl md:text-base">Utilize seu email para logar no site</p>
 
             <input
               autoComplete="email"
@@ -44,7 +44,7 @@ function Auth() {
               className="focus:outline-[#281452] md:w-2/3 h-15 md:h-12 w-full p-5 placeholder:text-lg bg-[#DAD0F0] font-bold text-[#281452] rounded-lg transition-shadow duration-300 focus:shadow-md"
             />
 
-            <p className="text-[#4f3882] sm:text-xl text-lg cursor-pointer transition-colors duration-300 hover:text-[#281452]">
+            <p className="text-[#4f3882] sm:text-xl text-lg md:text-lg cursor-pointer transition-colors duration-300 hover:text-[#281452]">
               Esqueceu sua senha?
             </p>
 

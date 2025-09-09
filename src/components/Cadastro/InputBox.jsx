@@ -14,7 +14,7 @@ export default function InputBox({ label, placeholder, type, required = false })
 
   return (
     <div className="flex flex-col items-start w-full text-[#4f3882]">
-      <label>{label}</label>
+      <label className="md:text-base text-base sm:text-xl">{label}</label>
       <input
         type={type}
         placeholder={placeholder}
