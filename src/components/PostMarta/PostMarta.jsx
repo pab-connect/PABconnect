@@ -10,7 +10,7 @@ export default function CardPostMarta() {
         <div className="bg-white p-4 w-full rounded-xl mt-2 border border-[#85a095]">
             <div className='flex items-center justify-between'>
                 <div className='flex gap-4 items-center'>
-                    <img src={Marta} alt="foto-de-perfil" className="w-11 h-11 md:w-13 md:h-13 lg:w-16 lg:h-16 rounded-full border-2 border-[#9f92bc] ml-3"/>
+                    <img src={Marta} alt="icon marta" className="w-11 h-11 md:w-13 md:h-13 lg:w-16 lg:h-16 rounded-full border-2 border-[#9f92bc] ml-3"/>
                     <div className='flex flex-col'>
                         <div className='flex gap-2 items-center'>
                             <span className='font-bold text-xs md:text-base lg:text-lg'>Marta Vieira</span>
@@ -25,7 +25,7 @@ export default function CardPostMarta() {
             <p className='m-3 text-xs md:text-sm lg:text-base'>Dentro de campo, nenhuma jogadora vence sozinha. É o time, a união, a tática. Cada uma de nós tem um papel fundamental na busca pelo mesmo objetivo. Feliz por mais um dia fazendo o que amo, ao lado de profissionais incríveis. O trabalho continua, sempre em busca da melhor versão de nós mesmas.</p>
             <p className='m-3 text-xs md:text-sm lg:text-base'>#TrabalhoEmEquipe #Foco #Futebol #OrlandoPride #SeleçãoFeminina</p>
             <div className='m-4'>
-                <img src={PostMarta} alt="post-marta" className='rounded-3xl'/>
+                <img src={PostMarta} alt="post marta" className='rounded-3xl'/>
             </div>
             <div className='flex items-center justify-between text-[#705c9b] mt-3'>
                 <div className="flex items-center">
