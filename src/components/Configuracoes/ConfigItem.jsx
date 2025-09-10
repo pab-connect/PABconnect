@@ -8,7 +8,7 @@ export default function ConfigItem({icon, text, setConfig, active=""}) {
                 ${isActive ? "font-semibold bg-purple-300 text-[#5100FF]" : "text-[#777777]"}`}
         >
             {icon}
-            <h3 className="text-xl text-inherit">{text}</h3>
+            <h3 className="text-xl sm:text-2xl text-inherit">{text}</h3>
         </div>
     );
 }
