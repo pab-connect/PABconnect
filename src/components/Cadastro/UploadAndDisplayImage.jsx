@@ -16,7 +16,7 @@ const UploadAndDisplayImage = () => {
             src={URL.createObjectURL(selectedImage)}
           />
           <button
-            className="h-12 w-32 bg-gray-400 text-white font-semibold rounded-lg hover:bg-gray-500 transition-colors"
+            className="h-12 w-32 md:text-lg md:h-10 bg-gray-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-gray-500 transition-colors"
             onClick={() => setSelectedImage(null)}
           >
             Remover
