@@ -1,4 +1,4 @@
-import RadarTalentos from "../components/RadarTalentos"
+import RadarTalentos from "../components/RadarTalentos/RadarTalentos"
 import PostUser from "../components/PostUser/PostUser"
 import PostMarta from "../components/PostMarta/PostMarta"
 

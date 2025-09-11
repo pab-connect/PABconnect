@@ -1,4 +1,4 @@
-export default function CardRadarTalentos() {
+export default function RadarTalentos() {
     return (
         <div className="flex flex-col bg-gradient-to-r from-[#3b8734] to-[#325d54] p-4 w-full rounded-xl">
             <div className="flex-1 m-3">
@@ -12,8 +12,8 @@ export default function CardRadarTalentos() {
                         <span className='text-white text-base md:text-lg lg:text-xl font-light mt-1'>Cadastrados na plataforma</span>
                     </div>
                     <div className='flex flex-col'>
-                        <button className='bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer'>Talentos na sua região</button>
-                        <button className='bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer'>Ver Novas Cadastradas</button>
+                        <button className='bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer hover:scale-99 transition-all'>Talentos na sua região</button>
+                        <button className='bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer hover:scale-99 transition-all'>Ver Novas Cadastradas</button>
                     </div>
                 </div>
             </div>
