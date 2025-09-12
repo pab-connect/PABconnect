@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://68c4584781ff90c8e61bf8e9.mockapi.io";
-const API_POSTS_URL = "https://68c4a03581ff90c8e61caffa.mockapi.io"
+export const API_BASE_URL = "https://68c4584781ff90c8e61bf8e9.mockapi.io";
+export const API_POSTS_URL = "https://68c4a03581ff90c8e61caffa.mockapi.io"
 
 // READ
 export const getAll = (url, endpoint) => {
