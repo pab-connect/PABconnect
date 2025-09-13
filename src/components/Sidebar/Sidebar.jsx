@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Search,
   CircleUserRoundIcon,
@@ -7,9 +9,18 @@ import {
   MessagesSquare,
   Bell,
   X,
+  Star,
 } from "lucide-react";
 
 export default function Sidebar({ onClose, isDesktop = false }) {
+  const [tipoUsuario, setTipoUsuario] = useState(null);
+
+  useEffect(() => {
+    const usuario = JSON.parse(localStorage.getItem("user"));
+    if (usuario) {
+      setTipoUsuario(usuario.tipo);
+    }
+  }, []);
   // Sidebar para desktop
   if (isDesktop) {
     return (
@@ -18,46 +29,56 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         <nav>
           <ul className="flex flex-col gap-4">
             <li>
-              <a
-                href="#"
+              <Link
+                to={`/home/${
+                  tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                }`}
                 className="flex items-center gap-3 font-semibold underline text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
               >
                 <House className="w-8 h-8" /> Página inicial
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
               >
-                <UsersRound className="w-8 h-8" /> Conexões
-              </a>
+                {tipoUsuario === "jogadora" ? (
+                  <UsersRound className="w-8 h-8" />
+                ) : (
+                  <Star className="w-8 h-8" />
+                )}
+                {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/mensagens"
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
               >
                 <MessagesSquare className="w-8 h-8" /> Mensagens
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/notificacoes"
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
               >
                 <Bell className="w-8 h-8" /> Notificações
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
 
         {/* Configuracoes */}
         <div className="mt-7">
-          <button className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left">
+          <Link
+            to="/configuracoes"
+            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left"
+          >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
-          </button>
+          </Link>
         </div>
       </aside>
     );
@@ -98,54 +119,64 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         <nav>
           <ul className="flex flex-col gap-4">
             <li>
-              <a
-                href="#"
+              <Link
+                to={`/home/${
+                  tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                }`}
                 className="flex items-center gap-3 font-semibold underline text-lg hover:text-[#DAD0F0] transition-colors"
               >
                 <House className="w-8 h-8" /> Página inicial
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
               >
-                <UsersRound className="w-8 h-8" /> Conexões
-              </a>
+                {tipoUsuario === "jogadora" ? (
+                  <UsersRound className="w-8 h-8" />
+                ) : (
+                  <Star className="w-8 h-8" />
+                )}
+                {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/mensagens"
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
               >
                 <MessagesSquare className="w-8 h-8" /> Mensagens
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/notificacoes"
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
               >
                 <Bell className="w-8 h-8" /> Notificações
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/perfil"
                 className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
               >
                 <CircleUserRoundIcon className="w-8 h-8" /> Perfil
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
 
         {/* Configuracoes */}
         <div className="mt-7">
-          <button className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors">
+          <Link
+            to="/configuracoes"
+            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors"
+          >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
-          </button>
+          </Link>
         </div>
       </aside>
     </>

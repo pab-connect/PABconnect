@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X, Search, CircleUserRoundIcon } from "lucide-react";
 import Sidebar from "../Sidebar/Sidebar";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,9 +27,9 @@ export default function Header() {
 
       {/* Perfil */}
       <div className="hidden lg:flex items-center">
-        <button>
+        <Link to="/perfil">
           <CircleUserRoundIcon className="w-10 h-10 text-[#DAD0F0]" />
-        </button>
+        </Link>
       </div>
 
       {/* Mobile: botao de menu */}
