@@ -1,6 +1,11 @@
-export default function CardTalentos({ imagem, nome, posicao, localizacao }) {
+export default function CardTalentos({
+  imagem,
+  nome,
+  posicao,
+  localizacao,
+}) {
   return (
-    <div className="flex flex-col items-center gap-3 bg-white p-4 rounded-lg shadow-md">
+    <div className="flex flex-col items-center text-center gap-3 bg-white p-4 rounded-lg shadow-md">
       <img src={imagem} alt={nome} className="w-full h-auto rounded-md" />
 
       <h3 className="text-lg font-semibold">{nome}</h3>
