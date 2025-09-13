@@ -10,6 +10,7 @@ import {
   Bell,
   X,
   Star,
+  LogOut,
 } from "lucide-react";
 
 export default function Sidebar({ onClose, isDesktop = false }) {
@@ -78,6 +79,17 @@ export default function Sidebar({ onClose, isDesktop = false }) {
           >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
+          </Link>
+        </div>
+
+        {/* Sair */}
+        <div className="mt-7">
+          <Link
+            to="/"
+            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left"
+          >
+            <LogOut className="w-8 h-8" />
+            <span>Sair</span>
           </Link>
         </div>
       </aside>
@@ -176,6 +188,17 @@ export default function Sidebar({ onClose, isDesktop = false }) {
           >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
+          </Link>
+        </div>
+
+        {/* Sair */}
+        <div className="mt-7">
+          <Link
+            to="/"
+            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors"
+          >
+            <LogOut className="w-8 h-8" />
+            <span>Sair</span>
           </Link>
         </div>
       </aside>
