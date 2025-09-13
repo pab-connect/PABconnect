@@ -1,10 +1,66 @@
 import "../App.css";
 import logo from "/logo-text.png";
 import Cadastro from "../components/Cadastro/Cadastro.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAll, API_BASE_URL } from "../services/apiService.js"
 
 function Auth() {
   const [isRegister, toggle] = useState(false);
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const [dataJogadora, setDataJogadora] = useState([]);
+  const [dataOlheiro, setDataOlheiro] = useState([]);
+
+  const [erro, setErro] = useState("");
+
+  const handleEmail = (e) => setEmail(e.target.value);
+  const handleSenha = (e) => setSenha(e.target.value);
+
+  function checkLogin(data, email, senha) {
+    const user = data.find(j => j.email === email);
+
+    if (!user) return "naoExiste";          
+    if (user.senha === senha) return "ok";  
+    return "senhaErrada";                   
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const jogadorCheck = checkLogin(dataJogadora, email, senha);
+    const olheiroCheck = checkLogin(dataOlheiro, email, senha);
+
+    if (jogadorCheck === "ok") {
+      setErro("");
+      localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email }));
+    } else if (olheiroCheck === "ok") {
+      setErro("");
+      localStorage.setItem("user", JSON.stringify({ tipo: "olheiro", email }));
+    } else if (jogadorCheck === "senhaErrada" || olheiroCheck === "senhaErrada") {
+      setErro("Senha incorreta!");
+    } else {
+      setErro("Usuário não encontrado!");
+    }
+    
+  }
+
+  useEffect(() => {
+    getAll(API_BASE_URL, "jogadoras")
+      .then(jogadoras => {
+        setDataJogadora(jogadoras);
+      })
+      .finally(() => {
+        console.log("Carregamento de jogadoras finalizado!");
+      });
+
+    getAll(API_BASE_URL, "olheiros")
+      .then(olheiros => {
+        setDataOlheiro(olheiros);
+      })
+      .finally(() => {
+        console.log("Carregamento de olheiros finalizado!");
+      });
+  }, []);
 
   return (
     <div className="w-full min-h-full md:min-h-screen overflow-y-auto md:flex md:bg-[#DAD0f0] md:items-center md:justify-center font-(family-name:--font-poppins)">
@@ -25,7 +81,7 @@ function Auth() {
             LOGIN
           </h2>
 
-          <form className="flex flex-col gap-4 text-center items-center w-full">
+          <form className="flex flex-col gap-4 text-center items-center w-full" onSubmit={handleSubmit}>
             <p className="sm:text-xl md:text-base">Utilize seu email para logar no site</p>
 
             <input
@@ -33,6 +89,8 @@ function Auth() {
               required
               type="email"
               placeholder="E-mail"
+              value={email}
+              onChange={handleEmail}
               className="focus:outline-[#281452] md:w-2/3 h-15 md:h-12 w-full p-5 placeholder:text-lg bg-[#DAD0F0] font-bold text-[#281452] rounded-lg transition-shadow duration-300 focus:shadow-md"
             />
 
@@ -41,8 +99,11 @@ function Auth() {
               required
               type="password"
               placeholder="Senha"
+              value={senha}
+              onChange={handleSenha}
               className="focus:outline-[#281452] md:w-2/3 h-15 md:h-12 w-full p-5 placeholder:text-lg bg-[#DAD0F0] font-bold text-[#281452] rounded-lg transition-shadow duration-300 focus:shadow-md"
             />
+            {erro && <p className="text-red-500 text-sm font-medium">{erro}</p>}
 
             <p className="text-[#4f3882] sm:text-xl text-lg md:text-lg cursor-pointer transition-colors duration-300 hover:text-[#281452]">
               Esqueceu sua senha?
