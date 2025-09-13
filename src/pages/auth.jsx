@@ -2,12 +2,15 @@ import "../App.css";
 import logo from "/logo-text.png";
 import Cadastro from "../components/Cadastro/Cadastro.jsx";
 import { useState, useEffect } from "react";
-import { getAll, API_BASE_URL } from "../services/apiService.js"
+import { getAll, API_BASE_URL } from "../services/apiService.js";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
+  const navigate = useNavigate();
+
   const [isRegister, toggle] = useState(false);
-  const [email, setEmail] = useState("")
-  const [senha, setSenha] = useState("")
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [dataJogadora, setDataJogadora] = useState([]);
   const [dataOlheiro, setDataOlheiro] = useState([]);
 
@@ -17,11 +20,11 @@ function Auth() {
   const handleSenha = (e) => setSenha(e.target.value);
 
   function checkLogin(data, email, senha) {
-    const user = data.find(j => j.email === email);
+    const user = data.find((j) => j.email === email);
 
-    if (!user) return "naoExiste";          
-    if (user.senha === senha) return "ok";  
-    return "senhaErrada";                   
+    if (!user) return "naoExiste";
+    if (user.senha === senha) return "ok";
+    return "senhaErrada";
   }
 
   function handleSubmit(event) {
@@ -32,21 +35,31 @@ function Auth() {
 
     if (jogadorCheck === "ok") {
       setErro("");
-      localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email: email }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ tipo: "jogadora", email: email })
+      );
+      navigate("/home/jogadora");
     } else if (olheiroCheck === "ok") {
       setErro("");
-      localStorage.setItem("user", JSON.stringify({ tipo: "olheiro", email: email }));
-    } else if (jogadorCheck === "senhaErrada" || olheiroCheck === "senhaErrada") {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ tipo: "olheiro", email: email })
+      );
+      navigate("/home/agente");
+    } else if (
+      jogadorCheck === "senhaErrada" ||
+      olheiroCheck === "senhaErrada"
+    ) {
       setErro("Senha incorreta!");
     } else {
       setErro("Usuário não encontrado!");
     }
-    
   }
 
   useEffect(() => {
     getAll(API_BASE_URL, "jogadoras")
-      .then(jogadoras => {
+      .then((jogadoras) => {
         setDataJogadora(jogadoras);
       })
       .finally(() => {
@@ -54,7 +67,7 @@ function Auth() {
       });
 
     getAll(API_BASE_URL, "olheiros")
-      .then(olheiros => {
+      .then((olheiros) => {
         setDataOlheiro(olheiros);
       })
       .finally(() => {
@@ -64,7 +77,7 @@ function Auth() {
 
   return (
     <div className="w-full min-h-full md:min-h-screen overflow-y-auto md:flex md:bg-[#DAD0f0] md:items-center md:justify-center font-(family-name:--font-poppins)">
-      <main className="md:relative bg-white md:bg-transparent w-full sm:w-full md:w-4/5 md:max-w-5xl md:min-w-[760px] flex justify-center overflow-hidden md:rounded-2xl ">        
+      <main className="md:relative bg-white md:bg-transparent w-full sm:w-full md:w-4/5 md:max-w-5xl md:min-w-[760px] flex justify-center overflow-hidden md:rounded-2xl ">
         {/*LOGIN*/}
         <section
           className={`md:w-1/2 sm:w-2/3 flex md:bg-white flex-col justify-center rounded-l-2xl items-center p-10 py-12 sm:p-15 sm:mt-15 md:p-10 md:mt-0 ${
@@ -81,8 +94,13 @@ function Auth() {
             LOGIN
           </h2>
 
-          <form className="flex flex-col gap-4 text-center items-center w-full" onSubmit={handleSubmit}>
-            <p className="sm:text-xl md:text-base">Utilize seu email para logar no site</p>
+          <form
+            className="flex flex-col gap-4 text-center items-center w-full"
+            onSubmit={handleSubmit}
+          >
+            <p className="sm:text-xl md:text-base">
+              Utilize seu email para logar no site
+            </p>
 
             <input
               autoComplete="email"
@@ -127,23 +145,23 @@ function Auth() {
         {isRegister && <Cadastro />}
 
         {/*OVERLAY VERDE*/}
-        {!isRegister &&
-        <section
-          className={`w-1/2 rounded-r-2xl text-white gap-10 bg-[#307039] flex-col justify-center items-center px-10 py-15 hidden md:flex`}
-        >
-          <h2 className="text-3xl text-center">Primeira vez por aqui?</h2>
-          <p className="font-light text-xl text-center">
-            Crie sua conta e entre para a rede de jogadoras e olheiros que estão
-            transformando o futebol feminino
-          </p>
-          <button
-            onClick={() => toggle(true)}
-            className="border-white text-lg border cursor-pointer hover:scale-101 active:bg-white active:text-[#307039] active:border-green-950 active:scale-99 transition-all font-light py-2 px-3 rounded-lg"
+        {!isRegister && (
+          <section
+            className={`w-1/2 rounded-r-2xl text-white gap-10 bg-[#307039] flex-col justify-center items-center px-10 py-15 hidden md:flex`}
           >
-            Quero me cadastrar
-          </button>
-        </section>
-        }
+            <h2 className="text-3xl text-center">Primeira vez por aqui?</h2>
+            <p className="font-light text-xl text-center">
+              Crie sua conta e entre para a rede de jogadoras e olheiros que
+              estão transformando o futebol feminino
+            </p>
+            <button
+              onClick={() => toggle(true)}
+              className="border-white text-lg border cursor-pointer hover:scale-101 active:bg-white active:text-[#307039] active:border-green-950 active:scale-99 transition-all font-light py-2 px-3 rounded-lg"
+            >
+              Quero me cadastrar
+            </button>
+          </section>
+        )}
       </main>
     </div>
   );

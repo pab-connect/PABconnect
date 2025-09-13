@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import Auth from "../pages/auth";
+import IndexJogadora from "../pages/IndexJogadora";
+import IndexAgente from "../pages/IndexAgente";
 
 export const router = createBrowserRouter([
   {
@@ -10,5 +12,13 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Auth />
+  },
+  {
+    path: '/home/jogadora',
+    element: <IndexJogadora />
+  },
+  {
+    path: '/home/agente',
+    element: <IndexAgente />
   }
 ])
