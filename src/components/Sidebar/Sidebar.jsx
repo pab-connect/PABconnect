@@ -83,7 +83,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         </div>
 
         {/* Sair */}
-        <div className="mt-7">
+        <div className="mt-7" onClick={()=>localStorage.clear()}>
           <Link
             to="/"
             className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left"
