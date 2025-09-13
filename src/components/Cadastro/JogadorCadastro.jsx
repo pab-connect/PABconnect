@@ -87,6 +87,7 @@ export default function JogadorCadastro() {
       
       if (response) {
         console.log("Cadastro concluído com sucesso! Resposta da API:", response);
+        localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email: dataToSend.email }));
         setStep(4);
       } else {
         alert("Erro ao finalizar o cadastro. Por favor, tente novamente.");

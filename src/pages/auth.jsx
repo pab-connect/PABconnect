@@ -32,10 +32,10 @@ function Auth() {
 
     if (jogadorCheck === "ok") {
       setErro("");
-      localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email }));
+      localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email: email }));
     } else if (olheiroCheck === "ok") {
       setErro("");
-      localStorage.setItem("user", JSON.stringify({ tipo: "olheiro", email }));
+      localStorage.setItem("user", JSON.stringify({ tipo: "olheiro", email: email }));
     } else if (jogadorCheck === "senhaErrada" || olheiroCheck === "senhaErrada") {
       setErro("Senha incorreta!");
     } else {

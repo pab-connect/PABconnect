@@ -106,6 +106,7 @@ export default function AgenteCadastro() {
       const response = await create(API_BASE_URL, "olheiros", dataToSend);
       if (response) {
         console.log("Cadastro de olheiro concluído com sucesso!", response);
+        localStorage.setItem("user", JSON.stringify({ tipo: "olheiro", email: dataToSend.email }));
         setStep(4);
       } else {
         alert("Erro ao finalizar o cadastro. Por favor, tente novamente.");
