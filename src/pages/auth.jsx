@@ -65,7 +65,7 @@ function Auth() {
   return (
     <div className="w-full min-h-full md:min-h-screen overflow-y-auto md:flex md:bg-[#DAD0f0] md:items-center md:justify-center font-(family-name:--font-poppins)">
       <main className="md:relative bg-white md:bg-transparent w-full sm:w-full md:w-4/5 md:max-w-5xl md:min-w-[760px] flex justify-center overflow-hidden md:rounded-2xl ">        
-        {/* --- LOGIN --- */}
+        {/*LOGIN*/}
         <section
           className={`md:w-1/2 sm:w-2/3 flex md:bg-white flex-col justify-center rounded-l-2xl items-center p-10 py-12 sm:p-15 sm:mt-15 md:p-10 md:mt-0 ${
             isRegister ? "hidden" : ""
@@ -123,10 +123,10 @@ function Auth() {
           </form>
         </section>
 
-        {/* --- CADASTRO --- */}
+        {/*CADASTRO */}
         {isRegister && <Cadastro />}
 
-        {/* --- OVERLAY VERDE (DESKTOP) --- */}
+        {/*OVERLAY VERDE*/}
         {!isRegister &&
         <section
           className={`w-1/2 rounded-r-2xl text-white gap-10 bg-[#307039] flex-col justify-center items-center px-10 py-15 hidden md:flex`}

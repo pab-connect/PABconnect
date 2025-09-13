@@ -59,21 +59,18 @@ export default function JogadorCadastro() {
   };
 
   const handleSubmit = async () => {
-    // 1. Converte a idade e altura para número
     const idadeNumero = Number(formData.idade);
     const alturaNumero = Number(formData.altura);
     
-    // 2. Cria o username
     const partesNome = formData.nome.split(" ");
     const username = `${partesNome[0].toLowerCase()}.${partesNome[partesNome.length - 1].toLowerCase()}`;
     
-    // 3. Prepara os dados para o envio, incluindo os campos que não estão no form
     const dataToSend = {
-      ...formData, // Copia todos os dados do formulário
+      ...formData, // copia todos os dados do formulário
       idade: idadeNumero,
       altura: alturaNumero,
       username: username,
-      // Campos com valores padrão, pois não estão no form
+      // valores padrão, pq não estão no form
       seguidores: [],
       seguindo: [],
       "sobre-mim": "",
@@ -86,12 +83,11 @@ export default function JogadorCadastro() {
     delete dataToSend.confirmarSenha;
     
     try {
-      // Chama a função 'create' e espera a resposta
       const response = await create(API_BASE_URL, "jogadoras", dataToSend);
       
       if (response) {
         console.log("Cadastro concluído com sucesso! Resposta da API:", response);
-        setStep(4); // Avança para a tela de sucesso
+        setStep(4);
       } else {
         alert("Erro ao finalizar o cadastro. Por favor, tente novamente.");
       }
@@ -103,7 +99,7 @@ export default function JogadorCadastro() {
   
   return (
     <>
-      {/* --- STEP 1 --- */}
+      {/*STEP 1*/}
       {step === 1 && (
         <section className="w-full md:h-3/4 md:w-4/5 p-10 md:p-16 sm:p-20 sm:mt-10 md:mt-0 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
           <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
@@ -136,7 +132,7 @@ export default function JogadorCadastro() {
         </section>
       )}
 
-      {/* --- STEP 2 --- */}
+      {/*STEP 2*/}
       {step === 2 && (
         <section className="w-full md:h-3/4 md:w-4/5 sm:p-20 md:mt-0 sm:mt-10 p-10 md:p-16 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
           <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
@@ -173,7 +169,7 @@ export default function JogadorCadastro() {
         </section>
       )}
 
-      {/* --- STEP 3 --- */}
+      {/*STEP 3*/}
       {step === 3 && (
         <section className="w-full md:h-3/4 md:w-4/5 sm:p-20 md:mt-0 sm:mt-10 p-10 md:p-16 md:m-5 flex flex-col items-center bg-white md:shadow-xl rounded-xl">
           <img src={logo} className="w-25 sm:w-50 md:w-25 mb-4 transition-transform duration-300 hover:scale-105" alt="" />
@@ -200,7 +196,7 @@ export default function JogadorCadastro() {
         </section>
       )}
 
-      {/* --- STEP 4 --- */}
+      {/*STEP 4*/}
       {step === 4 && <CadastroConcluido />}
     </>
   );
