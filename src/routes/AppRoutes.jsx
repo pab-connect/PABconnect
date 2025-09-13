@@ -6,6 +6,8 @@ import IndexAgente from "../pages/IndexAgente";
 import Talentos from "../pages/Talentos";
 import Notificacoes from "../pages/Notificacoes";
 import Configuracoes from "../pages/Configuracoes";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
 export const router = createBrowserRouter([
   {
@@ -14,26 +16,50 @@ export const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Auth />
+    element: (
+      <PublicRoute>
+        <Auth />
+      </PublicRoute>
+    )
   },
   {
     path: '/home/jogadora',
-    element: <IndexJogadora />
+    element: (
+      <ProtectedRoute>
+        <IndexJogadora />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/home/agente',
-    element: <IndexAgente />
+    element: (
+      <ProtectedRoute>
+        <IndexAgente />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/talentos',
-    element: <Talentos />
+    element: (
+      <ProtectedRoute>
+        <Talentos />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/notificacoes',
-    element: <Notificacoes />
+    element: (
+      <ProtectedRoute>
+        <Notificacoes />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/configuracoes',
-    element: <Configuracoes />
+    element: (
+      <ProtectedRoute>
+        <Configuracoes />
+      </ProtectedRoute>
+    )
   }
-])
+]);
