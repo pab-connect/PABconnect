@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function HeaderLandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,9 +51,12 @@ export default function HeaderLandingPage() {
         </nav>
 
         {/* Login desktop */}
-        <button className="hidden lg:block cursor-pointer bg-transparent text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300">
+        <Link
+          to="/login"
+          className="hidden lg:block cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
+        >
           Entrar
-        </button>
+        </Link>
 
         {/* Menu hamburguer mobile */}
         <button
@@ -112,12 +116,13 @@ export default function HeaderLandingPage() {
 
             {/* Botão Login Mobile */}
             <div className="mt-4 pt-4">
-              <button
-                className="w-full bg-transparent cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
+              <Link
+                to="/login"
+                className="w-full cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Entrar
-              </button>
+              </Link>
             </div>
           </nav>
         </div>

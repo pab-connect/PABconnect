@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import bannerImage from "../../assets/banner-image.jpg";
 
 export default function Banner() {
@@ -13,9 +14,12 @@ export default function Banner() {
         Encontre peneiras, conecte-se com olheiros e dê o próximo passo na sua
         carreira.
       </p>
-      <button className="relative z-10 bg-[#DAD0F0] text-[#705C9B] px-8 py-2 rounded-md cursor-pointer hover:bg-[#c7bae2] transition-colors duration-300">
+      <Link
+        to="/login"
+        className="relative z-10 bg-[#DAD0F0] text-[#705C9B] px-8 py-2 rounded-md cursor-pointer hover:bg-[#c7bae2] transition-colors duration-300"
+      >
         Acesse a plataforma
-      </button>
+      </Link>
     </div>
   );
 }
