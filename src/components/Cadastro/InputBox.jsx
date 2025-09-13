@@ -1,5 +1,13 @@
-export default function InputBox({ label, placeholder, type, required = false }) {
-  // Define autocomplete automaticamente
+export default function InputBox({ 
+  label, 
+  placeholder, 
+  type, 
+  required = false, 
+  name, 
+  value, 
+  onChange 
+}) {
+ 
   const autoCompleteMap = {
     text: "name",
     email: "email",
@@ -17,6 +25,9 @@ export default function InputBox({ label, placeholder, type, required = false })
       <label className="md:text-base text-base sm:text-xl">{label}</label>
       <input
         type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         autoComplete={autoComplete}
         required={required}
