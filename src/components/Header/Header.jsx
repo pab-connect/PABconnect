@@ -15,8 +15,12 @@ export default function Header() {
       if (!emailLogado) return;
 
       try {
-        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras"); // ou "agentes"
-        const encontrado = todosUsuarios.find((u) => u.email === emailLogado);
+        const todasJogadoras = await getAll(API_BASE_URL, "jogadoras");
+
+        const todosOlheiros = await getAll(API_BASE_URL, "olheiros"); // ou "agentes"
+        const encontrado =
+          todasJogadoras.find((j) => j.email === emailLogado) ||
+          todosOlheiros.find((o) => o.email === emailLogado);
         setUsuarioLogado(encontrado || null);
       } catch (error) {
         console.error("Erro ao buscar usuário logado:", error);
@@ -47,7 +51,7 @@ export default function Header() {
 
       {/* Perfil */}
       <div className="hidden lg:flex items-center">
-        <Link to={`/perfil/${usuarioLogado?.id}`}>
+        <Link to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}>
           <CircleUserRoundIcon className="w-10 h-10 text-[#DAD0F0]" />
         </Link>
       </div>

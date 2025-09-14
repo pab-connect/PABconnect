@@ -232,7 +232,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             </li>
             <li>
               <Link
-                to={`/perfil/${usuarioLogado?.id}`}
+                to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}
                 className={`flex items-center gap-3 font-semibold ${
                   isActive("/perfil") ? "underline" : ""
                 } text-lg hover:text-[#DAD0F0] transition-colors`}

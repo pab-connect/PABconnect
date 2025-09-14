@@ -21,54 +21,69 @@ const ProfileCard = ({ title, children }) => (
 );
 
 const Profile = () => {
-  const { id } = useParams();
+  const { id, tipo } = useParams();
   const [usuarioLogado, setUsuarioLogado] = useState(null);
   const [perfilVisualizado, setPerfilVisualizado] = useState(null);
+  const [tipoPerfilVisualizado, setTipoPerfilVisualizado] = useState(null);
   const [posts, setPosts] = useState([]);
   const [midia, setMidia] = useState({ imagens: [], videos: [] });
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const emailLogado = userLocal?.email;
 
-  // buscando jogadora logada atualmente
+  // buscando jogadora logada atualmente e qual perfil esta sendo visualizado
   useEffect(() => {
-    async function fetchJogadora() {
+    async function fetchUsuarios() {
       if (!emailLogado) return;
 
       try {
-        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras");
+        const todasJogadoras = await getAll(API_BASE_URL, "jogadoras");
+        const todosOlheiros = await getAll(API_BASE_URL, "olheiros");
 
-        const encontrado = todosUsuarios.find((j) => j.email === emailLogado);
-        setUsuarioLogado(encontrado || null);
+        const logado =
+          todasJogadoras.find((j) => j.email === emailLogado) ||
+          todosOlheiros.find((o) => o.email === emailLogado);
+        setUsuarioLogado(logado || null);
+
+        let perfil = null;
+
+        if (tipo === "jogadora") {
+          perfil = todasJogadoras.find((j) => j.id === id);
+        } else if (tipo === "olheiro") {
+          perfil = todosOlheiros.find((o) => o.id === id);
+        }
+
+        setPerfilVisualizado(perfil || null);
+        setTipoPerfilVisualizado(tipo);
       } catch (error) {
         console.error("Erro ao buscar jogadora:", error);
       }
     }
 
-    fetchJogadora();
-  }, [emailLogado]);
+    fetchUsuarios();
+  }, [emailLogado, id, tipo]);
 
-  // buscando posts e midias da jogadora logada
+  // buscando posts e midias do perfil visualizado
   useEffect(() => {
     async function fetchPosts() {
-      if (!usuarioLogado) return;
+      if (!perfilVisualizado) return;
 
       try {
         const todosPosts = await getAll(API_POSTS_URL, "posts");
-        // filtra apenas os posts da jogadora logada
-        const meusPosts = todosPosts.filter(
-          (post) => post.usuario === usuarioLogado.id
+        // filtra apenas os posts do perfil visualizado
+        const postsPerfilVisualizado = todosPosts.filter(
+          (post) => post.usuario === perfilVisualizado.id
         );
-        setPosts(meusPosts);
+        setPosts(postsPerfilVisualizado);
 
         // separa as midias em images e videos
-        const imagens = meusPosts
+        const imagens = postsPerfilVisualizado
           .filter(
             (p) =>
               p.midia && !p.midia.endsWith(".mp4") && !p.midia.endsWith(".mov")
           )
           .map((p) => p.midia);
 
-        const videos = meusPosts
+        const videos = postsPerfilVisualizado
           .filter(
             (p) =>
               p.midia && (p.midia.endsWith(".mp4") || p.midia.endsWith(".mov"))
@@ -82,26 +97,11 @@ const Profile = () => {
     }
 
     fetchPosts();
-  }, [usuarioLogado]);
+  }, [perfilVisualizado]);
 
-  useEffect(() => {
-    async function fetchPerfil() {
-      if (!id) return;
-
-      try {
-        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras");
-        const encontrado = todosUsuarios.find((u) => u.id === id);
-        setPerfilVisualizado(encontrado || null);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fetchPerfil();
-  }, [id]);
-
-  console.log("ID:", id)
-  console.log("Usuário logado:", usuarioLogado)
-  console.log("perfil visualizado:", perfilVisualizado)
+  const ehMeuPerfil =
+    usuarioLogado?.id === perfilVisualizado?.id &&
+    userLocal?.tipo === tipoPerfilVisualizado;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]">
@@ -114,12 +114,13 @@ const Profile = () => {
           <ProfileHeader
             name={perfilVisualizado?.nome}
             team={perfilVisualizado?.["clube-atual"] || "Sem clube"}
-            location={perfilVisualizado?.cidade + ", " + perfilVisualizado?.estado}
+            location={
+              perfilVisualizado?.cidade + ", " + perfilVisualizado?.estado
+            }
             avatar={perfilVisualizado?.["foto-perfil"] || imagemPerfilPadrao}
             followers={perfilVisualizado?.seguidores.length}
             following={perfilVisualizado?.seguindo.length}
-            idUsuario={perfilVisualizado?.id}
-            idUsuarioLogado={usuarioLogado?.id}
+            ehMeuPerfil={ehMeuPerfil}
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -133,39 +134,61 @@ const Profile = () => {
                 <Experience experience={perfilVisualizado?.["experiencias"]} />
               </ProfileCard>
 
-              <MediaTabs media={midia} />
+              {tipoPerfilVisualizado === "jogadora" && (
+                <div className="space-y-6">
+                  <MediaTabs media={midia} />
 
-              <h3 className="text-xl font-bold mb-2 pb-2 border-b border-[#705C9B]">
-                Meus posts
-              </h3>
+                  <h3 className="text-xl font-bold mb-2 pb-2 border-b border-[#705C9B]">
+                    Meus posts
+                  </h3>
 
-              {posts.map((post) => (
-                <PostUser
-                  key={post.id}
-                  post={post}
-                  usuario={perfilVisualizado}
-                  idUsuarioLogado={usuarioLogado?.id}
-                />
-              ))}
+                  {posts.map((post) => (
+                    <PostUser
+                      key={post.id}
+                      post={post}
+                      usuario={perfilVisualizado}
+                      idUsuarioLogado={usuarioLogado?.id}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Coluna direita */}
             <div className="flex flex-col gap-6 lg:gap-8">
-              <ProfileCard title="Dados rápidos">
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Posição: {perfilVisualizado?.posicao}</li>
-                  <li>Idade: {perfilVisualizado?.idade}</li>
-                  <li>Pé dominante: {perfilVisualizado?.["pe-dominante"]}</li>
-                  <li>Altura: {perfilVisualizado?.altura / 100} m</li>
-                  <li>Peso: {perfilVisualizado?.peso} kg</li>
-                </ul>
-              </ProfileCard>
-              <ProfileCard title="Disponível para transferência?">
-                <p>{perfilVisualizado?.["disp-transferencia"] ? "Sim" : "Não"}</p>
-              </ProfileCard>
+              {tipoPerfilVisualizado === "jogadora" && (
+                <div className="space-y-6">
+                  <ProfileCard title="Dados rápidos">
+                    <ul className="list-disc list-inside space-y-1 text-sm">
+                      <li>Posição: {perfilVisualizado?.posicao}</li>
+                      <li>Idade: {perfilVisualizado?.idade}</li>
+                      <li>
+                        Pé dominante: {perfilVisualizado?.["pe-dominante"]}
+                      </li>
+                      <li>Altura: {perfilVisualizado?.altura / 100} m</li>
+                      <li>Peso: {perfilVisualizado?.peso} kg</li>
+                    </ul>
+                  </ProfileCard>
+                  <ProfileCard title="Disponível para transferência?">
+                    <p>
+                      {perfilVisualizado?.["disp-transferencia"]
+                        ? "Sim"
+                        : "Não"}
+                    </p>
+                  </ProfileCard>
+                </div>
+              )}
+
+              {tipoPerfilVisualizado === "olheiro" && (
+                <ProfileCard title="Tempo de experiência">
+                  <p>{perfilVisualizado?.["tempo-experiencia"]}</p>
+                </ProfileCard>
+              )}
+
               <ProfileCard title="Conquistas e destaques">
                 <p>
-                  {perfilVisualizado?.["conquistas"] || "Nenhuma conquista registrada."}
+                  {perfilVisualizado?.["conquistas"] ||
+                    "Nenhuma conquista registrada."}
                 </p>
               </ProfileCard>
             </div>
