@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getAll, API_BASE_URL } from "../../services/apiService";
 import {
   Search,
   CircleUserRoundIcon,
@@ -15,9 +16,28 @@ import {
 
 export default function Sidebar({ onClose, isDesktop = false }) {
   const [tipoUsuario, setTipoUsuario] = useState(null);
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+  const emailLogado = userLocal?.email;
   const location = useLocation();
 
   const isActive = (path) => location.pathname.startsWith(path);
+
+  useEffect(() => {
+    async function fetchUsuario() {
+      if (!emailLogado) return;
+
+      try {
+        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras"); // ou "agentes"
+        const encontrado = todosUsuarios.find((u) => u.email === emailLogado);
+        setUsuarioLogado(encontrado || null);
+      } catch (error) {
+        console.error("Erro ao buscar usuário logado:", error);
+      }
+    }
+
+    fetchUsuario();
+  }, [emailLogado]);
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
@@ -212,7 +232,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             </li>
             <li>
               <Link
-                to="/perfil"
+                to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}
                 className={`flex items-center gap-3 font-semibold ${
                   isActive("/perfil") ? "underline" : ""
                 } text-lg hover:text-[#DAD0F0] transition-colors`}

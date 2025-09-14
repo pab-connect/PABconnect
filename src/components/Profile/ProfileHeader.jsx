@@ -1,4 +1,15 @@
-const ProfileHeader = ({ name, handle, team, location, avatar }) => {
+import { Link } from "react-router-dom";
+
+const ProfileHeader = ({
+  name,
+  handle,
+  team,
+  location,
+  avatar,
+  followers,
+  following,
+  ehMeuPerfil,
+}) => {
   return (
     // Layout muda de coluna para linha em telas médias (tablets)
     // Centraliza itens e texto em mobile
@@ -12,21 +23,27 @@ const ProfileHeader = ({ name, handle, team, location, avatar }) => {
 
       {/* Margem ajustada para mobile (topo) e desktop (esquerda) */}
       <div className="mt-4 md:mt-0 md:ml-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{name}</h1>
-        <p className="text-sm sm:text-md text-gray-500">{handle}</p>
-        <p className="text-base sm:text-lg text-gray-800 mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold">{name}</h1>
+        <p className="text-sm sm:text-md ">{handle}</p>
+        <p className="text-base sm:text-lg  mt-1">
           {team} • {location}
         </p>
+        <div className="flex justify-center md:justify-start gap-4 text-[#705C9B] mt-2 ">
+          <p className="font-bold">{followers} seguidores</p>
+          <p className="font-bold">{following} seguindo</p>
+        </div>
       </div>
 
       {/* Botões empilham em mobile e ficam lado a lado em desktop */}
-      <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
-        <button className="bg-purple-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-purple-700 transition duration-300 w-full sm:w-auto">
-          Editar perfil
-        </button>
-      </div>
+      {ehMeuPerfil && (
+        <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
+          <Link to="/configuracoes" className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto">
+            Editar perfil
+          </Link>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ProfileHeader
+export default ProfileHeader;

@@ -1,5 +1,5 @@
 // src/components/MediaTabs/MediaTabs.jsx
-import React, { useState } from "react"
+import { useState } from "react"
 
 const MediaTabs = ({ media }) => {
   const [activeTab, setActiveTab] = useState("images")
@@ -33,7 +33,7 @@ const MediaTabs = ({ media }) => {
       {/* Grid responsivo: 2 colunas em mobile, 3 em tablets/desktop */}
       <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4">
         {activeTab === "images" &&
-          media.images.map((imgSrc, index) => (
+          media.imagens.map((imgSrc, index) => (
             <img
               key={index}
               src={imgSrc}
@@ -44,20 +44,11 @@ const MediaTabs = ({ media }) => {
         {activeTab === "videos" &&
           media.videos.map((vidSrc, index) => (
             <div key={index} className="relative cursor-pointer group">
-              <img
+              <video
                 src={vidSrc}
-                alt={`video-thumb-${index}`}
+                controls
                 className="w-full h-auto object-cover rounded-md aspect-video"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100">
-                <svg
-                  className="w-10 h-10 sm:w-12 sm:h-12 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
-                </svg>
-              </div>
             </div>
           ))}
       </div>
