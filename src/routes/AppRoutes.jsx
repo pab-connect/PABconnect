@@ -8,6 +8,7 @@ import Notificacoes from "../pages/Notificacoes";
 import Configuracoes from "../pages/Configuracoes";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
+import Profile from "../components/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Configuracoes />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/perfil',
+    element: (
+      <ProtectedRoute>
+        <Profile />
       </ProtectedRoute>
     )
   }

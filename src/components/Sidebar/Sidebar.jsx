@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Search,
@@ -15,6 +15,9 @@ import {
 
 export default function Sidebar({ onClose, isDesktop = false }) {
   const [tipoUsuario, setTipoUsuario] = useState(null);
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname.startsWith(path);
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
@@ -34,7 +37,15 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                 to={`/home/${
                   tipoUsuario === "jogadora" ? "jogadora" : "agente"
                 }`}
-                className="flex items-center gap-3 font-semibold underline text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive(
+                    `/home/${
+                      tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                    }`
+                  )
+                    ? "underline"
+                    : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
               >
                 <House className="w-8 h-8" /> Página inicial
               </Link>
@@ -42,7 +53,13 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive(
+                    `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
+                  )
+                    ? "underline"
+                    : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
               >
                 {tipoUsuario === "jogadora" ? (
                   <UsersRound className="w-8 h-8" />
@@ -55,7 +72,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to="/mensagens"
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/mensagens") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
               >
                 <MessagesSquare className="w-8 h-8" /> Mensagens
               </Link>
@@ -63,7 +82,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to="/notificacoes"
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/notificacoes") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
               >
                 <Bell className="w-8 h-8" /> Notificações
               </Link>
@@ -75,7 +96,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         <div className="mt-7">
           <Link
             to="/configuracoes"
-            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left"
+            className={`flex items-center gap-3 font-semibold ${
+              isActive("/configuracoes") ? "underline" : ""
+            } text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left`}
           >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
@@ -83,7 +106,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         </div>
 
         {/* Sair */}
-        <div className="mt-7" onClick={()=>localStorage.clear()}>
+        <div className="mt-7" onClick={() => localStorage.clear()}>
           <Link
             to="/"
             className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d] w-full text-left"
@@ -135,7 +158,15 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                 to={`/home/${
                   tipoUsuario === "jogadora" ? "jogadora" : "agente"
                 }`}
-                className="flex items-center gap-3 font-semibold underline text-lg hover:text-[#DAD0F0] transition-colors"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive(
+                    `/home/${
+                      tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                    }`
+                  )
+                    ? "underline"
+                    : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
                 <House className="w-8 h-8" /> Página inicial
               </Link>
@@ -143,7 +174,13 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive(
+                    `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
+                  )
+                    ? "underline"
+                    : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
                 {tipoUsuario === "jogadora" ? (
                   <UsersRound className="w-8 h-8" />
@@ -156,7 +193,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to="/mensagens"
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/mensagens") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
                 <MessagesSquare className="w-8 h-8" /> Mensagens
               </Link>
@@ -164,7 +203,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to="/notificacoes"
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/notificacoes") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
                 <Bell className="w-8 h-8" /> Notificações
               </Link>
@@ -172,7 +213,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <li>
               <Link
                 to="/perfil"
-                className="flex items-center gap-3 font-semibold text-lg hover:text-[#DAD0F0] transition-colors"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/perfil") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
                 <CircleUserRoundIcon className="w-8 h-8" /> Perfil
               </Link>
@@ -184,7 +227,9 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         <div className="mt-7">
           <Link
             to="/configuracoes"
-            className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors"
+            className={`flex items-center gap-3 font-semibold ${
+              isActive("/configuracoes") ? "underline" : ""
+            } text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors`}
           >
             <Settings className="w-8 h-8" />
             <span>Configurações</span>
@@ -192,7 +237,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
         </div>
 
         {/* Sair */}
-        <div className="mt-7" onClick={()=>localStorage.clear()}>
+        <div className="mt-7" onClick={() => localStorage.clear()}>
           <Link
             to="/"
             className="flex items-center gap-3 font-semibold text-lg cursor-pointer hover:text-[#DAD0F0] transition-colors"

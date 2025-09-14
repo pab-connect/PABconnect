@@ -1,4 +1,4 @@
-import imagemPadraoPerfil from "../assets/imagem-padrao-perfil.jpg"
+import imagemPadraoPerfil from "../assets/imagem-padrao-perfil.jpg";
 import { useState, useEffect, useMemo } from "react";
 import { getAll, API_BASE_URL } from "../services/apiService";
 import CardTalentos from "../components/CardTalentos/CardTalentos";
@@ -28,9 +28,7 @@ export default function Talentos() {
     fetchOlheiro();
   }, [emailOlheiro]);
 
-  console.log(olheiro);
-
-  // buscars dados de todas as jogadoras
+  // buscar dados de todas as jogadoras
   useEffect(() => {
     async function fetchJogadoras() {
       const data = await getAll(API_BASE_URL, "jogadoras");
@@ -93,7 +91,7 @@ export default function Talentos() {
               {jogadorasFiltradas.map((j, index) => (
                 <CardTalentos
                   key={index}
-                  imagem={j['foto-perfil'] || imagemPadraoPerfil}
+                  imagem={j["foto-perfil"] || imagemPadraoPerfil}
                   nome={j.nome}
                   posicao={j.posicao}
                   localizacao={`${j.cidade}, ${j.estado}`}
