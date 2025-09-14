@@ -3,15 +3,23 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { SquareUserRound, Bell, Shield, CircleQuestionMark } from "lucide-react"
 import ConfigItem from "../components/Configuracoes/ConfigItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ConfigCard from "../components/Configuracoes/ConfigCard";
 import ConfigOption from "../components/Configuracoes/ConfigOption";
 import UploadAndDisplayImage from "../components/Cadastro/UploadAndDisplayImage";
 import InputWithLabel from "../components/Configuracoes/InputWithLabel";
+import {getAll, update, API_BASE_URL } from ".././services/apiService.js"
 
 
 export default function Configuracoes() {
   const [ configChoice, setConfigChoice ] = useState("Conta")
+  const [dataJogadora, setDataJogadora] = useState([])
+  const [dataOlheiro, setDataOlheiro] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const tipo = user?.tipo === "jogadora" ? "jogadoras" : "olheiros";
+  const email = user?.email;
+
+
   const estadosBR = [
     "Acre","Alagoas","Amapá","Amazonas","Bahia","Ceará",
     "Distrito Federal","Espírito Santo","Goiás","Maranhão",
@@ -20,6 +28,81 @@ export default function Configuracoes() {
     "Rio Grande do Norte","Rio Grande do Sul","Rondônia","Roraima",
     "Santa Catarina","São Paulo","Sergipe","Tocantins"
   ];
+
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    senha: "",
+    idade: "",
+    estado: estadosBR[0],
+    cidade: "",
+    posicao: "",
+    "pe-dominante": "Direito",
+    altura: "",
+    peso: "",
+    "clube-atual": "",
+    "sobre-mim": "",
+    experiencias: "",
+    conquistas: "",
+    telefone: "",
+    genero: "",
+    cargo: "",
+    clube: "",
+    "tempo-experiencia": "Mais de 10 anos",
+    "categoria-atletas": "sub-17"
+  })
+
+  const searchedUser = tipo === "jogadoras" ? dataJogadora.find((j) => j.email === email) : dataOlheiro.find((j) => j.email === email)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // efeito pra buscar dados
+  useEffect(() => {
+    getAll(API_BASE_URL, "jogadoras").then(setDataJogadora);
+    getAll(API_BASE_URL, "olheiros").then(setDataOlheiro);
+  }, []);
+
+  // efeito pra atualizar formData quando os dados e o email existirem
+  useEffect(() => {
+    if (searchedUser) {
+      setFormData(prev => ({ ...prev, ...searchedUser }));
+    }
+  }, [searchedUser]);
+
+  const handleSubmit = async () => {
+    const idadeNumero = Number(formData.idade);
+
+    if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
+      alert("Por favor, digite uma idade válida (entre 10 e 150 anos).");
+      return;
+    }
+
+    const dataToSend = {
+      ...formData,
+      idade: idadeNumero
+    };
+    
+    
+    try {
+      const response = await update(API_BASE_URL, tipo, formData.id, dataToSend);
+      if (response) {
+        alert("Suas informações foram atualizadas com sucesso")
+        console.log("Atualizado com sucesso")
+      } else {
+        alert("Erro ao atualizar o cadastro. Por favor, tente novamente.");
+      }
+    } catch (error) {
+      alert("Erro ao atualizar. Verifique sua conexão e tente novamente.");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-col bg-[#DAD0F0] min-h-screen">
       <Header />
@@ -117,27 +200,56 @@ export default function Configuracoes() {
                 <label className="text-gray-900 mt-2 sm:text-xl md:col-span-2 sm:text-center">Foto
                   <UploadAndDisplayImage/>
                 </label>
-                <InputWithLabel label={"Nome"} width="w-auto"/>
-                <InputWithLabel label={"Cidade"} width="w-auto"/>
+                <InputWithLabel label={"Nome"} name={"nome"} value={formData.nome} onChange={handleChange} width="w-auto"/>
+                <InputWithLabel label={"Idade"} name={"idade"} value={formData.idade} onChange={handleChange} width="w-auto" type="number"/>
+                <InputWithLabel label={"Cidade"} name={"cidade"} value={formData.cidade} onChange={handleChange} width="w-auto"/>
+                {tipo === "olheiros" && <InputWithLabel label={"Telefone"} name={"telefone"} value={formData.telefone} onChange={handleChange} width="w-auto" type="number"/>}
+                {tipo === "olheiros" && 
+                  <label className="text-gray-900 mt-2 sm:mt-4 md:mt-3 text-sm md:text-sm sm:text-lg">Gênero
+                    <select name="genero" onChange={handleChange} value={formData.genero} className="w-full h-full sm:h-15 md:h-12 md:text-lg text-base sm:text-xl px-3 py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
+                      <option value="Prefiro-nao-responder">Prefiro não responder</option>
+                      <option value="Masculino">Masculino</option>
+                      <option value="Feminino">Feminino</option>
+                      <option value="Nao-binario">Não-binário</option>
+                      <option value="Outro">Outro</option>
+                    </select>
+                  </label>
+                }
+                {tipo === "olheiros" && <InputWithLabel label={"Cargo"} name={"cargo"} value={formData.cargo} onChange={handleChange} width="w-auto"/>}
+                {tipo === "olheiros" && <InputWithLabel label={"Clube"} name={"clube"} value={formData.clube} onChange={handleChange} width="w-auto"/>}
                 <label className="text-gray-900 mt-2 sm:mt-4 md:mt-3 md:text-sm text-sm sm:text-lg">Estado
-                  <select className="w-full h-full sm:h-15 md:h-12 md:text-lg px-3 text-base sm:text-xl py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
+                  <select name="estado" onChange={handleChange} value={formData.estado} className="w-full h-full sm:h-15 md:h-12 md:text-lg px-3 text-base sm:text-xl py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
                     {estadosBR.map((estado)=>(<option value={estado} key={estado}>{estado}</option>))}
                   </select>
                 </label>
-                <InputWithLabel label={"Sobre-mim"} width="w-auto"/>
-                <InputWithLabel label={"Experiências"} width="w-auto"/>
-                <InputWithLabel label={"Posição"} width="w-auto"/>
-                <label className="text-gray-900 mt-2 sm:mt-4 md:mt-3 text-sm md:text-sm sm:text-lg">Pé dominante
-                  <select className="w-full h-full sm:h-15 md:h-12 md:text-lg text-base sm:text-xl px-3 py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
-                    <option value="Direito">Direito</option>
-                    <option value="Esquerdo">Esquerdo</option>
-                    <option value="Ambos">Ambos</option>
-                  </select>
-                </label>
-                <InputWithLabel label={"Altura"} width="w-auto" type="number"/>
-                <InputWithLabel label={"Peso"} width="w-auto" type="number"/>
-                <InputWithLabel label={"Conquistas/destaques"} width="w-auto"/>
-                <button className="bg-[#307039] md:col-span-2 mx-auto text-lg md:text-lg sm:text-xl mt-4 sm:mt-8 w-5/6 sm:w-3/6 md:w-2/6 rounded-md h-12 sm:h-14 md:h-12 hover:scale-99 transition-all text-white font-medium cursor-pointer">Salvar</button>
+                <InputWithLabel label={"Sobre-mim"} name={"sobre-mim"} value={formData["sobre-mim"]} onChange={handleChange} width="w-auto"/>
+                {tipo === "jogadoras" && <InputWithLabel label={"Experiências"} name={"experiencias"} value={formData.experiencias} onChange={handleChange} width="w-auto"/>}
+                {tipo === "jogadoras" && <InputWithLabel label={"Posição"} name={"posicao"} value={formData.posicao} onChange={handleChange} width="w-auto"/>}
+                {tipo === "jogadoras" && 
+                  <label className="text-gray-900 mt-2 sm:mt-4 md:mt-3 text-sm md:text-sm sm:text-lg">Pé dominante
+                    <select name="pe-dominante" onChange={handleChange} value={formData["pe-dominante"]} className="w-full h-full sm:h-15 md:h-12 md:text-lg text-base sm:text-xl px-3 py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
+                      <option value="Direito">Direito</option>
+                      <option value="Esquerdo">Esquerdo</option>
+                      <option value="Ambos">Ambos</option>
+                    </select>
+                  </label>
+                }
+                {tipo === "jogadoras" && <InputWithLabel label={"Altura"} name={"altura"} value={formData.altura} onChange={handleChange} width="w-auto" type="number"/>}
+                {tipo === "jogadoras" && <InputWithLabel label={"Peso"} name={"peso"} value={formData.peso} onChange={handleChange} width="w-auto" type="number"/>}
+                <InputWithLabel label={"Conquistas/destaques"} value={formData.conquistas} onChange={handleChange} name={"conquistas"} width="w-auto"/>
+                {tipo === "olheiros" && 
+                  <label className="text-gray-900 mt-2 sm:mt-4 md:mt-3 text-sm md:text-sm sm:text-lg">Tempo de experiência
+                    <select name="tempo-experiencia" onChange={handleChange} value={formData["tempo-experiencia"]} className="w-full h-full sm:h-15 md:h-12 md:text-lg text-base sm:text-xl px-3 py-3 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500">
+                      <option value="Nenhuma experiência">Nenhuma experiência</option>
+                      <option value="1 ano">1 ano</option>
+                      <option value="2 a 3 anos">2 a 3 anos</option>
+                      <option value="4 a 5 anos">4 a 5 anos</option>
+                      <option value="6 a 10 anos">6 a 10 anos</option>
+                      <option value="Mais de 10 anos">Mais de 10 anos</option>
+                    </select>
+                  </label>
+                }
+                <button type="button" className="bg-[#307039] md:col-span-2 mx-auto text-lg md:text-lg sm:text-xl mt-4 sm:mt-8 w-5/6 sm:w-3/6 md:w-2/6 rounded-md h-12 sm:h-14 md:h-12 hover:scale-99 transition-all text-white font-medium cursor-pointer" onClick={handleSubmit}>Salvar</button>
               </form>]}
             />
             
