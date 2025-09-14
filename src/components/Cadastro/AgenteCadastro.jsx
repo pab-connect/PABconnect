@@ -31,7 +31,7 @@ export default function AgenteCadastro() {
     confirmarSenha: "",
     telefone: "",
     idade: "",
-    genero: "Prefiro-nao-responder",
+    genero: "Prefiro não responder",
     estado: estadosBR[0],
     cidade: "",
     cargo: "",
@@ -83,7 +83,7 @@ export default function AgenteCadastro() {
     const idadeNumero = Number(formData.idade);
 
     if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
-      alert("Por favor, digite uma idade válida (entre 10 e 100 anos).");
+      alert("Por favor, digite uma idade válida (entre 10 e 150 anos).");
       return;
     }
 
