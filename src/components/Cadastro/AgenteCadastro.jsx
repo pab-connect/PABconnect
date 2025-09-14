@@ -31,7 +31,7 @@ export default function AgenteCadastro() {
     confirmarSenha: "",
     telefone: "",
     idade: "",
-    genero: "Prefiro-nao-responder",
+    genero: "Prefiro não responder",
     estado: estadosBR[0],
     cidade: "",
     cargo: "",
