@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { getAll, API_BASE_URL, API_POSTS_URL } from "../services/apiService";
 import ProfileHeader from "../components/Profile/ProfileHeader";
 import Experience from "../components/Profile/Experience";
@@ -20,11 +21,13 @@ const ProfileCard = ({ title, children }) => (
 );
 
 const Profile = () => {
-  const [jogadora, setJogadora] = useState(null);
+  const { id } = useParams();
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+  const [perfilVisualizado, setPerfilVisualizado] = useState(null);
   const [posts, setPosts] = useState([]);
   const [midia, setMidia] = useState({ imagens: [], videos: [] });
-  const user = JSON.parse(localStorage.getItem("user"));
-  const emailLogado = user?.email;
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+  const emailLogado = userLocal?.email;
 
   // buscando jogadora logada atualmente
   useEffect(() => {
@@ -32,10 +35,10 @@ const Profile = () => {
       if (!emailLogado) return;
 
       try {
-        const todasJogadoras = await getAll(API_BASE_URL, "jogadoras");
+        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras");
 
-        const encontrada = todasJogadoras.find((j) => j.email === emailLogado);
-        setJogadora(encontrada || null);
+        const encontrado = todosUsuarios.find((j) => j.email === emailLogado);
+        setUsuarioLogado(encontrado || null);
       } catch (error) {
         console.error("Erro ao buscar jogadora:", error);
       }
@@ -47,13 +50,13 @@ const Profile = () => {
   // buscando posts e midias da jogadora logada
   useEffect(() => {
     async function fetchPosts() {
-      if (!jogadora) return;
+      if (!usuarioLogado) return;
 
       try {
         const todosPosts = await getAll(API_POSTS_URL, "posts");
         // filtra apenas os posts da jogadora logada
         const meusPosts = todosPosts.filter(
-          (post) => post.usuario === jogadora.id
+          (post) => post.usuario === usuarioLogado.id
         );
         setPosts(meusPosts);
 
@@ -79,8 +82,26 @@ const Profile = () => {
     }
 
     fetchPosts();
-  }, [jogadora]);
+  }, [usuarioLogado]);
 
+  useEffect(() => {
+    async function fetchPerfil() {
+      if (!id) return;
+
+      try {
+        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras");
+        const encontrado = todosUsuarios.find((u) => u.id === id);
+        setPerfilVisualizado(encontrado || null);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchPerfil();
+  }, [id]);
+
+  console.log("ID:", id)
+  console.log("Usuário logado:", usuarioLogado)
+  console.log("perfil visualizado:", perfilVisualizado)
 
   return (
     <div className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]">
@@ -91,25 +112,25 @@ const Profile = () => {
 
         <main className="flex-1 p-4 lg:p-8 lg:ml-64">
           <ProfileHeader
-            name={jogadora?.nome}
-            team={jogadora?.["clube-atual"] || "Sem clube"}
-            location={jogadora?.cidade + ", " + jogadora?.estado}
-            avatar={jogadora?.["foto-perfil"] || imagemPerfilPadrao}
-            followers={jogadora?.seguidores.length}
-            following={jogadora?.seguindo.length}
-            idUsuario={jogadora?.id}
-            idUsuarioLogado={jogadora?.id}
+            name={perfilVisualizado?.nome}
+            team={perfilVisualizado?.["clube-atual"] || "Sem clube"}
+            location={perfilVisualizado?.cidade + ", " + perfilVisualizado?.estado}
+            avatar={perfilVisualizado?.["foto-perfil"] || imagemPerfilPadrao}
+            followers={perfilVisualizado?.seguidores.length}
+            following={perfilVisualizado?.seguindo.length}
+            idUsuario={perfilVisualizado?.id}
+            idUsuarioLogado={usuarioLogado?.id}
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Coluna esquerda */}
             <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
               <ProfileCard title="Sobre mim">
-                <p>{jogadora?.["sobre-mim"]}</p>
+                <p>{perfilVisualizado?.["sobre-mim"]}</p>
               </ProfileCard>
 
               <ProfileCard title="Experiência e clubes">
-                <Experience experience={jogadora?.["experiencias"]} />
+                <Experience experience={perfilVisualizado?.["experiencias"]} />
               </ProfileCard>
 
               <MediaTabs media={midia} />
@@ -119,7 +140,12 @@ const Profile = () => {
               </h3>
 
               {posts.map((post) => (
-                <PostUser key={post.id} post={post} usuario={jogadora} idUsuarioLogado={jogadora.id} />
+                <PostUser
+                  key={post.id}
+                  post={post}
+                  usuario={perfilVisualizado}
+                  idUsuarioLogado={usuarioLogado?.id}
+                />
               ))}
             </div>
 
@@ -127,19 +153,19 @@ const Profile = () => {
             <div className="flex flex-col gap-6 lg:gap-8">
               <ProfileCard title="Dados rápidos">
                 <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Posição: {jogadora?.posicao}</li>
-                  <li>Idade: {jogadora?.idade}</li>
-                  <li>Pé dominante: {jogadora?.["pe-dominante"]}</li>
-                  <li>Altura: {jogadora?.altura / 100} m</li>
-                  <li>Peso: {jogadora?.peso} kg</li>
+                  <li>Posição: {perfilVisualizado?.posicao}</li>
+                  <li>Idade: {perfilVisualizado?.idade}</li>
+                  <li>Pé dominante: {perfilVisualizado?.["pe-dominante"]}</li>
+                  <li>Altura: {perfilVisualizado?.altura / 100} m</li>
+                  <li>Peso: {perfilVisualizado?.peso} kg</li>
                 </ul>
               </ProfileCard>
               <ProfileCard title="Disponível para transferência?">
-                <p>{jogadora?.["disp-transferencia"] ? "Sim" : "Não"}</p>
+                <p>{perfilVisualizado?.["disp-transferencia"] ? "Sim" : "Não"}</p>
               </ProfileCard>
               <ProfileCard title="Conquistas e destaques">
                 <p>
-                  {jogadora?.["conquistas"] || "Nenhuma conquista registrada."}
+                  {perfilVisualizado?.["conquistas"] || "Nenhuma conquista registrada."}
                 </p>
               </ProfileCard>
             </div>
