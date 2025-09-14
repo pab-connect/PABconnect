@@ -22,7 +22,7 @@ export default function RadarTalentos() {
             </span>
           </div>
           <div className="flex flex-col">
-            <Link to='/talentos' className="bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer hover:scale-99 transition-all">
+            <Link to='/talentos?filtro=proximas' className="bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer hover:scale-99 transition-all">
               Talentos na sua região
             </Link>
             <Link to='/talentos' className="bg-[#1d3631] text-green-200 m-1 p-1 md:m-2 md:p-2 lg:p-3 lg:m-3 rounded-xl text-sm md:text-base lg:text-lg cursor-pointer hover:scale-99 transition-all">
