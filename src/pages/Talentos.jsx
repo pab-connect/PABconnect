@@ -6,11 +6,15 @@ import Filtros from "../components/Filtros/Filtros";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { useLocation } from "react-router-dom";
 
 export default function Talentos() {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const filtroInicial = params.get("filtro") || "recentes";
   const [jogadoras, setJogadoras] = useState([]);
   const [olheiro, setOlheiro] = useState(null);
-  const [filtro, setFiltro] = useState("recentes");
+  const [filtro, setFiltro] = useState(filtroInicial);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const emailOlheiro = user?.tipo === "olheiro" ? user.email : null;
