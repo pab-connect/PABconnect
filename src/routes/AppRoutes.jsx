@@ -8,7 +8,7 @@ import Notificacoes from "../pages/Notificacoes";
 import Configuracoes from "../pages/Configuracoes";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
-import Profile from "../components/Profile/Profile";
+import Profile from "../pages/Profile";
 
 export const router = createBrowserRouter([
   {
