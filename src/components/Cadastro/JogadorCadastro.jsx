@@ -60,6 +60,12 @@ export default function JogadorCadastro() {
 
   const handleSubmit = async () => {
     const idadeNumero = Number(formData.idade);
+
+    if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
+      alert("Por favor, digite uma idade válida (entre 10 e 150 anos).");
+      return;
+    }
+    
     const alturaNumero = Number(formData.altura);
     
     const partesNome = formData.nome.split(" ");
@@ -76,7 +82,7 @@ export default function JogadorCadastro() {
       "sobre-mim": "",
       experiencias: "",
       conquistas: "",
-      "disp-tranferencia": false,
+      "disp-transferencia": false,
     };
     
     // Remove o campo de confirmação da senha antes de enviar
