@@ -52,7 +52,15 @@ export default function Header() {
       {/* Perfil */}
       <div className="hidden lg:flex items-center">
         <Link to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}>
-          <CircleUserRoundIcon className="w-10 h-10 text-[#DAD0F0]" />
+          {usuarioLogado?.["foto-perfil"] ? (
+            <img
+              src={usuarioLogado?.["foto-perfil"]}
+              alt={usuarioLogado?.nome}
+              className="w-15 h-15 rounded-full shadow-md"
+            />
+          ) : (
+            <CircleUserRoundIcon className="w-15 h-15 text-[#DAD0F0]" />
+          )}
         </Link>
       </div>
 
