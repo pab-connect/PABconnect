@@ -4,6 +4,7 @@ import logo from "/logo-text.png";
 import UploadAndDisplayImage from "./UploadAndDisplayImage";
 import CadastroConcluido from "./CadastroConcluido";
 import { create, API_BASE_URL } from "../../services/apiService";
+import { Toastify } from "../Toastify/Toastify";
 
 export default function JogadorCadastro() {
   const estadosBR = [
@@ -40,11 +41,11 @@ export default function JogadorCadastro() {
 
   const handleNextStep1 = () => {
     if (!formData.nome || !formData.email || !formData.senha || !formData.confirmarSenha || !formData.idade || !formData.cidade) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+      Toastify.erro("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
     if (formData.senha !== formData.confirmarSenha) {
-      alert("As senhas não coincidem.");
+      Toastify.erro("As senhas não coincidem.");
       return;
     }
     setStep(2);
@@ -52,7 +53,7 @@ export default function JogadorCadastro() {
 
   const handleNextStep2 = () => {
     if (!formData.posicao || !formData.altura) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+      Toastify.erro("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
     setStep(3);
@@ -62,7 +63,7 @@ export default function JogadorCadastro() {
     const idadeNumero = Number(formData.idade);
 
     if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
-      alert("Por favor, digite uma idade válida (entre 10 e 150 anos).");
+      Toastify.erro("Por favor, digite uma idade válida (entre 10 e 150 anos).");
       return;
     }
     
@@ -96,10 +97,10 @@ export default function JogadorCadastro() {
         localStorage.setItem("user", JSON.stringify({ tipo: "jogadora", email: dataToSend.email }));
         setStep(4);
       } else {
-        alert("Erro ao finalizar o cadastro. Por favor, tente novamente.");
+        Toastify.erro("Erro ao finalizar o cadastro. Por favor, tente novamente.");
       }
     } catch (error) {
-      alert("Erro ao enviar o cadastro. Verifique sua conexão e tente novamente.");
+      Toastify.erro("Erro ao enviar o cadastro. Verifique sua conexão e tente novamente.");
       console.error(error);
     }
   };
