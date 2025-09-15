@@ -76,6 +76,10 @@ export default function Configuracoes() {
     }
   }, [searchedUser]);
 
+  function tempo(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   const handleSubmit = async () => {
     const idadeNumero = Number(formData.idade);
 
@@ -103,6 +107,44 @@ export default function Configuracoes() {
       console.error(error);
     }
   };
+
+  async function handleMudarSenha() {
+    if (!searchedUser) return Toastify.erro("Usuário não encontrado.");
+
+    const senhaAtual = prompt("Digite sua senha atual:");
+    if (senhaAtual === null) return; // cancelou
+    if (senhaAtual !== searchedUser.senha) return Toastify.erro("Senha atual incorreta.");
+
+    const novaSenha = prompt("Digite sua nova senha:");
+    if (novaSenha === null) return; // cancelou
+
+    const novaSenhaConfirmada = prompt("Confirme a nova senha:");
+    if (novaSenhaConfirmada === null) return; // cancelou
+    if (novaSenha !== novaSenhaConfirmada) return Toastify.erro("As senhas não coincidem.");
+
+    const confirma = confirm("Você confirma que quer mudar sua senha?");
+    if (!confirma) {
+      Toastify.info("Alteração de senha cancelada pelo usuário.");
+      return;
+    }
+
+    try {
+      const response = await update(API_BASE_URL, tipo, formData.id, { senha: novaSenha });
+      if (response) {
+        Toastify.sucesso("Senha atualizada com sucesso!");
+        await tempo(1800)
+        localStorage.clear();
+        window.location.href = "/";
+      } else {
+        Toastify.erro("Erro ao atualizar a senha.");
+      }
+    } catch (error) {
+      console.error(error);
+      Toastify.erro("Erro de conexão ao atualizar a senha.");
+    }
+  }
+
+
 
   return (
     <div className="flex flex-col bg-[#DAD0F0] min-h-screen">
@@ -156,13 +198,13 @@ export default function Configuracoes() {
               items={[
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Mudar senha</p>
-                  <button className="bg-gray-200 sm:text-xl md:text-lg md:p-1 sm:w-40 hover:bg-yellow-200 hover:scale-99 transition-all hover:border-yellow-400 cursor-pointer p-2 text-wrap w-32 rounded-md ml-auto border-[#8CAB91] border-1 font-semibold">Alterar Senha</button>
+                  <button onClick={handleMudarSenha} className="bg-gray-200 sm:text-xl md:text-lg md:p-1 sm:w-40 hover:bg-yellow-200 hover:scale-99 transition-all hover:border-yellow-400 cursor-pointer p-2 text-wrap w-32 rounded-md ml-auto border-[#8CAB91] border-1 font-semibold">Alterar Senha</button>
                 </div>,
                 <ConfigOption state={true} text="Permitir que te encontrem na busca" description="Deixe seu perfil visível para outros usuários." size="sm" />,
                 <ConfigOption text="Apenas conexões podem enviar mensagens" description="Restringe o envio de mensagens somente a quem já está na sua rede." size="sm" />,
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Deletar conta</p>
-                  <button className="bg-red-300 sm:text-xl md:text-lg md:p-1  sm:w-40 hover:bg-red-400 hover:text-black hover:border-red-600 cursor-pointer hover:scale-99 transition-all text-red-900 p-2 text-wrap w-30 rounded-md ml-auto border-[#ab8c8c] border-1 font-semibold">Prosseguir</button>
+                  <button onClick={()=>Toastify.erro("Função não implementada")} className="bg-red-300 sm:text-xl md:text-lg md:p-1  sm:w-40 hover:bg-red-400 hover:text-black hover:border-red-600 cursor-pointer hover:scale-99 transition-all text-red-900 p-2 text-wrap w-30 rounded-md ml-auto border-[#ab8c8c] border-1 font-semibold">Prosseguir</button>
                 </div>
               ]}
             />
