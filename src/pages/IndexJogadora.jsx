@@ -1,6 +1,5 @@
 import CriarPostIndexJogadora from "../components/CriarPostIndexJogadora/CriarPostIndexJogadora";
 import PostUser from "../components/PostUser/PostUser";
-import PostMarta from "../components/PostMarta/PostMarta";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getAll, API_POSTS_URL, API_BASE_URL } from "../services/apiService";
@@ -12,6 +11,7 @@ export default function IndexJogadora() {
   const [jogadoras, setJogadoras] = useState([]);
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
   const usuarioLogado = jogadoras.find(u => u.email === userLogadoEmail)
+
 
   useEffect(() => {
     async function fetchUsers() {
@@ -26,16 +26,16 @@ export default function IndexJogadora() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const posts = await getAll(API_POSTS_URL, "posts");
-        setPosts(posts);
-      } catch (error) {
-        console.error("Erro ao buscar jogadoras:", error);
-      }
+  async function fetchPosts() {
+    try {
+      const posts = await getAll(API_POSTS_URL, "posts");
+      setPosts(posts);
+    } catch (error) {
+      console.error("Erro ao buscar posts:", error);
     }
+  }
 
+  useEffect(() => {
     fetchPosts();
   }, []);
   return (
@@ -43,7 +43,7 @@ export default function IndexJogadora() {
       <Header />
       <div className="flex flex-1 flex-col items-center pt-30 p-6 gap-5 lg:ml-64 lg:pt-30 lg:p-10">
         <Sidebar isDesktop={true} />
-        <CriarPostIndexJogadora />
+        <CriarPostIndexJogadora idJogadora={usuarioLogado?.id} onPostCreated={fetchPosts} />
         <hr className="w-full my-4 border-t-2 border-[#9f92bc]" />
         {posts.map((post) => (
           <PostUser
@@ -53,7 +53,6 @@ export default function IndexJogadora() {
             idUsuarioLogado={usuarioLogado?.id}
           />
         ))}
-        <PostMarta />
       </div>
     </div>
   );
