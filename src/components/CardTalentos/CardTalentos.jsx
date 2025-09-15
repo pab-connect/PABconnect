@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
+
 export default function CardTalentos({
+  idJogadora,
   imagem,
   nome,
   posicao,
@@ -13,9 +16,9 @@ export default function CardTalentos({
       <p className="text-sm text-gray-600">{localizacao}</p>
 
       <div className="flex flex-col border-t pt-3 w-full gap-2">
-        <button className="bg-[#705C9B] text-white px-4 py-2 rounded-md cursor-pointer shadow-sm hover:shadow-md hover:scale-101 transition-all duration-300">
+        <Link to={`/perfil/jogadora/${idJogadora}`} className="bg-[#705C9B] text-white px-4 py-2 rounded-md cursor-pointer shadow-sm hover:shadow-md hover:scale-101 transition-all duration-300">
           Ver mais
-        </button>
+        </Link>
         <button className="bg-[#705C9B] text-white px-4 py-2 rounded-md cursor-pointer shadow-sm hover:shadow-md hover:scale-101 transition-all duration-300">
           Enviar mensagem
         </button>

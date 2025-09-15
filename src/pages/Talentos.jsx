@@ -87,14 +87,15 @@ export default function Talentos() {
               <Filtros filtro={filtro} setFiltro={setFiltro} />
             </aside>
 
-            {/* cards - ocupa o resto do espaco */}
+            {/* cards */}
             <section
               id="jogadoras"
-              className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4"
+              className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
             >
-              {jogadorasFiltradas.map((j, index) => (
+              {jogadorasFiltradas.map((j) => (
                 <CardTalentos
-                  key={index}
+                  key={j.id}
+                  idJogadora={j.id}
                   imagem={j["foto-perfil"] || imagemPadraoPerfil}
                   nome={j.nome}
                   posicao={j.posicao}
