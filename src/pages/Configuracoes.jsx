@@ -9,6 +9,7 @@ import ConfigOption from "../components/Configuracoes/ConfigOption";
 import UploadAndDisplayImage from "../components/Cadastro/UploadAndDisplayImage";
 import InputWithLabel from "../components/Configuracoes/InputWithLabel";
 import {getAll, update, API_BASE_URL } from ".././services/apiService.js"
+import { Toastify } from "../components/Toastify/Toastify.jsx"
 
 
 export default function Configuracoes() {
@@ -79,7 +80,7 @@ export default function Configuracoes() {
     const idadeNumero = Number(formData.idade);
 
     if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
-      alert("Por favor, digite uma idade válida (entre 10 e 150 anos).");
+      Toastify.erro("Por favor, digite uma idade válida (entre 10 e 150 anos).");
       return;
     }
 
@@ -92,13 +93,13 @@ export default function Configuracoes() {
     try {
       const response = await update(API_BASE_URL, tipo, formData.id, dataToSend);
       if (response) {
-        alert("Suas informações foram atualizadas com sucesso")
+        Toastify.sucesso("Suas informações foram atualizadas com sucesso")
         console.log("Atualizado com sucesso")
       } else {
-        alert("Erro ao atualizar o cadastro. Por favor, tente novamente.");
+        Toastify.erro("Erro ao atualizar o cadastro. Por favor, tente novamente.");
       }
     } catch (error) {
-      alert("Erro ao atualizar. Verifique sua conexão e tente novamente.");
+      Toastify.erro("Erro ao atualizar. Verifique sua conexão e tente novamente.");
       console.error(error);
     }
   };
