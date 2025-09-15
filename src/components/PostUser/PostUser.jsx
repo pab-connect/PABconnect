@@ -4,11 +4,13 @@ import { getAll, update, API_BASE_URL } from "../../services/apiService";
 import { useEffect, useState } from "react";
 import { Toastify } from "../Toastify/Toastify";
 
-export default function PostUser({ post, usuario, idUsuarioLogado }) {
+export default function PostUser({ post, usuario, idUsuarioLogado, ignore=false }) {
   const isPerfilProprio = post.usuario === idUsuarioLogado;
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [jogadoras, setJogadoras] = useState([]);
   const [curtido, setCurtir] = useState(false)
+  const [seguindoFake, setSeguindoFake] = useState(false);
+
   const data = new Date(post.datahora);
   const dataFormatada = `${data.getDate()}/${
     data.getMonth() + 1
@@ -28,17 +30,21 @@ export default function PostUser({ post, usuario, idUsuarioLogado }) {
     fetchUsers();
   }, []);
 
+
   async function handleSeguir() {
+    if (ignore) {
+      setSeguindoFake(prev => !prev);
+      return;
+    }
+
     if (!userLogado || !usuario) return;
 
     const jaSegue = userLogado.seguindo.includes(usuario.username);
     let novoSeguindo;
 
     if (jaSegue) {
-      console.log("Parando de seguir");
       novoSeguindo = userLogado.seguindo.filter(username => username !== usuario.username);
     } else {
-      console.log("Começando a seguir");
       novoSeguindo = [...userLogado.seguindo, usuario.username];
     }
 
@@ -47,18 +53,18 @@ export default function PostUser({ post, usuario, idUsuarioLogado }) {
       const response = await update(API_BASE_URL, "jogadoras", idUsuarioLogado, dataToSend);
 
       if (response) {
-        console.log("Atualizado com sucesso");
         setJogadoras(prev =>
           prev.map(j => j.id === idUsuarioLogado ? { ...j, seguindo: novoSeguindo } : j)
         );
       } else {
-        console.log("Erro ao atualizar o cadastro. Por favor, tente novamente.");
+        console.log("Erro ao atualizar o cadastro.");
       }
     } catch (error) {
-      console.log("Erro ao atualizar. Verifique sua conexão e tente novamente.");
+      console.log("Erro ao atualizar.");
       console.error(error);
     }
   }
+
 
 
   return (
@@ -85,7 +91,11 @@ export default function PostUser({ post, usuario, idUsuarioLogado }) {
         </div>
         {!isPerfilProprio && (
           <button onClick={handleSeguir} className="bg-[#705c9b] px-2 py-1 mr-1 md:px-4 md:mr-3 lg:px-4 lg:mr-3 lg:py-2 rounded-full text-[#dad0f0] text-xs md:text-base lg:text-lg cursor-pointer hover:scale-95 duration-300 transition-all">
-            {userLogado?.seguindo.includes(usuario.username) ? "Seguindo" : "Seguir"}
+            {ignore
+              ? seguindoFake ? "Seguindo" : "Seguir"
+              : userLogado?.seguindo.includes(usuario.username) ? "Seguindo" : "Seguir"
+            }
+
           </button>
         )}
       </div>
