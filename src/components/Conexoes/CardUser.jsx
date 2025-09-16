@@ -1,0 +1,26 @@
+import { Link } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
+
+export default function CardUser({usuario}) {
+
+    return (
+        <div className="bg-white shadow-sm px-1 py-2 md:px-1 md:py-2 sm:px-2 sm:py-4 flex gap-2 md:gap-1 justify-between items-center border-[#705C9B] border-1 rounded-lg">
+            <div className="flex gap-3 justify-center items-center md:gap-5">
+                <Link to={`/perfil/jogadora/${usuario.id}`}>
+                    <img className="w-10 h-10 sm:w-14 sm:h-14 md:w-14 md:h-14 ml-3 cursor-pointer rounded-full border-[#705c9b] border-2" src={usuario["foto-perfil"]} alt="" />
+                </Link>
+                <div className="text-left">
+                    <p className="font-semibold sm:text-2xl md:text-xl">{usuario.nome}</p>
+                    <p className="text-[#5a1ddc] font-light sm:text-xl md:text-lg">{usuario.posicao}</p>
+                </div>
+            </div>
+            <Link to={`/perfil/jogadora/${usuario.id}`}>
+                <button className="flex text-sm sm:text-xl md:text-base text-[#5a1ddc] gap-2 items-center font-medium rounded-lg bg-[#c8b3f6] p-2.5 sm:p-3 sm:px-3.5 md:p-2.5 py-1 cursor-pointer mr-3 md:mr-2">
+                    <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 md:w-6 md:h-6" />
+                    Mensagem
+                </button>
+            </Link>
+
+        </div>
+    )
+}
