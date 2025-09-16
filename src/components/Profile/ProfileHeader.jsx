@@ -1,36 +1,37 @@
 import { Link } from "react-router-dom";
+import imagemPerfilPadrao from "../../assets/imagem-padrao-perfil.jpg";
 
 const ProfileHeader = ({
-  name,
+  perfilVisualizado,
   handle,
-  team,
-  location,
-  avatar,
-  followers,
-  following,
   ehMeuPerfil,
+  usuarioLogado,
 }) => {
+  const jaSegue = usuarioLogado?.seguindo.includes(perfilVisualizado?.username)
   return (
     // Layout muda de coluna para linha em telas médias (tablets)
     // Centraliza itens e texto em mobile
     <div className="bg-white rounded-lg shadow p-4 sm:p-6 flex flex-col md:flex-row items-center text-center md:text-left">
       <img
-        src={avatar}
-        alt={name}
+        src={perfilVisualizado?.["foto-perfil"] || imagemPerfilPadrao}
+        alt={perfilVisualizado?.nome}
         // Tamanho do avatar ajustado para telas diferentes
         className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-md"
       />
 
       {/* Margem ajustada para mobile (topo) e desktop (esquerda) */}
       <div className="mt-4 md:mt-0 md:ml-6">
-        <h1 className="text-2xl sm:text-3xl font-bold">{name}</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          {perfilVisualizado?.nome}
+        </h1>
         <p className="text-sm sm:text-md ">{handle}</p>
         <p className="text-base sm:text-lg  mt-1">
-          {team} • {location}
+          {perfilVisualizado?.["clube-atual"] || "Sem clube"} •{" "}
+          {perfilVisualizado?.cidade + ", " + perfilVisualizado?.estado}
         </p>
         <div className="flex justify-center md:justify-start gap-4 text-[#705C9B] mt-2 ">
-          <p className="font-bold">{followers} seguidores</p>
-          <p className="font-bold">{following} seguindo</p>
+          <p className="font-bold">{perfilVisualizado?.seguidores.length} seguidores</p>
+          <p className="font-bold">{perfilVisualizado?.seguindo.length} seguindo</p>
         </div>
       </div>
 
@@ -46,10 +47,8 @@ const ProfileHeader = ({
         </div>
       ) : (
         <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
-          <button
-            className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto"
-          >
-            Seguir
+          <button className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto">
+            {jaSegue ? 'Deixar de seguir' : 'Seguir'}
           </button>
         </div>
       )}
