@@ -6,7 +6,7 @@ import Experience from "../components/Profile/Experience";
 import MediaTabs from "../components/Profile/MediaTabs";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
+import Sidebar from "../components/Sidebar/Sidebar";  
 import PostUser from "../components/PostUser/PostUser";
 
 // Componente de Card reutilizável e responsivo

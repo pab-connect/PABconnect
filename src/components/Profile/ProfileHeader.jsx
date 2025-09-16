@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { update, API_BASE_URL } from "../../services/apiService";
 import { Link } from "react-router-dom";
 import imagemPerfilPadrao from "../../assets/imagem-padrao-perfil.jpg";
 
@@ -7,7 +9,57 @@ const ProfileHeader = ({
   ehMeuPerfil,
   usuarioLogado,
 }) => {
-  const jaSegue = usuarioLogado?.seguindo.includes(perfilVisualizado?.username)
+  const [seguidores, setSeguidores] = useState([]);
+  const [seguindo, setSeguindo] = useState([]);
+
+  useEffect(() => {
+    if (perfilVisualizado?.seguidores) {
+      setSeguidores(perfilVisualizado.seguidores);
+    }
+    if (usuarioLogado?.seguindo) {
+      setSeguindo(usuarioLogado.seguindo);
+    }
+  }, [perfilVisualizado, usuarioLogado]);
+
+  const jaSegue = seguindo.includes(perfilVisualizado?.username);
+
+  const handleToggleSeguir = async () => {
+    if (!usuarioLogado || !perfilVisualizado) return;
+
+    let novoSeguindo, novosSeguidores;
+
+    if (jaSegue) {
+      // Deixar de seguir
+      novoSeguindo = seguindo.filter((u) => u !== perfilVisualizado.username);
+      novosSeguidores = seguidores.filter((u) => u !== usuarioLogado.username);
+    } else {
+      // Seguir
+      novoSeguindo = [...seguindo, perfilVisualizado.username];
+      novosSeguidores = [...seguidores, usuarioLogado.username];
+    }
+
+    try {
+      // Atualiza usuario logado (seguindo)
+      await update(API_BASE_URL, "jogadoras", usuarioLogado.id, {
+        ...usuarioLogado,
+        seguindo: novoSeguindo,
+      });
+
+      // Atualiza perfil visualizado (seguidores)
+      await update(API_BASE_URL, "jogadoras", perfilVisualizado.id, {
+        ...perfilVisualizado,
+        seguidores: novosSeguidores,
+      });
+
+      // Atualiza estados locais para refletir na UI
+      setSeguindo(novoSeguindo);
+      setSeguidores(novosSeguidores);
+    } catch (error) {
+      console.error("Erro ao seguir/deixar de seguir:", error);
+      alert("Não foi possível completar a ação. Tente novamente.");
+    }
+  };
+
   return (
     // Layout muda de coluna para linha em telas médias (tablets)
     // Centraliza itens e texto em mobile
@@ -47,8 +99,11 @@ const ProfileHeader = ({
         </div>
       ) : (
         <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
-          <button className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto">
-            {jaSegue ? 'Deixar de seguir' : 'Seguir'}
+          <button
+            onClick={handleToggleSeguir}
+            className="cursor-pointer bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto"
+          >
+            {jaSegue ? "Deixar de seguir" : "Seguir"}
           </button>
         </div>
       )}
