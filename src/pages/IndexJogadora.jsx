@@ -39,7 +39,7 @@ export default function IndexJogadora() {
     fetchPosts();
   }, []);
   return (
-    <div className="flex flex-1 bg-[#DAD0F0]">
+    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-1 bg-[#DAD0F0]">
       <Header />
       <div className="flex flex-1 flex-col items-center pt-30 p-6 gap-5 lg:ml-64 lg:pt-30 lg:p-10">
         <Sidebar isDesktop={true} />

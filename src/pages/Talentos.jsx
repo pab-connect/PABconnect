@@ -75,7 +75,7 @@ export default function Talentos() {
   }, [jogadoras, filtro, olheiro]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#DAD0F0]">
+    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col min-h-screen bg-[#DAD0F0]">
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />

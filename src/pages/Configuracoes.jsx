@@ -147,7 +147,7 @@ export default function Configuracoes() {
 
 
   return (
-    <div className="flex flex-col bg-[#DAD0F0] min-h-screen">
+    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col bg-[#DAD0F0] min-h-screen">
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />

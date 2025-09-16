@@ -103,7 +103,7 @@ const Profile = () => {
     userLocal?.tipo === tipoPerfilVisualizado;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]">
+    <div style={{ fontFamily: "var(--font-poppins)" }} className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]">
       <Header />
 
       <div className="flex flex-1 pt-[88px]">
