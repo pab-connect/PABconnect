@@ -72,7 +72,7 @@ export default function PostUser({ post, usuario, idUsuarioLogado, ignore=false 
       <div className="flex items-center justify-between">
         <div className="flex gap-4 items-center">
           <Link to={`/perfil/jogadora/${usuario.id}`}>
-            <img className="w-10 h-100 md:w-12 md:h-12 lg:w-15 lg:h-15 ml-3 cursor-pointer rounded-full border-[#705c9b] border-2" src={usuario["foto-perfil"]} alt="" />
+            <img className="w-10 h-10 md:w-12 md:h-12 lg:w-15 lg:h-15 ml-3 cursor-pointer rounded-full border-[#705c9b] border-2" src={usuario["foto-perfil"]} alt="" />
           </Link>
           <div className="flex flex-col">
             <div className="flex gap-2 items-center">
