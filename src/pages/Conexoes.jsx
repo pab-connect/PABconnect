@@ -9,6 +9,7 @@ import CardUserAdd from "../components/Conexoes/CardUserAdd.jsx";
 const Conexoes = () => {
   const [jogadoras, setJogadoras] = useState([]);
   const [jogadorasSeguindo, setJogadorasSeguindo] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // estado do filtro
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
   const usuarioLogado = jogadoras.find(u => u.email === userLogadoEmail);
@@ -33,6 +34,12 @@ const Conexoes = () => {
     }
   }, [jogadoras, usuarioLogado]);
 
+  // Filtragem pra busca
+  const jogadorasFiltradas = jogadorasSeguindo.filter(j =>
+    j.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    j.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="bg-[#DAD0F0] min-h-screen" style={{ fontFamily: "var(--font-poppins)" }}>
       <Header />
@@ -41,15 +48,13 @@ const Conexoes = () => {
         <h1 className="text-4xl pt-5 md:pt-6 font-bold text-black mb-6 text-center sm:text-left md:text-left">
           Conexões
         </h1>
-
-        {/* Container flex para as sections */}
         <div className="flex flex-col md:flex-row gap-5">
           {/* Minhas Conexões */}
           <section className="md:w-1/2 text-center sm:text-left">
             <button className="text-[#5a1ddc] font-semibold mb-4 py-2 px-3 sm:py-3 sm:px-4 text-lg sm:text-xl cursor-pointer rounded-lg bg-[#c8b3f6]">
               Minhas Conexões
             </button>
-            <div className="flex border-2 border-[#705C9B] items-center max-w-full sm:max-w-md sm:py-2 sm:text-lg bg-white rounded-lg px-3 py-1 text-[#705C9B] cursor-pointer transition-all duration-300 ease-in-out">
+            <div className="flex border-2 border-[#705C9B] items-center max-w-full sm:max-w-md sm:py-2 sm:text-lg bg-white rounded-lg px-3 py-1 text-[#705C9B] transition-all duration-300 ease-in-out">
               <Search className="w-5 h-5" />
               <input
                 type="text"
@@ -57,13 +62,15 @@ const Conexoes = () => {
                 id="busca"
                 placeholder="Buscar por nome ou posição..."
                 className="flex-1 bg-white outline-0 px-2 py-1"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex flex-col gap-3 mt-8">
-              {jogadorasSeguindo.length > 0 ? (
-                jogadorasSeguindo.map(j => <CardUser key={j.id} usuario={j} />)
+              {jogadorasFiltradas.length > 0 ? (
+                jogadorasFiltradas.map(j => <CardUser key={j.id} usuario={j} />)
               ) : (
-                <p>Carregando jogadoras...</p>
+                <p>Nenhuma jogadora encontrada...</p>
               )}
             </div>
           </section>
