@@ -35,11 +35,22 @@ const ProfileHeader = ({
       </div>
 
       {/* Botões empilham em mobile e ficam lado a lado em desktop */}
-      {ehMeuPerfil && (
+      {ehMeuPerfil ? (
         <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
-          <Link to="/configuracoes" className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto">
+          <Link
+            to="/configuracoes"
+            className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto"
+          >
             Editar perfil
           </Link>
+        </div>
+      ) : (
+        <div className="mt-4 md:mt-0 md:ml-auto flex flex-col sm:flex-row items-center gap-3">
+          <button
+            className="bg-[#307039] text-white font-semibold py-2 px-6 rounded-full hover:bg-[#275c2e] transition duration-300 w-full sm:w-auto"
+          >
+            Seguir
+          </button>
         </div>
       )}
     </div>
