@@ -6,8 +6,7 @@ import Experience from "../components/Profile/Experience";
 import MediaTabs from "../components/Profile/MediaTabs";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
-import imagemPerfilPadrao from "../assets/imagem-padrao-perfil.jpg";
+import Sidebar from "../components/Sidebar/Sidebar";  
 import PostUser from "../components/PostUser/PostUser";
 
 // Componente de Card reutilizável e responsivo
@@ -112,15 +111,9 @@ const Profile = () => {
 
         <main className="flex-1 p-4 lg:p-8 lg:ml-64">
           <ProfileHeader
-            name={perfilVisualizado?.nome}
-            team={perfilVisualizado?.["clube-atual"] || "Sem clube"}
-            location={
-              perfilVisualizado?.cidade + ", " + perfilVisualizado?.estado
-            }
-            avatar={perfilVisualizado?.["foto-perfil"] || imagemPerfilPadrao}
-            followers={perfilVisualizado?.seguidores.length}
-            following={perfilVisualizado?.seguindo.length}
+            perfilVisualizado={perfilVisualizado}
             ehMeuPerfil={ehMeuPerfil}
+            usuarioLogado={usuarioLogado}
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
