@@ -1,12 +1,62 @@
-# React + Vite
+# <img src="https://avatars.githubusercontent.com/u/230654697?s=200&v=4" alt="Logo PAB Connect" width="50" align="left" /> PAB CONNECT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Conectar jogadoras de futebol feminino ao palco que elas merecem começa aqui.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Lucide](https://img.shields.io/badge/Lucide%20React-000000?style=for-the-badge&logo=lucide&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 👥 Equipe
+
+- Daniel Laureano da Luz — 565899  
+- Gabriel Del Sole Speck — 562513  
+- Marcos Antonio da Silva — 566451  
+- Paulo Gustavo Pessoa da Silva — 566194  
+- Rone Cruz Santos — 566558  
+
+---
+
+## 📖 Sobre o projeto
+
+O **PAB Connect** é uma plataforma digital voltada para jogadoras de futebol feminino e olheiros.  
+O objetivo é oferecer visibilidade, interação e oportunidades, conectando atletas ao cenário esportivo.  
+
+Funcionalidades principais:  
+- Cadastro e login de jogadoras e olheiros  
+- Perfis personalizados com informações atléticas e conquistas  
+- Feed de postagens com fotos e vídeos  
+- Sistema de conexões e visualização de jogadoras  
+- Área de mensagens integrada via e-mail  
+- Notificações e gerenciamento de conta  
+
+---
+
+## 🛠 Tecnologias utilizadas
+
+- **React**  
+- **JavaScript**  
+- **Tailwind CSS**  
+- **Lucide React** (ícones)  
+- **React Hot Toast** (notificações)  
+- **Google Fonts**  
+- **MockAPI** (criação e consumo de API)  
+
+---
+
+## 🚀 Deploy
+
+O projeto será hospedado na Vercel.  
+🔗 [Acessar aplicação](https://pabconnect.vercel.app) *(Não implementado)*  
+
+---
+
+## 📜 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).  
