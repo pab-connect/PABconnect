@@ -7,7 +7,6 @@ import {
   Settings,
   House,
   UsersRound,
-  MessagesSquare,
   Bell,
   X,
   Star,
@@ -87,16 +86,6 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                   <Star className="w-8 h-8" />
                 )}
                 {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/mensagens"
-                className={`flex items-center gap-3 font-semibold ${
-                  isActive("/mensagens") ? "underline" : ""
-                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
-              >
-                <MessagesSquare className="w-8 h-8" /> Mensagens
               </Link>
             </li>
             <li>
@@ -208,16 +197,6 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                   <Star className="w-8 h-8" />
                 )}
                 {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/mensagens"
-                className={`flex items-center gap-3 font-semibold ${
-                  isActive("/mensagens") ? "underline" : ""
-                } text-lg hover:text-[#DAD0F0] transition-colors`}
-              >
-                <MessagesSquare className="w-8 h-8" /> Mensagens
               </Link>
             </li>
             <li>
