@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
-import Auth from "../pages/Auth";
+import Auth from "../pages/auth";
 import IndexJogadora from "../pages/IndexJogadora";
 import IndexAgente from "../pages/IndexAgente";
 import Talentos from "../pages/Talentos";
