@@ -9,17 +9,21 @@ import { Toastify } from "../Toastify/Toastify";
 export default function CriarPostIndexJogadora({ idJogadora, onPostCreated }) {
     const [imgUrl, setImgUrl] = useState("")
     const [text, setText] = useState("")
+
     async function handleCreate() {
         const agora = new Date();           
         const isoString = agora.toISOString();
         const dateAtual = isoString.split(".")[0] + "Z";
+
         const dataToSend = {
             usuario: idJogadora,
+            tipoUsuario: "jogadoras",
             datahora: dateAtual,
             texto: text,
             midia: imgUrl,
             curtidas: 0
         };
+
         try {
             const response = await create(API_POSTS_URL, "posts", dataToSend);
             if (response) {
@@ -39,12 +43,16 @@ export default function CriarPostIndexJogadora({ idJogadora, onPostCreated }) {
     return (
         <div className='flex flex-col bg-white p-4 w-full rounded-xl border border-[#85a095]'>
             <div className="flex-1 m-3">
-                <input value={text} onChange={e => setText(e.target.value)} className="p-2 w-full rounded-full border border-[#307039]" type="text" placeholder="Comece um Post"/>
+                <input 
+                    value={text} 
+                    onChange={e => setText(e.target.value)} 
+                    className="p-2 w-full rounded-full border border-[#307039]" 
+                    type="text" 
+                    placeholder="Comece um Post"
+                />
             </div>
             <div className='flex items-center justify-between'>
-                <button onClick={()=>{
-                    setImgUrl(prompt("Digite a url da sua imagem/video:"))
-                }} className='flex items-center gap-2 p-4 cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
+                <button onClick={()=> setImgUrl(prompt("Digite a url da sua imagem/video:"))} className='flex items-center gap-2 p-4 cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
                     <Camera className='w-6 h-6 md:w-7 md:h-7 lg:w-9 lg:h-9'/>
                     <span className='font-bold text-sm md:text-base lg:text-lg'>Mídia</span>
                 </button>
