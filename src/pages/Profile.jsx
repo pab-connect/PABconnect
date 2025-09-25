@@ -142,13 +142,13 @@ const Profile = () => {
                   <PostUser
                     key={`${post.tipoUsuario}-${post.id}`}
                     post={post}
-                    usuario={perfilVisualizado}
-                    idUsuarioLogado={usuarioLogado?.id}
-                    tipoUsuario={post.tipoUsuario}
-                    usuarios={post.tipoUsuario === "jogadoras" ? jogadoras : agentes}
+                    usuario={perfilVisualizado} 
+                    usuarioLogado={usuarioLogado}      
+                    tipoUsuario={post.tipoUsuario}     
                     setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
                   />
                 ))}
+
               </div>
             </div>
 
