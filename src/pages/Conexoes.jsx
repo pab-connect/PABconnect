@@ -8,7 +8,9 @@ import CardUserAdd from "../components/Conexoes/CardUserAdd.jsx";
 
 const Conexoes = () => {
   const [jogadoras, setJogadoras] = useState([]);
+  const [agentes, setAgentes] = useState([])
   const [jogadorasSeguindo, setJogadorasSeguindo] = useState([]);
+  const [agentesSeguindo, setAgentesSeguindo] = useState([])
   const [searchTerm, setSearchTerm] = useState(""); // estado do filtro
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
@@ -17,12 +19,20 @@ const Conexoes = () => {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const users = await getAll(API_BASE_URL, "jogadoras");
-        setJogadoras(users);
+        const jogs = await getAll(API_BASE_URL, "jogadoras");
+        setJogadoras(jogs);
       } catch (error) {
         console.error("Erro ao buscar jogadoras:", error);
       }
+
+      try {
+        const olhs = await getAll(API_BASE_URL, "olheiros");
+        setAgentes(olhs);
+      } catch (error) {
+        console.error("Erro ao buscar olheiros:", error);
+      }
     }
+
     fetchUsers();
   }, []);
 
@@ -31,13 +41,21 @@ const Conexoes = () => {
       setJogadorasSeguindo(
         jogadoras.filter(j => usuarioLogado.seguindo.includes(j.username))
       );
+      setAgentesSeguindo(
+        agentes.filter(a => usuarioLogado.seguindo.includes(a.username))
+      )
     }
-  }, [jogadoras, usuarioLogado]);
+  }, [jogadoras, agentes, usuarioLogado]);
 
   // Filtragem pra busca
   const jogadorasFiltradas = jogadorasSeguindo.filter(j =>
     j.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     j.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const agentesFiltrados = agentesSeguindo.filter(a =>
+    a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    a.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -67,8 +85,11 @@ const Conexoes = () => {
               />
             </div>
             <div className="flex flex-col gap-3 mt-8">
-              {jogadorasFiltradas.length > 0 ? (
-                jogadorasFiltradas.map(j => <CardUser key={j.id} usuario={j} />)
+              {jogadorasFiltradas.length + agentesFiltrados.length > 0 ? (
+                <>
+                  {jogadorasFiltradas.map(j => <CardUser key={j.id} usuario={j} />)}
+                  {agentesFiltrados.map(a => <CardUser key={a.id} usuario={a} tipo="olheiros" />)}
+                </>
               ) : (
                 <p>Nenhuma jogadora encontrada...</p>
               )}
