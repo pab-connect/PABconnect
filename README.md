@@ -53,7 +53,7 @@ Funcionalidades principais:
 ## 🚀 Deploy
 
 O projeto será hospedado na Vercel.  
-🔗 [Acessar aplicação](https://pabconnect.vercel.app) *(Não implementado)*  
+🔗 [Acessar aplicação](https://pab-connect.vercel.app/) 
 
 ---
 

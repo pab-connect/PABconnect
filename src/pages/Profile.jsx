@@ -25,11 +25,13 @@ const Profile = () => {
   const [perfilVisualizado, setPerfilVisualizado] = useState(null);
   const [tipoPerfilVisualizado, setTipoPerfilVisualizado] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [jogadoras, setJogadoras] = useState([]);
+  const [agentes, setAgentes] = useState([]);
   const [midia, setMidia] = useState({ imagens: [], videos: [] });
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const emailLogado = userLocal?.email;
 
-  // buscando jogadora logada atualmente e qual perfil esta sendo visualizado
+  // Busca usuários e logado
   useEffect(() => {
     async function fetchUsuarios() {
       if (!emailLogado) return;
@@ -53,40 +55,42 @@ const Profile = () => {
 
         setPerfilVisualizado(perfil || null);
         setTipoPerfilVisualizado(tipo);
+        setJogadoras(todasJogadoras);
+        setAgentes(todosOlheiros);
       } catch (error) {
-        console.error("Erro ao buscar jogadora:", error);
+        console.error("Erro ao buscar usuários:", error);
       }
     }
 
     fetchUsuarios();
   }, [emailLogado, id, tipo]);
 
-  // buscando posts e midias do perfil visualizado
+  // busca posts
   useEffect(() => {
     async function fetchPosts() {
       if (!perfilVisualizado) return;
 
       try {
         const todosPosts = await getAll(API_POSTS_URL, "posts");
-        // filtra apenas os posts do perfil visualizado
-        const postsPerfilVisualizado = todosPosts.filter(
-          (post) => post.usuario === perfilVisualizado.id
-        );
+
+        // filtra posts só do perfil visualizado
+        const postsPerfilVisualizado = todosPosts
+          .filter((post) => 
+            post.usuario === perfilVisualizado.id &&
+            post.tipoUsuario === (tipoPerfilVisualizado === "jogadora" ? "jogadoras" : "olheiros")
+          )
+          .slice()
+          .sort((a, b) => new Date(b.datahora) - new Date(a.datahora)); 
+
         setPosts(postsPerfilVisualizado);
 
-        // separa as midias em images e videos
+        // separa as midias em imagens e vídeos
         const imagens = postsPerfilVisualizado
-          .filter(
-            (p) =>
-              p.midia && !p.midia.endsWith(".mp4") && !p.midia.endsWith(".mov")
-          )
+          .filter((p) => p.midia && !p.midia.endsWith(".mp4") && !p.midia.endsWith(".mov"))
           .map((p) => p.midia);
 
         const videos = postsPerfilVisualizado
-          .filter(
-            (p) =>
-              p.midia && (p.midia.endsWith(".mp4") || p.midia.endsWith(".mov"))
-          )
+          .filter((p) => p.midia && (p.midia.endsWith(".mp4") || p.midia.endsWith(".mov")))
           .map((p) => p.midia);
 
         setMidia({ imagens, videos });
@@ -96,7 +100,7 @@ const Profile = () => {
     }
 
     fetchPosts();
-  }, [perfilVisualizado]);
+  }, [perfilVisualizado, tipoPerfilVisualizado]);
 
   const ehMeuPerfil =
     usuarioLogado?.id === perfilVisualizado?.id &&
@@ -127,24 +131,25 @@ const Profile = () => {
                 <Experience experience={perfilVisualizado?.["experiencias"]} />
               </ProfileCard>
 
-              {tipoPerfilVisualizado === "jogadora" && (
-                <div className="space-y-6">
-                  <MediaTabs media={midia} />
+              <div className="space-y-6">
+                <MediaTabs media={midia} />
 
-                  <h3 className="text-xl font-bold mb-2 pb-2 border-b border-[#705C9B]">
-                    Meus posts
-                  </h3>
+                <h3 className="text-xl font-bold mb-2 pb-2 border-b border-[#705C9B]">
+                  Meus posts
+                </h3>
 
-                  {posts.map((post) => (
-                    <PostUser
-                      key={post.id}
-                      post={post}
-                      usuario={perfilVisualizado}
-                      idUsuarioLogado={usuarioLogado?.id}
-                    />
-                  ))}
-                </div>
-              )}
+                {posts.map((post) => (
+                  <PostUser
+                    key={`${post.tipoUsuario}-${post.id}`}
+                    post={post}
+                    usuario={perfilVisualizado}
+                    idUsuarioLogado={usuarioLogado?.id}
+                    tipoUsuario={post.tipoUsuario}
+                    usuarios={post.tipoUsuario === "jogadoras" ? jogadoras : agentes}
+                    setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Coluna direita */}
@@ -155,18 +160,14 @@ const Profile = () => {
                     <ul className="list-disc list-inside space-y-1 text-sm">
                       <li>Posição: {perfilVisualizado?.posicao}</li>
                       <li>Idade: {perfilVisualizado?.idade}</li>
-                      <li>
-                        Pé dominante: {perfilVisualizado?.["pe-dominante"]}
-                      </li>
+                      <li>Pé dominante: {perfilVisualizado?.["pe-dominante"]}</li>
                       <li>Altura: {perfilVisualizado?.altura / 100} m</li>
                       <li>Peso: {perfilVisualizado?.peso} kg</li>
                     </ul>
                   </ProfileCard>
                   <ProfileCard title="Disponível para transferência?">
                     <p>
-                      {perfilVisualizado?.["disp-transferencia"]
-                        ? "Sim"
-                        : "Não"}
+                      {perfilVisualizado?.["disp-transferencia"] ? "Sim" : "Não"}
                     </p>
                   </ProfileCard>
                 </div>
@@ -180,8 +181,7 @@ const Profile = () => {
 
               <ProfileCard title="Conquistas e destaques">
                 <p>
-                  {perfilVisualizado?.["conquistas"] ||
-                    "Nenhuma conquista registrada."}
+                  {perfilVisualizado?.["conquistas"] || "Nenhuma conquista registrada."}
                 </p>
               </ProfileCard>
             </div>

@@ -8,25 +8,22 @@ import { useEffect, useState } from "react";
 export default function IndexAgente() {
   const [posts, setPosts] = useState([]);
   const [jogadoras, setJogadoras] = useState([]);
+  const [agentes, setAgentes] = useState([]);
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
-  const usuarioLogado = jogadoras.find(u => u.email === userLogadoEmail);
+  const usuarioLogado = agentes.find(u => u.email === userLogadoEmail);
 
-  // Puxa todas as jogadoras
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const users = await getAll(API_BASE_URL, "jogadoras");
-        setJogadoras(users);
-      } catch (error) {
-        console.error("Erro ao buscar jogadoras:", error);
-      }
+  async function fetchUsers() {
+    try {
+      const jogs = await getAll(API_BASE_URL, "jogadoras");
+      setJogadoras(jogs);
+      const olhs = await getAll(API_BASE_URL, "olheiros");
+      setAgentes(olhs);
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
     }
+  }
 
-    fetchUsers();
-  }, []);
-
-  // Puxa todos os posts
   async function fetchPosts() {
     try {
       const posts = await getAll(API_POSTS_URL, "posts");
@@ -37,8 +34,22 @@ export default function IndexAgente() {
   }
 
   useEffect(() => {
+    fetchUsers();
     fetchPosts();
   }, []);
+
+  const postsComUsuarios = posts
+    .map(post => {
+      const usuario = jogadoras.find(j => j.id === post.usuario && post.tipoUsuario === "jogadoras") ||
+        agentes.find(a => a.id === post.usuario && post.tipoUsuario === "olheiros");
+      
+      const tipoUsuario = post.tipoUsuario;
+
+      return { ...post, usuario, tipoUsuario };
+    })
+    .filter(post => post.usuario) 
+    .slice()
+    .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
 
   return (
     <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-1 bg-[#DAD0F0]">
@@ -47,13 +58,15 @@ export default function IndexAgente() {
         <Sidebar isDesktop={true} />
         <RadarTalentos />
         <hr className="w-full my-4 border-t-2 border-[#457c50]" />
-        {posts.map((post) => (
+        {postsComUsuarios.map(post => (
           <PostUser
-            key={post.id}
+            key={`${post.tipoUsuario}-${post.id}`}
             post={post}
-            usuario={jogadoras.find(u => u.id === post.usuario) || {}} // dono do post
+            usuario={post.usuario}
             idUsuarioLogado={usuarioLogado?.id}
-            ignore={true}
+            tipoUsuario={post.tipoUsuario}
+            usuarios={post.tipoUsuario === "jogadoras" ? jogadoras : agentes}
+            setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
           />
         ))}
       </div>
