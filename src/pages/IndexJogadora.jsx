@@ -10,7 +10,8 @@ export default function IndexJogadora() {
   const [jogadoras, setJogadoras] = useState([]);
   const [agentes, setAgentes] = useState([]);
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
-  const usuarioLogado = jogadoras.find(u => u.email === userLogadoEmail);
+  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
+  const usuarioLogado = userLogadoTipo === "jogadora" ? jogadoras.find(u => u.email === userLogadoEmail) : agentes.find(u => u.email === userLogadoEmail);
 
   async function fetchPosts() {
     try {
@@ -78,9 +79,8 @@ export default function IndexJogadora() {
             key={`${post.tipoUsuario}-${post.id}`} 
             post={post}
             usuario={post.usuario}
-            idUsuarioLogado={usuarioLogado?.id}
+            usuarioLogado={usuarioLogado}
             tipoUsuario={post.tipoUsuario}
-            usuarios={post.tipoUsuario === "jogadoras" ? jogadoras : agentes}
             setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
           />
         ))}

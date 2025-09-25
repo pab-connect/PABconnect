@@ -4,15 +4,16 @@ import { update, API_BASE_URL, API_POSTS_URL } from "../../services/apiService";
 import { useState } from "react";
 import { Toastify } from "../Toastify/Toastify";
 
-export default function PostUser({ post, usuario, idUsuarioLogado, tipoUsuario = "jogadora", usuarios, setUsuarios }) {
-  const isPerfilProprio = post.usuario === idUsuarioLogado;
+export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "jogadora", setUsuarios }) {
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [curtido, setCurtir] = useState(false);
-
-  const userLogado = usuarios.find(j => j.id === idUsuarioLogado);
-
+  const idUsuarioLogado = usuarioLogado?.id;
+  const isPerfilProprio = post.usuario === idUsuarioLogado;
+  const userLogado = usuarioLogado
+  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
   const data = new Date(post.datahora);
   const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.getHours()}:${data.getMinutes()}`;
+  const [seguindo, setSeguindo] = useState(userLogado?.seguindo.includes(usuario.username));
 
   async function handleSeguir() {
     if (!userLogado || !usuario) return;
@@ -23,13 +24,15 @@ export default function PostUser({ post, usuario, idUsuarioLogado, tipoUsuario =
       : [...userLogado.seguindo, usuario.username];
 
     try {
+      const tipoUsuarioLogado = userLogadoTipo === "jogadora" ? "jogadoras" : "olheiros";
       const dataToSend = { seguindo: novoSeguindo };
-      const response = await update(API_BASE_URL, tipoUsuario, idUsuarioLogado, dataToSend);
+      const response = await update(API_BASE_URL, tipoUsuarioLogado, idUsuarioLogado, dataToSend);
 
       if (response) {
         setUsuarios(prev =>
           prev.map(j => j.id === idUsuarioLogado ? { ...j, seguindo: novoSeguindo } : j)
         );
+        setSeguindo(!seguindo);
       } else {
         console.error("Erro ao atualizar o cadastro.");
       }
@@ -37,6 +40,7 @@ export default function PostUser({ post, usuario, idUsuarioLogado, tipoUsuario =
       console.error("Erro ao atualizar:", error);
     }
   }
+
 
   async function handleCurtir() {
     if (!usuario) return;
@@ -78,7 +82,7 @@ export default function PostUser({ post, usuario, idUsuarioLogado, tipoUsuario =
             onClick={handleSeguir}
             className="bg-[#705c9b] px-2 py-1 mr-1 md:px-4 md:mr-3 sm:px-4 sm:py-1.5 lg:px-4 lg:mr-3 lg:py-2 rounded-full text-[#dad0f0] text-xs sm:text-lg md:text-base lg:text-lg cursor-pointer hover:scale-95 duration-300 transition-all"
           >
-            {userLogado?.seguindo.includes(usuario.username) ? "Seguindo" : "Seguir"}
+            {seguindo ? "Seguindo" : "Seguir"}
           </button>
         )}
       </div>
