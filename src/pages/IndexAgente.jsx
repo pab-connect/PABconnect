@@ -11,7 +11,11 @@ export default function IndexAgente() {
   const [agentes, setAgentes] = useState([]);
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
-  const usuarioLogado = agentes.find(u => u.email === userLogadoEmail);
+  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
+  const usuarioLogado =
+    userLogadoTipo === "jogadora"
+      ? jogadoras.find(u => u.email === userLogadoEmail)
+      : agentes.find(u => u.email === userLogadoEmail);
 
   async function fetchUsers() {
     try {
@@ -40,14 +44,20 @@ export default function IndexAgente() {
 
   const postsComUsuarios = posts
     .map(post => {
-      const usuario = jogadoras.find(j => j.id === post.usuario && post.tipoUsuario === "jogadoras") ||
-        agentes.find(a => a.id === post.usuario && post.tipoUsuario === "olheiros");
-      
-      const tipoUsuario = post.tipoUsuario;
+      let usuario = null;
+      let tipoUsuario = "";
+
+      if (jogadoras.some(j => j.id === post.usuario && post.tipoUsuario === "jogadoras")) {
+        usuario = jogadoras.find(j => j.id === post.usuario);
+        tipoUsuario = "jogadoras";
+      } else if (agentes.some(a => a.id === post.usuario && post.tipoUsuario === "olheiros")) {
+        usuario = agentes.find(a => a.id === post.usuario);
+        tipoUsuario = "olheiros";
+      }
 
       return { ...post, usuario, tipoUsuario };
     })
-    .filter(post => post.usuario) 
+    .filter(post => post.usuario)
     .slice()
     .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
 
@@ -58,14 +68,14 @@ export default function IndexAgente() {
         <Sidebar isDesktop={true} />
         <RadarTalentos />
         <hr className="w-full my-4 border-t-2 border-[#457c50]" />
+
         {postsComUsuarios.map(post => (
           <PostUser
             key={`${post.tipoUsuario}-${post.id}`}
             post={post}
             usuario={post.usuario}
-            idUsuarioLogado={usuarioLogado?.id}
+            usuarioLogado={usuarioLogado}
             tipoUsuario={post.tipoUsuario}
-            usuarios={post.tipoUsuario === "jogadoras" ? jogadoras : agentes}
             setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
           />
         ))}
