@@ -15,7 +15,7 @@ export default function LandingPage() {
       <ParaQuem />
       <Pratica />
       <Contato />
-      <Footer />
+      <Footer tipo="landing" />
     </div>
   )
 }
