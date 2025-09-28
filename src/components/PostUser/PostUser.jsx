@@ -1,10 +1,11 @@
 import { ThumbsUp, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { update, API_BASE_URL, API_POSTS_URL } from "../../services/apiService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toastify } from "../Toastify/Toastify";
 
 export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "jogadora", setUsuarios }) {
+  const [seguindo, setSeguindo] = useState(false)
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [curtido, setCurtir] = useState(false);
   const idUsuarioLogado = usuarioLogado?.id;
@@ -13,7 +14,12 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
   const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
   const data = new Date(post.datahora);
   const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.getHours()}:${data.getMinutes()}`;
-  const [seguindo, setSeguindo] = useState(userLogado?.seguindo.includes(usuario.username));
+
+  useEffect(() => {
+    if (usuarioLogado && usuario) {
+      setSeguindo(usuarioLogado.seguindo.includes(usuario.username));
+    }
+  }, [usuarioLogado, usuario]);
 
   async function handleSeguir() {
     if (!userLogado || !usuario) return;
