@@ -52,9 +52,9 @@ export default function IndexDialog({ setImgUrl, imgUrl }) {
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
+                            <Button variant="outline">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" className={"bg-[#307039] hover:bg-[#46844e]"}>Save changes</Button>
+                        <Button type="submit" className={"bg-[#307039] hover:bg-[#46844e]"}>Salvar</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
