@@ -6,8 +6,9 @@ import Experience from "../components/Profile/Experience";
 import MediaTabs from "../components/Profile/MediaTabs";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";  
+import Sidebar from "../components/Sidebar/Sidebar";
 import PostUser from "../components/PostUser/PostUser";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 // Componente de Card reutilizável e responsivo
 const ProfileCard = ({ title, children }) => (
@@ -28,6 +29,7 @@ const Profile = () => {
   const [jogadoras, setJogadoras] = useState([]);
   const [agentes, setAgentes] = useState([]);
   const [midia, setMidia] = useState({ imagens: [], videos: [] });
+  const [carregando, setCarregando] = useState(true);
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const emailLogado = userLocal?.email;
 
@@ -57,6 +59,7 @@ const Profile = () => {
         setTipoPerfilVisualizado(tipo);
         setJogadoras(todasJogadoras);
         setAgentes(todosOlheiros);
+        setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar usuários:", error);
       }
@@ -75,25 +78,36 @@ const Profile = () => {
 
         // filtra posts só do perfil visualizado
         const postsPerfilVisualizado = todosPosts
-          .filter((post) => 
-            post.usuario === perfilVisualizado.id &&
-            post.tipoUsuario === (tipoPerfilVisualizado === "jogadora" ? "jogadoras" : "olheiros")
+          .filter(
+            (post) =>
+              post.usuario === perfilVisualizado.id &&
+              post.tipoUsuario ===
+                (tipoPerfilVisualizado === "jogadora"
+                  ? "jogadoras"
+                  : "olheiros")
           )
           .slice()
-          .sort((a, b) => new Date(b.datahora) - new Date(a.datahora)); 
+          .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
 
         setPosts(postsPerfilVisualizado);
 
         // separa as midias em imagens e vídeos
         const imagens = postsPerfilVisualizado
-          .filter((p) => p.midia && !p.midia.endsWith(".mp4") && !p.midia.endsWith(".mov"))
+          .filter(
+            (p) =>
+              p.midia && !p.midia.endsWith(".mp4") && !p.midia.endsWith(".mov")
+          )
           .map((p) => p.midia);
 
         const videos = postsPerfilVisualizado
-          .filter((p) => p.midia && (p.midia.endsWith(".mp4") || p.midia.endsWith(".mov")))
+          .filter(
+            (p) =>
+              p.midia && (p.midia.endsWith(".mp4") || p.midia.endsWith(".mov"))
+          )
           .map((p) => p.midia);
 
         setMidia({ imagens, videos });
+        setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
       }
@@ -107,13 +121,17 @@ const Profile = () => {
     userLocal?.tipo === tipoPerfilVisualizado;
 
   return (
-    <div style={{ fontFamily: "var(--font-poppins)" }} className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]">
+    <div
+      style={{ fontFamily: "var(--font-poppins)" }}
+      className="min-h-screen flex flex-col bg-[#DAD0F0] text-[#705C9B]"
+    >
       <Header />
 
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
 
         <main className="flex-1 p-4 lg:p-8 lg:ml-64">
+          {carregando && (<LoadingOverlay />)}
           <ProfileHeader
             perfilVisualizado={perfilVisualizado}
             ehMeuPerfil={ehMeuPerfil}
@@ -142,13 +160,16 @@ const Profile = () => {
                   <PostUser
                     key={`${post.tipoUsuario}-${post.id}`}
                     post={post}
-                    usuario={perfilVisualizado} 
-                    usuarioLogado={usuarioLogado}      
-                    tipoUsuario={post.tipoUsuario}     
-                    setUsuarios={post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes}
+                    usuario={perfilVisualizado}
+                    usuarioLogado={usuarioLogado}
+                    tipoUsuario={post.tipoUsuario}
+                    setUsuarios={
+                      post.tipoUsuario === "jogadoras"
+                        ? setJogadoras
+                        : setAgentes
+                    }
                   />
                 ))}
-
               </div>
             </div>
 
@@ -160,14 +181,18 @@ const Profile = () => {
                     <ul className="list-disc list-inside space-y-1 text-sm">
                       <li>Posição: {perfilVisualizado?.posicao}</li>
                       <li>Idade: {perfilVisualizado?.idade}</li>
-                      <li>Pé dominante: {perfilVisualizado?.["pe-dominante"]}</li>
+                      <li>
+                        Pé dominante: {perfilVisualizado?.["pe-dominante"]}
+                      </li>
                       <li>Altura: {perfilVisualizado?.altura / 100} m</li>
                       <li>Peso: {perfilVisualizado?.peso} kg</li>
                     </ul>
                   </ProfileCard>
                   <ProfileCard title="Disponível para transferência?">
                     <p>
-                      {perfilVisualizado?.["disp-transferencia"] ? "Sim" : "Não"}
+                      {perfilVisualizado?.["disp-transferencia"]
+                        ? "Sim"
+                        : "Não"}
                     </p>
                   </ProfileCard>
                 </div>
@@ -181,7 +206,8 @@ const Profile = () => {
 
               <ProfileCard title="Conquistas e destaques">
                 <p>
-                  {perfilVisualizado?.["conquistas"] || "Nenhuma conquista registrada."}
+                  {perfilVisualizado?.["conquistas"] ||
+                    "Nenhuma conquista registrada."}
                 </p>
               </ProfileCard>
             </div>
