@@ -8,7 +8,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [curtido, setCurtir] = useState(false);
   const idUsuarioLogado = usuarioLogado?.id;
-  const isPerfilProprio = post.usuario === idUsuarioLogado;
+  const isPerfilProprio = Number(post.usuario.id) === Number(idUsuarioLogado);
   const userLogado = usuarioLogado
   const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
   const data = new Date(post.datahora);
