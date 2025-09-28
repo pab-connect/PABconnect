@@ -5,6 +5,7 @@ import {
 import { create, API_POSTS_URL } from "../../services/apiService";
 import { useState } from 'react';
 import { Toastify } from "../Toastify/Toastify";
+import IndexDialog from '../DialogComponents/IndexDialog';
 
 export default function CriarPostIndexJogadora({ idJogadora, onPostCreated }) {
     const [imgUrl, setImgUrl] = useState("")
@@ -52,10 +53,7 @@ export default function CriarPostIndexJogadora({ idJogadora, onPostCreated }) {
                 />
             </div>
             <div className='flex items-center justify-between'>
-                <button onClick={()=> setImgUrl(prompt("Digite a url da sua imagem/video:"))} className='flex items-center gap-2 p-4 cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
-                    <Camera className='w-6 h-6 md:w-7 md:h-7 lg:w-9 lg:h-9'/>
-                    <span className='font-bold text-sm md:text-base lg:text-lg'>Mídia</span>
-                </button>
+                <IndexDialog setImgUrl={setImgUrl} imgUrl={imgUrl}/>
                 <button onClick={handleCreate} className='flex items-center gap-2 p-4 cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
                     <SquarePen className='w-6 h-6 md:w-7 md:h-7 lg:w-9 lg:h-9'/>
                     <span className='font-bold text-sm md:text-base lg:text-lg'>Escrever</span>
