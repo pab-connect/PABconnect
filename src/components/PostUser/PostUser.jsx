@@ -33,6 +33,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
           prev.map(j => j.id === idUsuarioLogado ? { ...j, seguindo: novoSeguindo } : j)
         );
         setSeguindo(!seguindo);
+        jaSegue ? Toastify.sucesso(`Você parou de seguir ${usuario.nome}`) : Toastify.sucesso(`Você começou a seguir ${usuario.nome}`)
       } else {
         console.error("Erro ao atualizar o cadastro.");
       }
