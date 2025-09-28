@@ -8,7 +8,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [curtido, setCurtir] = useState(false);
   const idUsuarioLogado = usuarioLogado?.id;
-  const isPerfilProprio = post.usuario === idUsuarioLogado;
+  const isPerfilProprio = Number(post.usuario.id) === Number(idUsuarioLogado);
   const userLogado = usuarioLogado
   const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
   const data = new Date(post.datahora);
@@ -33,6 +33,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
           prev.map(j => j.id === idUsuarioLogado ? { ...j, seguindo: novoSeguindo } : j)
         );
         setSeguindo(!seguindo);
+        jaSegue ? Toastify.sucesso(`Você parou de seguir ${usuario.nome}`) : Toastify.sucesso(`Você começou a seguir ${usuario.nome}`)
       } else {
         console.error("Erro ao atualizar o cadastro.");
       }
