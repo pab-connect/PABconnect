@@ -11,6 +11,7 @@ import {
   X,
   Star,
   LogOut,
+  CalendarDays,
 } from "lucide-react";
 
 export default function Sidebar({ onClose, isDesktop = false }) {
@@ -86,6 +87,16 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                   <Star className="w-8 h-8" />
                 )}
                 {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/eventos"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/eventos") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
+              >
+                <CalendarDays className="w-8 h-8" /> Eventos
               </Link>
             </li>
             <li>
@@ -197,6 +208,16 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                   <Star className="w-8 h-8" />
                 )}
                 {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/eventos"
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/eventos") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
+              >
+                <CalendarDays className="w-8 h-8" /> Eventos
               </Link>
             </li>
             <li>

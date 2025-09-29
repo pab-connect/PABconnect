@@ -10,6 +10,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Profile from "../pages/Profile";
 import Conexoes from "../pages/Conexoes";
+import Eventos from "../pages/Eventos";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Talentos />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/eventos',
+    element: (
+      <ProtectedRoute>
+        <Eventos />
       </ProtectedRoute>
     )
   },
