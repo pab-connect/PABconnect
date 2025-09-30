@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAll, API_BASE_URL } from "../services/apiService.js";
 import CardUserAdd from "../components/Conexoes/CardUserAdd.jsx";
+import Footer from "@/components/Footer/Footer";
 
 const Conexoes = () => {
   const [jogadoras, setJogadoras] = useState([]);
@@ -18,9 +19,10 @@ const Conexoes = () => {
   const userLogadoTipo = userLocal?.tipo;
 
   // seleciona o usuario logado baseado no tipo
-  const usuarioLogado = userLogadoTipo === "jogadora"
-    ? jogadoras.find(u => u.email === userLogadoEmail)
-    : agentes.find(u => u.email === userLogadoEmail);
+  const usuarioLogado =
+    userLogadoTipo === "jogadora"
+      ? jogadoras.find((u) => u.email === userLogadoEmail)
+      : agentes.find((u) => u.email === userLogadoEmail);
 
   // busca todas jogadoras e agentes
   useEffect(() => {
@@ -47,10 +49,10 @@ const Conexoes = () => {
   useEffect(() => {
     if (usuarioLogado?.seguindo) {
       setJogadorasSeguindo(
-        jogadoras.filter(j => usuarioLogado.seguindo.includes(j.username))
+        jogadoras.filter((j) => usuarioLogado.seguindo.includes(j.username))
       );
       setAgentesSeguindo(
-        agentes.filter(a => usuarioLogado.seguindo.includes(a.username))
+        agentes.filter((a) => usuarioLogado.seguindo.includes(a.username))
       );
     } else {
       setJogadorasSeguindo([]);
@@ -59,26 +61,35 @@ const Conexoes = () => {
   }, [jogadoras, agentes, usuarioLogado]);
 
   // Filtragem para busca
-  const jogadorasFiltradas = jogadorasSeguindo.filter(j =>
-    j.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    j.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
+  const jogadorasFiltradas = jogadorasSeguindo.filter(
+    (j) =>
+      j.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      j.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const agentesFiltrados = agentesSeguindo.filter(a =>
-    a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    a.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
+  const agentesFiltrados = agentesSeguindo.filter(
+    (a) =>
+      a.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      a.posicao?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Sugestões de usuários para seguir
   const todasSugestoes = jogadoras;
   const sugestoes = todasSugestoes
-    .filter(u => u.id !== usuarioLogado?.id && !(usuarioLogado?.seguindo || []).includes(u.username))
+    .filter(
+      (u) =>
+        u.id !== usuarioLogado?.id &&
+        !(usuarioLogado?.seguindo || []).includes(u.username)
+    )
     .slice(0, 4);
 
   return (
-    <div className="bg-[#DAD0F0] min-h-screen" style={{ fontFamily: "var(--font-poppins)" }}>
+    <div
+      className="flex flex-col bg-[#DAD0F0] min-h-screen"
+      style={{ fontFamily: "var(--font-poppins)" }}
+    >
       <Header />
-      <div className="lg:ml-64 p-6 pt-[88px]">
+      <div className="flex-1 lg:ml-64 p-6 pt-[88px]">
         <Sidebar isDesktop={true} />
         <h1 className="text-4xl pt-5 md:pt-6 font-bold text-black mb-6 text-center sm:text-left md:text-left">
           Conexões
@@ -107,8 +118,12 @@ const Conexoes = () => {
             <div className="flex flex-col gap-3 mt-8">
               {jogadorasFiltradas.length + agentesFiltrados.length > 0 ? (
                 <>
-                  {jogadorasFiltradas.map(j => <CardUser key={j.id} usuario={j} />)}
-                  {agentesFiltrados.map(a => <CardUser key={a.id} usuario={a} tipo="olheiros" />)}
+                  {jogadorasFiltradas.map((j) => (
+                    <CardUser key={j.id} usuario={j} />
+                  ))}
+                  {agentesFiltrados.map((a) => (
+                    <CardUser key={a.id} usuario={a} tipo="olheiros" />
+                  ))}
                 </>
               ) : (
                 <p>Nenhuma jogadora encontrada...</p>
@@ -118,10 +133,12 @@ const Conexoes = () => {
 
           {/* Sugestões */}
           <section className="md:w-5/12 md:h-full p-6 rounded-lg shadow-sm font-bold bg-white border-[#705C9B] border-1">
-            <h1 className="text-lg sm:text-2xl md:text-xl text-left mb-2">Sugestões para você</h1>
+            <h1 className="text-lg sm:text-2xl md:text-xl text-left mb-2">
+              Sugestões para você
+            </h1>
             <div>
               {sugestoes.length > 0 ? (
-                sugestoes.map(u => <CardUserAdd key={u.id} usuario={u} />)
+                sugestoes.map((u) => <CardUserAdd key={u.id} usuario={u} />)
               ) : (
                 <p>Carregando sugestões...</p>
               )}
@@ -129,6 +146,7 @@ const Conexoes = () => {
           </section>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
