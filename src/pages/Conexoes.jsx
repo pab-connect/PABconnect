@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { getAll, API_BASE_URL } from "../services/apiService.js";
 import CardUserAdd from "../components/Conexoes/CardUserAdd.jsx";
 import Footer from "@/components/Footer/Footer";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 const Conexoes = () => {
   const [jogadoras, setJogadoras] = useState([]);
@@ -13,6 +14,7 @@ const Conexoes = () => {
   const [jogadorasSeguindo, setJogadorasSeguindo] = useState([]);
   const [agentesSeguindo, setAgentesSeguindo] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [carregando, setCarregando] = useState(true);
 
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const userLogadoEmail = userLocal?.email;
@@ -32,6 +34,8 @@ const Conexoes = () => {
         setJogadoras(jogs);
       } catch (error) {
         console.error("Erro ao buscar jogadoras:", error);
+      } finally {
+        setCarregando(false);
       }
 
       try {
@@ -91,6 +95,7 @@ const Conexoes = () => {
       <Header />
       <div className="flex-1 lg:ml-64 p-6 pt-[88px]">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <h1 className="text-4xl pt-5 md:pt-6 font-bold text-black mb-6 text-center sm:text-left md:text-left">
           Conexões
         </h1>
