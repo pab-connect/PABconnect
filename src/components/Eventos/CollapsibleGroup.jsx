@@ -14,28 +14,42 @@ import {
 export function CollapsibleGroup() {
     const [isOpen, setIsOpen] = React.useState(false)
     const tiposDeEvento = ["Peneira", "Copa", "Campeonato"]
-    const localizações = ["São Paulo, SP", "Pacaembu, SP"]
+    const localizacoes = ["São Paulo, SP", "Pacaembu, SP"]
 
     return (
         <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className=""
+        className="md:flex md:gap-2"
         >
             <div className="flex gap-2">
-                <Input placeholder="Pesquisar eventos" className={"bg-white h-12 selection:bg-purple-300 selection:text-purple-950"}/>
-                <CollapsibleTrigger asChild>
+                <Input placeholder="Pesquisar eventos" className={"bg-white h-12 sm:placeholder:text-lg md:shadow-gray-500 md:placeholder:text-base selection:bg-purple-300 selection:text-purple-950"}/>
+                <CollapsibleTrigger asChild className="md:hidden">
                     <Button size="icon" className="size-12 bg-[#307039] shadow-sm border-[#3e6e45] border-1">
                         <Funnel color="white"/>
                         <span className="sr-only">Toggle</span>
                     </Button>
                 </CollapsibleTrigger>
             </div>
-            <CollapsibleContent className="my-2 flex flex-col gap-2 bg-[#307039] shadow-sm rounded-lg p-3 py-5">
+
+            <CollapsibleContent className="my-2 md:hidden flex flex-col sm:flex-row gap-2 bg-[#307039] shadow-sm rounded-lg p-3 py-5">
                 <SelectElement title={"Tipos"} placeholder={"Tipo de evento"} options={tiposDeEvento} />
-                <SelectElement title={"Localizações"} placeholder={"Localização"} options={localizações} />
+                <SelectElement title={"Localizações"} placeholder={"Localização"} options={localizacoes} />
                 <DatePickerElement/>
             </CollapsibleContent>
+
+            <div className="hidden md:block">
+                <SelectElement title={"Tipos"} placeholder={"Tipo de evento"} options={tiposDeEvento} />
+            </div>
+
+            <div className="hidden md:block">
+                <SelectElement title={"Localizações"} placeholder={"Localização"} options={localizacoes} />
+            </div>
+
+            <div className="hidden md:block">
+                <DatePickerElement />
+            </div>
+
         </Collapsible>
     )
 }

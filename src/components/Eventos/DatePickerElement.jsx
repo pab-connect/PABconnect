@@ -21,7 +21,7 @@ export default function DatePickerElement() {
           <Button
             variant="outline"
             id="date"
-            className="w-full h-12 text-md justify-between font-normal"
+            className="w-full h-12 text-md md:shadow-gray-500 justify-between font-normal"
           >
             {date ? date.toLocaleDateString("pt-BR", {
               day: "2-digit",

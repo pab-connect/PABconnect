@@ -13,7 +13,7 @@ import {
 export default function SelectElement({ title, placeholder, options }) {
   return (
     <Select>
-      <SelectTrigger className="w-full min-h-12 text-md bg-white">
+      <SelectTrigger className="w-full min-h-12 md:shadow-gray-500 text-md bg-white">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
