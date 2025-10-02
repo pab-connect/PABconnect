@@ -4,8 +4,27 @@ import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import CardEvento from "@/components/Eventos/CardEvento";
+import { useState, useEffect } from "react";
+import { getAll, API_POSTS_URL } from "@/services/apiService";
 
 export default function Eventos() {
+    const [eventos, setEventos] = useState([]);
+
+    async function fetchEventos() {
+        try {
+          const posts = await getAll(API_POSTS_URL, "eventos");
+          setEventos(posts);
+        } catch (error) {
+          console.error("Erro ao buscar posts:", error);
+        }
+      }
+    
+    useEffect(()=>{
+        fetchEventos()
+    }, [])
+
+    eventos && console.log(eventos)
+    
     return (
         <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col bg-[#DAD0F0] min-h-screen">
             <Header />
@@ -17,10 +36,10 @@ export default function Eventos() {
                         <CollapsibleGroup/>
                         <Separator className={'bg-[#307039]'}/>
                         <section className="grid gap-6 justify-center md:grid-cols-1 sm:grid-cols-2">
-                            <CardEvento situacao="encerrado" title="Peneira Aberta Sub-17" img="https://www.portalcomunicare.com.br/wp-content/uploads/2023/07/Feminino_006.jpg" localization="Estádio Municipal de São Paulo, SP" date="11/02/2025 - 09:00" description="Venha participar da nossa peneira. As inscrições são gratuitas, com avaliação técnica e olheiros" faixaEtaria={"Sub-17 (2007–2009)"} periodoInscricao="até 01/02/2025" vagas={11} inscritas={3}/>
-                            <CardEvento situacao="andamento" title="Guerreiras FC vs. Real FC" img="https://i.ytimg.com/vi/QHXA059YBAo/maxresdefault.jpg" localization="Mercado Livre Arena Pacaembu - SP" date="16/02/2025 - 15:00" description="As Guerreiras FC enfrentam o Real FC em um amistoso que promete muita emoção e talento em campo. Essa é uma oportunidade de ouro para atletas mostrarem suas habilidades diante de olheiros e comissão técnica. Venha apoiar o futebol feminino de base e descobrir os novos talentos do esporte!" faixaEtaria={"Sub-19 (2005–2007)"} periodoInscricao="até 08/02/2025"/>
-                            <CardEvento situacao="aberto" title="Copa Revelação Feminina Sub-20" img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOs8OpB2vc71MDuDrIb74vORR6yi67lFvVXw&s" localization="Centro Esportivo Zona Sul – São Paulo, SP" date="22/02/2025 - 10:00" description="A Copa Revelação Feminina é um dos torneios mais aguardados do futebol de base. Reunindo equipes de todo o estado, o evento promove jogos de alto nível técnico, com olheiros convidados e cobertura da mídia esportiva local. Esta é uma grande chance de visibilidade para jovens talentos que sonham em ingressar no futebol profissional." faixaEtaria={"Sub-20 (2004–2006)"} periodoInscricao="até 09/02/2025" vagas={12} inscritas={38}/>
-                        </section>
+                            {eventos && eventos.map(evento=>(
+                                <CardEvento key={evento.id} situacao={evento.situacao} title={evento.title} img={evento.img} localization={evento.localization} date={evento.date} description={evento.description} faixaEtaria={evento.faixaEtaria} periodoInscricao={evento.periodoInscricao} vagas={evento.vagas} inscritas={eventos.inscritas}/>
+                            ))}
+                            </section>
                     </section>
                 </div>
             </div>

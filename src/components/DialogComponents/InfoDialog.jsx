@@ -20,8 +20,8 @@ export default function InfoDialog({
   description,
   faixaEtaria,
   periodoInscricao,
-  vagas,
-  inscritas
+  vagas=0,
+  inscritas=0
 }) {
   const [open, setOpen] = useState(false)
 

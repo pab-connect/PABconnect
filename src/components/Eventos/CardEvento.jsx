@@ -1,14 +1,15 @@
 import { Calendar, MapPin, X, Check, Hourglass } from 'lucide-react';
 import InfoDialog from '../DialogComponents/InfoDialog';
+import InscricaoDialog from '../DialogComponents/InscricaoDialog';
 
 export default function CardEvento({ situacao="aberto", title, img, localization, date, description, faixaEtaria, periodoInscricao, vagas, inscritas }) {
     return (
         <div className={`flex flex-col gap-4 max-w-90 sm:max-w-full justify-center items-center md:items-start bg-white md:bg-transparent md:border-none p-6 sm:p-8 md:pl-0 md:pb-0 rounded-lg ${situacao=="aberto" ? "border-green-700 border-1" : situacao=="andamento" ? "border-yellow-400 border-1" : "border-red-500 border-1"}`}>
             <div className='flex flex-col md:flex-row md:items-start items-center gap-3 md:gap-6'>
-                <img src={img} alt="" className="w-40 cursor-pointer hover:scale-99 hover:shadow-md transition-all sm:w-50 h-fit border-black border-2 rounded-lg"/>
+                <img src={img} alt="" className="w-40 hover:scale-99 hover:shadow-md transition-all sm:w-50 h-fit border-black border-2 rounded-lg"/>
                 <section className="w-full self-start">
                     <div className='flex flex-col md:flex-row md:gap-6 items-center md:items-start'>
-                        <h5 className='font-semibold text-center sm:text-lg cursor-pointer hover:text-purple-950 transition-all'>{title}</h5>
+                        <h5 className='font-semibold text-center sm:text-lg hover:text-purple-950 transition-all'>{title}</h5>
                         {situacao === "aberto" && 
                             <div className='text-green-700 flex'>
                                 <Check/>
@@ -53,7 +54,7 @@ export default function CardEvento({ situacao="aberto", title, img, localization
                     inscritas={inscritas}
                 />
                 {situacao == "aberto" && <button className='bg-[#307039] hover:scale-99 hover:bg-gradient-to-b from-[#307039] to-[#295f30] hover:shadow-sm transition-all cursor-pointer sm:text-lg text-white px-6 py-2 rounded-lg'>Inscrever-se</button>}
-                
+                <InscricaoDialog title={title} localization={localization} date={date} vagas={vagas} inscritas={inscritas}/>
                 
 
             </section>
