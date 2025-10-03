@@ -9,6 +9,11 @@ import { getAll, API_POSTS_URL } from "@/services/apiService";
 
 export default function Eventos() {
     const [eventos, setEventos] = useState([]);
+    const [formData, setFormData] = useState({
+        inputPesquisa: "",
+        inputTipo: "",
+        inputLocalizacao: ""
+    });
 
     async function fetchEventos() {
         try {
@@ -23,8 +28,15 @@ export default function Eventos() {
         fetchEventos()
     }, [])
 
-    eventos && console.log(eventos)
-    
+    const userLocal = JSON.parse(localStorage.getItem("user"));
+
+    let localizacoes = [...new Set(eventos.map(e => e.localization))].sort()
+    const filtrados = eventos.filter(e =>
+        (!formData.inputPesquisa || e.title.toLowerCase().includes(formData.inputPesquisa.toLowerCase())) &&
+        (!formData.inputTipo || formData.inputTipo === "todos" || e.tipo.toLowerCase() === formData.inputTipo.toLowerCase()) &&
+        (!formData.inputLocalizacao || formData.inputLocalizacao === "todos" || e.localization.toLowerCase() === formData.inputLocalizacao.toLowerCase())
+    )
+
     return (
         <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col bg-[#DAD0F0] min-h-screen">
             <Header />
@@ -33,11 +45,13 @@ export default function Eventos() {
                 <div className="flex flex-1 flex-col items-center p-4 px-8 mt-4 md:mt-6 lg:ml-64 text-[#705C9B]">
                     <h2 className="text-3xl md:text-5xl lg:text-4xl font-semibold md:self-start md:font-bold text-black mb-6">Eventos</h2>
                     <section className="w-full flex flex-col gap-6 md:gap-4">
-                        <CollapsibleGroup/>
+                        <CollapsibleGroup formData={formData} setFormData={setFormData} localizacoes={localizacoes}/>
                         <Separator className={'bg-[#307039]'}/>
                         <section className="grid gap-6 justify-center md:grid-cols-1 sm:grid-cols-2">
-                            {eventos && eventos.map(evento=>(
-                                <CardEvento key={evento.id} situacao={evento.situacao} title={evento.title} img={evento.img} localization={evento.localization} date={evento.date} description={evento.description} faixaEtaria={evento.faixaEtaria} periodoInscricao={evento.periodoInscricao} vagas={evento.vagas} inscritas={eventos.inscritas}/>
+                            {filtrados.length === 0 ? 
+                            <p className="text-center text-gray-600">Nenhum evento encontrado.</p> :
+                            filtrados.map(evento=>(
+                                    <CardEvento key={evento.id} userLocal={userLocal} situacao={evento.situacao} title={evento.title} img={evento.img} localization={evento.localization} date={evento.date} description={evento.description} faixaEtaria={evento.faixaEtaria} periodoInscricao={evento.periodoInscricao} vagas={evento.vagas} inscritas={eventos.inscritas}/>
                             ))}
                             </section>
                     </section>

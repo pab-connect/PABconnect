@@ -10,16 +10,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function SelectElement({ title, placeholder, options }) {
+export default function SelectElement({ title, placeholder, options, name, onChange }) {
   return (
-    <Select>
-      <SelectTrigger className="w-full min-h-12 md:shadow-gray-500 text-md bg-white">
+    <Select onValueChange={(value) => onChange({ name, value })} name={name}>
+      <SelectTrigger className="w-full sm:max-w-50 min-h-12 md:shadow-gray-500 text-md bg-white">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>{title}</SelectLabel>
-          {options.map((option)=><SelectItem value={option.toLowerCase()}>{option}</SelectItem>)}
+          <SelectItem value="todos" className={"truncate"}>Todos</SelectItem>
+          {options.map((option)=><SelectItem className={"truncate"} value={option.toLowerCase()}>{option.length > 27 ? option.slice(0, 27) + "..." : option}</SelectItem>)}
         </SelectGroup>
       </SelectContent>
     </Select>
