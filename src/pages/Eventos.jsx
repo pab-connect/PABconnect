@@ -5,7 +5,7 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import CardEvento from "@/components/Eventos/CardEvento";
 import { useState, useEffect } from "react";
-import { getAll, API_POSTS_URL } from "@/services/apiService";
+import { getAll, API_POSTS_URL, API_BASE_URL } from "@/services/apiService";
 
 export default function Eventos() {
     const [eventos, setEventos] = useState([]);
@@ -14,11 +14,22 @@ export default function Eventos() {
         inputTipo: "",
         inputLocalizacao: ""
     });
+    const [jogadoras, setJogadoras] = useState([])
+    
+    async function fetchUsers() {
+        try {
+            const jogs = await getAll(API_BASE_URL, "jogadoras");
+            setJogadoras(jogs);
+        } catch (error) {
+            console.error("Erro ao buscar jogadoras:", error);
+        }
+    }
+    
 
     async function fetchEventos() {
         try {
-          const posts = await getAll(API_POSTS_URL, "eventos");
-          setEventos(posts);
+          const eventos = await getAll(API_POSTS_URL, "eventos");
+          setEventos(eventos);
         } catch (error) {
           console.error("Erro ao buscar posts:", error);
         }
@@ -26,6 +37,7 @@ export default function Eventos() {
     
     useEffect(()=>{
         fetchEventos()
+        fetchUsers()
     }, [])
 
     const userLocal = JSON.parse(localStorage.getItem("user"));
@@ -45,13 +57,13 @@ export default function Eventos() {
                 <div className="flex flex-1 flex-col items-center p-4 px-8 mt-4 md:mt-6 lg:ml-64 text-[#705C9B]">
                     <h2 className="text-3xl md:text-5xl lg:text-4xl font-semibold md:self-start md:font-bold text-black mb-6">Eventos</h2>
                     <section className="w-full flex flex-col gap-6 md:gap-4">
-                        <CollapsibleGroup formData={formData} setFormData={setFormData} localizacoes={localizacoes}/>
+                        <CollapsibleGroup key={100} formData={formData} setFormData={setFormData} localizacoes={localizacoes}/>
                         <Separator className={'bg-[#307039]'}/>
                         <section className="grid gap-6 justify-center md:grid-cols-1 sm:grid-cols-2">
                             {filtrados.length === 0 ? 
                             <p className="text-center text-gray-600">Nenhum evento encontrado.</p> :
                             filtrados.map(evento=>(
-                                    <CardEvento key={evento.id} userLocal={userLocal} situacao={evento.situacao} title={evento.title} img={evento.img} localization={evento.localization} date={evento.date} description={evento.description} faixaEtaria={evento.faixaEtaria} periodoInscricao={evento.periodoInscricao} vagas={evento.vagas} inscritas={eventos.inscritas}/>
+                                    <CardEvento key={evento.id} jogadoras={jogadoras} evento={evento} userLocal={userLocal} situacao={evento.situacao} title={evento.title} img={evento.img} localization={evento.localization} date={evento.date} description={evento.description} faixaEtaria={evento.faixaEtaria} periodoInscricao={evento.periodoInscricao} vagas={evento.vagas} inscritas={eventos.inscritas}/>
                             ))}
                             </section>
                     </section>

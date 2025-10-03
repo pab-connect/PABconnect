@@ -13,11 +13,43 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Toastify } from "../Toastify/Toastify";
+import { update, API_POSTS_URL } from "@/services/apiService";
 
-export default function InscricaoDialog({ title, localization, date, vagas=0, inscritas=0 }) {
+export default function InscricaoDialog({ title, evento, localization, date, userLocal, jogadoras }) {
   const [open, setOpen] = useState(false)
   const [CPF, setCPF] = useState("")
   const [contato, setContato] = useState("")
+
+  const jogadoraLogada = jogadoras?.find(jogadora=>jogadora.email===userLocal.email)
+  
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!CPF || !contato) return Toastify.erro("Preencha os campos vazios")
+    if (CPF.length!==11) return Toastify.erro("Digite um cpf válido!")
+    if (contato.length<11) return Toastify.erro("Digite um número válido")
+    if (jogadoraLogada) { 
+      const jogadora = {
+        id: jogadoraLogada.id,
+        cpf: CPF,
+        contato: contato
+      }
+      const jogadorasAtualizadas = [...evento.jogadorasInscritas, jogadora];
+      const vagasAtualizadas = evento.vagas - 1 
+      const inscritasAtualizadas = evento.inscritas + 1
+      try {
+        const response = await update(API_POSTS_URL, "eventos", evento.id, { jogadorasInscritas: jogadorasAtualizadas, vagas: vagasAtualizadas, inscritas: inscritasAtualizadas });
+        if (response) {
+          Toastify.sucesso("Jogadora inscrita com sucesso!");
+        } else {
+          Toastify.erro("Erro ao inscrever-se.");
+        }
+      } catch (error) {
+        console.error(error);
+        Toastify.erro("Erro de conexão ao inscrever-se.");
+      }
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -32,7 +64,7 @@ export default function InscricaoDialog({ title, localization, date, vagas=0, in
           </DialogTitle>
           <Separator className="bg-[#214d27]" />
         </DialogHeader>
-        <form className="bg-white rounded-b-lg pb-2 px-4">
+        <form onSubmit={handleSubmit} className="bg-white rounded-b-lg pb-2 px-4">
           <div className="gap-3 mb-4 md:mb-0 bg-white flex flex-col items-center md:flex-row">
             <div className="px-2 md:flex-1">
               <p className="text-lg sm:text-xl font-semibold text-center md:text-start mb-1">{title}</p>
@@ -45,10 +77,10 @@ export default function InscricaoDialog({ title, localization, date, vagas=0, in
 
               <div className={`gap-2 flex justify-center sm:text-lg my-3`}>
                 <p className="bg-green-100 w-fit py-1 px-2 rounded-sm font-bold text-[#307039]">
-                  {vagas} Vagas disponíveis
+                  {evento.vagas} Vagas disponíveis
                 </p>
                 <p className="bg-purple-100 w-fit py-1 px-2 rounded-sm font-bold text-[#5a1ddc]">
-                  {inscritas} Jogadoras
+                  {evento.inscritas} Jogadoras
                 </p>
               </div>
 
@@ -63,7 +95,7 @@ export default function InscricaoDialog({ title, localization, date, vagas=0, in
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="senhaatual" className={"sm:text-lg"}>Digite seu telefone:</Label>
-                <Input id="telefone" required type={"tel"} name="telefone" value={contato} onChange={(e) => setContato(e.target.value)} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="Ex: 12 34567890"/>
+                <Input id="telefone" required type={"tel"} name="telefone" value={contato} onChange={(e) => setContato(e.target.value)} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="Ex: 12 934567890"/>
               </div>
             </div>
           </div>

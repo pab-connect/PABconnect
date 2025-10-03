@@ -2,8 +2,13 @@ import { Calendar, MapPin, X, Check, Hourglass } from 'lucide-react';
 import InfoDialog from '../DialogComponents/InfoDialog';
 import InscricaoDialog from '../DialogComponents/InscricaoDialog';
 
-export default function CardEvento({ situacao="aberto", title, img, localization, date, description, faixaEtaria, periodoInscricao, vagas, inscritas, userLocal }) {
+export default function CardEvento({ situacao="aberto", evento, jogadoras, title, img, localization, date, description, faixaEtaria, periodoInscricao, vagas, inscritas, userLocal }) {
     const userLogadoTipo = userLocal?.tipo;
+    const jogadoraLogada = jogadoras?.find(jogadora=>jogadora.email===userLocal?.email)
+    
+    const jogadoraInscrita = evento?.jogadorasInscritas?.some(
+        (jogadora) => String(jogadora.id) === String(jogadoraLogada?.id)
+    ) ?? false;
     return (
         <div className={`flex flex-col gap-4 max-w-90 sm:max-w-full justify-center items-center md:items-start bg-white md:bg-transparent md:border-none p-6 sm:p-8 md:pl-0 md:pb-0 rounded-lg ${situacao=="aberto" ? "border-green-700 border-1" : situacao=="andamento" ? "border-yellow-400 border-1" : "border-red-500 border-1"}`}>
             <div className='flex flex-col md:flex-row md:items-start items-center gap-3 md:gap-6'>
@@ -52,10 +57,10 @@ export default function CardEvento({ situacao="aberto", title, img, localization
                     faixaEtaria={faixaEtaria}
                     periodoInscricao={periodoInscricao}
                     vagas={vagas}
-                    inscritas={inscritas}
+                    inscritas={evento.jogadorasInscritas?.length || 0}
                 />
-                {(situacao == "aberto" && userLogadoTipo==="jogadora") && <InscricaoDialog title={title} localization={localization} date={date} vagas={vagas} inscritas={inscritas}/>}
-                
+                {(situacao == "aberto" && userLogadoTipo==="jogadora" && !jogadoraInscrita ) && <InscricaoDialog evento={evento} jogadoras={jogadoras} userLocal={userLocal} title={title} localization={localization} date={date}/>}
+                {jogadoraInscrita && <span className='text-[#307039] px-6 py-2 rounded-lg sm:text-lg'>Jogadora inscrita</span>}
 
             </section>
         </div>

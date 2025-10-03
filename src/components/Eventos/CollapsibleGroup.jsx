@@ -38,16 +38,16 @@ export function CollapsibleGroup({ formData, setFormData, localizacoes }) {
             </div>
 
             <CollapsibleContent className="my-2 md:hidden max-w-full flex flex-col sm:flex-row gap-2 bg-[#307039] shadow-sm rounded-lg p-3 py-5">
-                <SelectElement title={"Tipos"} name="inputTipo" onChange={handleChange} placeholder={"Tipo de evento"} options={tiposDeEvento} />
-                <SelectElement title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
+                <SelectElement key={50} title={"Tipos"} name="inputTipo" onChange={handleChange} placeholder={"Tipo de evento"} options={tiposDeEvento} />
+                <SelectElement key={60} title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
             </CollapsibleContent>
 
             <div className="hidden md:block">
-                <SelectElement title={"Tipos"} name="inputTipo" onChange={handleChange} placeholder={"Tipo de evento"} options={tiposDeEvento} />
+                <SelectElement key={50}  title={"Tipos"} name="inputTipo" onChange={handleChange} placeholder={"Tipo de evento"} options={tiposDeEvento} />
             </div>
 
             <div className="hidden md:block">
-                <SelectElement title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
+                <SelectElement key={60} title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
             </div>
 
         </Collapsible>
