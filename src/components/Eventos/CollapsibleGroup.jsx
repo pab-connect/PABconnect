@@ -37,9 +37,10 @@ export function CollapsibleGroup({ formData, setFormData, localizacoes }) {
                 </CollapsibleTrigger>
             </div>
 
-            <CollapsibleContent className="my-2 md:hidden max-w-full flex flex-col sm:flex-row gap-2 bg-[#307039] shadow-sm rounded-lg p-3 py-5">
+            <CollapsibleContent className="my-2 md:hidden sm:justify-center max-w-full flex flex-col sm:flex-row gap-2 bg-[#307039] shadow-sm rounded-lg p-3 py-5">
                 <SelectElement key={50} title={"Tipos"} name="inputTipo" onChange={handleChange} placeholder={"Tipo de evento"} options={tiposDeEvento} />
                 <SelectElement key={60} title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
+                <SelectElement key={70} title={"Status"} name="inputStatus" onChange={handleChange} placeholder={"Status"} options={["Andamento", "Aberto", "Encerrado"]} />
             </CollapsibleContent>
 
             <div className="hidden md:block">
@@ -48,6 +49,10 @@ export function CollapsibleGroup({ formData, setFormData, localizacoes }) {
 
             <div className="hidden md:block">
                 <SelectElement key={60} title={"Localizações"} name="inputLocalizacao" onChange={handleChange} placeholder={"Localização"} options={localizacoes} />
+            </div>
+
+            <div className="hidden md:block">
+                <SelectElement key={70} title={"Status"} name="inputStatus" onChange={handleChange} placeholder={"Status"} options={["Andamento", "Aberto", "Encerrado"]} />
             </div>
 
         </Collapsible>

@@ -12,7 +12,8 @@ export default function Eventos() {
     const [formData, setFormData] = useState({
         inputPesquisa: "",
         inputTipo: "",
-        inputLocalizacao: ""
+        inputLocalizacao: "",
+        inputStatus: ""
     });
     const [jogadoras, setJogadoras] = useState([])
     
@@ -45,6 +46,7 @@ export default function Eventos() {
     let localizacoes = [...new Set(eventos.map(e => e.localization))].sort()
     const filtrados = eventos.filter(e =>
         (!formData.inputPesquisa || e.title.toLowerCase().includes(formData.inputPesquisa.toLowerCase())) &&
+        (!formData.inputStatus || formData.inputStatus === "todos" || e.situacao.toLowerCase() === formData.inputStatus.toLowerCase()) &&
         (!formData.inputTipo || formData.inputTipo === "todos" || e.tipo.toLowerCase() === formData.inputTipo.toLowerCase()) &&
         (!formData.inputLocalizacao || formData.inputLocalizacao === "todos" || e.localization.toLowerCase() === formData.inputLocalizacao.toLowerCase())
     )

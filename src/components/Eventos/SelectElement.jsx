@@ -20,7 +20,7 @@ export default function SelectElement({ title, placeholder, options, name, onCha
         <SelectGroup>
           <SelectLabel>{title}</SelectLabel>
           <SelectItem value="todos" className={"truncate"}>Todos</SelectItem>
-          {options.map((option)=><SelectItem key={options.indexOf(option)+1} className={"truncate"} value={option.toLowerCase()}>{option.length > 27 ? option.slice(0, 27) + "..." : option}</SelectItem>)}
+          {options.map((option)=><SelectItem key={options.indexOf(option)+1} className={"truncate"} value={option.toLowerCase()}>{option.length > 25 ? option.slice(0, 25) + "..." : option}</SelectItem>)}
         </SelectGroup>
       </SelectContent>
     </Select>
