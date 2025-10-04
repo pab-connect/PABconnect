@@ -143,7 +143,7 @@ const Conexoes = () => {
             </h1>
             <div>
               {sugestoes.length > 0 ? (
-                sugestoes.map((u) => <CardUserAdd key={u.id} usuario={u} />)
+                sugestoes.map((u) => <CardUserAdd key={u.id} usuario={u} usuarioLogado={usuarioLogado}/>)
               ) : (
                 <p>Carregando sugestões...</p>
               )}
