@@ -148,17 +148,6 @@ export default function Sidebar({ onClose, isDesktop = false }) {
           </button>
         </div>
 
-        {/* Mobile: barra de pesquisa */}
-        <div className="mb-4 flex items-center w-full bg-[#DAD0F0] rounded-lg px-3 py-2 text-[#705C9B] cursor-pointer hover:shadow-md hover:bg-[#cec4e4] focus:bg-[#cec4e4] transition-all duration-300 ease-in-out">
-          <input
-            type="text"
-            name="busca"
-            id="busca"
-            className="flex-1 outline-none bg-transparent text-lg"
-          />
-          <Search className="w-7 h-7" />
-        </div>
-
         {/* Links navegacao */}
         <nav>
           <ul className="flex flex-col gap-4">

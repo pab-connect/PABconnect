@@ -36,19 +36,6 @@ export default function Header() {
         PAB<span className="block text-4xl font-bold -mt-1">CONNECT</span>
       </h1>
 
-      {/* Barra de pesquisa */}
-      <div className="hidden lg:flex flex-1 max-w-md mx-6">
-        <div className="flex items-center w-full bg-[#DAD0F0] rounded-lg px-3 py-1 text-[#705C9B] cursor-pointer hover:shadow-md hover:bg-[#cec4e4] focus:bg-[#cec4e4] transition-all duration-300 ease-in-out">
-          <input
-            type="text"
-            name="busca"
-            id="busca"
-            className="flex-1 outline-none bg-transparent"
-          />
-          <Search className="w-5 h-5" />
-        </div>
-      </div>
-
       {/* Perfil */}
       <div className="hidden lg:flex items-center">
         <Link to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}>
