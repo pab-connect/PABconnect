@@ -3,7 +3,7 @@ import InfoDialog from '../DialogComponents/InfoDialog';
 import InscricaoDialog from '../DialogComponents/InscricaoDialog';
 
 export default function CardEvento({ situacao="aberto", evento, jogadoras, title, img, localization, date, description, faixaEtaria, periodoInscricao, vagas, inscritas, userLocal }) {
-    const userLogadoTipo = userLocal?.tipo;
+    const userLogadoTipo = userLocal?.tipo === "olheiro" ? "olheiro": "jogadora";
     const jogadoraLogada = jogadoras?.find(jogadora=>jogadora.email===userLocal?.email)
     
     const jogadoraInscrita = evento?.jogadorasInscritas?.some(
