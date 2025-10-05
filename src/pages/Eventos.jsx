@@ -7,6 +7,7 @@ import CardEvento from "../components/Eventos/CardEvento";
 import { useState, useEffect } from "react";
 import { getAll, API_POSTS_URL, API_BASE_URL } from "@/services/apiService";
 import CriarEventoDialog from "../components/DialogComponents/CriarEventoDialog";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 export default function Eventos() {
     const [eventos, setEventos] = useState([]);
@@ -17,6 +18,7 @@ export default function Eventos() {
         inputStatus: ""
     });
     const [jogadoras, setJogadoras] = useState([])
+    const [carregando, setCarregando] = useState(true);
     
     async function fetchUsers() {
         try {
@@ -32,6 +34,7 @@ export default function Eventos() {
         try {
           const eventos = await getAll(API_POSTS_URL, "eventos");
           setEventos(eventos);
+          setCarregando(false);
         } catch (error) {
           console.error("Erro ao buscar posts:", error);
         }
@@ -57,6 +60,7 @@ export default function Eventos() {
             <Header />
             <div className="flex flex-1 pt-[88px]">
                 <Sidebar isDesktop={true} />
+                {carregando && <LoadingOverlay />}
                 <div className="flex flex-1 flex-col items-center p-4 px-8 mt-4 md:mt-6 lg:ml-64 text-[#705C9B]">
                     <h2 className="text-3xl md:text-5xl lg:text-4xl font-semibold md:self-start md:font-bold text-black mb-6">Eventos</h2>
                     <section className="w-full relative flex flex-col gap-6 md:gap-4">

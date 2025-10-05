@@ -8,6 +8,7 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import BarChartTalentos from "../components/BarChartTalentos/BarChartTalentos";
 import { useLocation } from "react-router-dom";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 export default function Talentos() {
   const location = useLocation();
@@ -16,6 +17,7 @@ export default function Talentos() {
   const [jogadoras, setJogadoras] = useState([]);
   const [olheiro, setOlheiro] = useState(null);
   const [filtro, setFiltro] = useState(filtroInicial);
+  const [carregando, setCarregando] = useState(true);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const emailOlheiro = user?.tipo === "olheiro" ? user.email : null;
@@ -38,6 +40,7 @@ export default function Talentos() {
     async function fetchJogadoras() {
       const data = await getAll(API_BASE_URL, "jogadoras");
       setJogadoras(data);
+      setCarregando(false);
     }
 
     fetchJogadoras();
@@ -83,6 +86,7 @@ export default function Talentos() {
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <main className="flex flex-1 flex-col items-center gap-4 lg:ml-64 p-4 text-[#705C9B]">
           <h2 className="text-4xl font-semibold mb-4">Talentos</h2>
           <div className="flex flex-col md:flex-row-reverse gap-8">

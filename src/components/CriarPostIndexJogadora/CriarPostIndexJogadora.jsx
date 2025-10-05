@@ -12,6 +12,10 @@ export default function CriarPostIndexJogadora({ idJogadora, onPostCreated }) {
     const [text, setText] = useState("")
 
     async function handleCreate() {
+        if (text.length < 5) {
+            Toastify.erro("Seu post está muito pequeno!")
+            return
+        }
         const agora = new Date();           
         const isoString = agora.toISOString();
         const dateAtual = isoString.split(".")[0] + "Z";
