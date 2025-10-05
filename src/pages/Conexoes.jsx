@@ -18,7 +18,7 @@ const Conexoes = () => {
 
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const userLogadoEmail = userLocal?.email;
-  const userLogadoTipo = userLocal?.tipo;
+  const userLogadoTipo = userLocal?.tipo === "jogadora" ? "jogadora" : userLocal?.tipo === "organizacao" ? "jogadora" : "olheiro";
 
   // seleciona o usuario logado baseado no tipo
   const usuarioLogado =
@@ -83,7 +83,8 @@ const Conexoes = () => {
     .filter(
       (u) =>
         u.id !== usuarioLogado?.id &&
-        !(usuarioLogado?.seguindo || []).includes(u.username)
+        !(usuarioLogado?.seguindo || []).includes(u.username) && 
+        u.email !== "pabconnect.fiap@gmail.com"
     )
     .slice(0, 4);
 
@@ -123,7 +124,9 @@ const Conexoes = () => {
             <div className="flex flex-col gap-3 mt-8">
               {jogadorasFiltradas.length + agentesFiltrados.length > 0 ? (
                 <>
-                  {jogadorasFiltradas.map((j) => (
+                  {jogadorasFiltradas
+                  .filter(j=>j.email !== "pabconnect.fiap@gmail.com")
+                  .map((j) => (
                     <CardUser key={j.id} usuario={j} />
                   ))}
                   {agentesFiltrados.map((a) => (

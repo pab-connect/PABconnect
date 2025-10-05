@@ -19,7 +19,7 @@ export default function Configuracoes() {
   const [dataOlheiro, setDataOlheiro] = useState([]);
   const [novaSenha, setNovaSenha] = useState("")
   const user = JSON.parse(localStorage.getItem("user"));
-  const tipo = user?.tipo === "jogadora" ? "jogadoras" : "olheiros";
+  const tipo = user?.tipo === "jogadora" ? "jogadoras" : user?.tipo === "organizacao" ? "jogadoras" : "olheiros";
   const email = user?.email;
 
 

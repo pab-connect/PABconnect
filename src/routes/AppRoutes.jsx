@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import Auth from "../pages/auth";
 import IndexJogadora from "../pages/IndexJogadora";
+import IndexOrganizacao from "../pages/IndexOrganizacao";
 import IndexAgente from "../pages/IndexAgente";
 import Talentos from "../pages/Talentos";
 import Notificacoes from "../pages/Notificacoes";
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
     )
   },
   {
+    path: '/home/organizacao',
+    element: (
+      <ProtectedRoute>
+        <IndexOrganizacao />
+      </ProtectedRoute>
+    )
+  },
+  {
     path: '/talentos',
     element: (
       <ProtectedRoute>
@@ -75,6 +84,14 @@ export const router = createBrowserRouter([
   },
   {
     path: '/perfil/:tipo/:id',
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/perfil/organizacao/1',
     element: (
       <ProtectedRoute>
         <Profile />
