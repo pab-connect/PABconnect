@@ -6,6 +6,7 @@ import Filtros from "../components/Filtros/Filtros";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
+import BarChartTalentos from "../components/BarChartTalentos/BarChartTalentos";
 import { useLocation } from "react-router-dom";
 
 export default function Talentos() {
@@ -75,7 +76,10 @@ export default function Talentos() {
   }, [jogadoras, filtro, olheiro]);
 
   return (
-    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col min-h-screen bg-[#DAD0F0]">
+    <div
+      style={{ fontFamily: "var(--font-poppins)" }}
+      className="flex flex-col min-h-screen bg-[#DAD0F0]"
+    >
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
@@ -83,8 +87,11 @@ export default function Talentos() {
           <h2 className="text-4xl font-semibold mb-4">Talentos</h2>
           <div className="flex flex-col md:flex-row-reverse gap-8">
             {/* filtros - sidebar em desktop */}
-            <aside className="md:w-64 md:flex-shrink-0">
+            <aside className="md:w-64 md:flex-shrink-0 flex flex-col gap-6">
               <Filtros filtro={filtro} setFiltro={setFiltro} />
+
+              {/* Gráfico aqui */}
+              <BarChartTalentos jogadoras={jogadorasFiltradas} />
             </aside>
 
             {/* cards */}
@@ -110,5 +117,5 @@ export default function Talentos() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
