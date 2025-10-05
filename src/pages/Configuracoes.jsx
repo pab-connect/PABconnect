@@ -11,6 +11,7 @@ import InputWithLabel from "../components/Configuracoes/InputWithLabel";
 import {getAll, update, API_BASE_URL } from ".././services/apiService.js"
 import { Toastify } from "../components/Toastify/Toastify.jsx"
 import SenhaDialog from "@/components/DialogComponents/SenhaDialog";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 
 export default function Configuracoes() {
@@ -18,6 +19,7 @@ export default function Configuracoes() {
   const [dataJogadora, setDataJogadora] = useState([])
   const [dataOlheiro, setDataOlheiro] = useState([]);
   const [novaSenha, setNovaSenha] = useState("")
+  const [carregando, setCarregando] = useState(true);
   const user = JSON.parse(localStorage.getItem("user"));
   const tipo = user?.tipo === "jogadora" ? "jogadoras" : user?.tipo === "organizacao" ? "jogadoras" : "olheiros";
   const email = user?.email;
@@ -69,6 +71,7 @@ export default function Configuracoes() {
   useEffect(() => {
     getAll(API_BASE_URL, "jogadoras").then(setDataJogadora);
     getAll(API_BASE_URL, "olheiros").then(setDataOlheiro);
+    setCarregando(false);
   }, []);
 
   // efeito pra atualizar formData quando os dados e o email existirem
@@ -134,6 +137,7 @@ export default function Configuracoes() {
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <main className="flex flex-1 flex-col md:grid md:grid-cols-[1fr_3fr] md:grid-rows-[2.5rem_1fr] gap-4 lg:ml-64 p-8 md:pr-10 ">
           <h2 className="text-3xl md:col-span-2 md:font-bold sm:text-4xl md:text-3xl text-center md:text-left font-semibold mb-2 md:px-2">Configurações</h2>
           <section className="bg-white md:bg-transparent font-(family-name:--font-inter) w-full p-2 rounded-lg flex flex-col">
@@ -181,7 +185,7 @@ export default function Configuracoes() {
               items={[
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Mudar senha</p>
-                  <SenhaDialog handleMudarSenha={handleMudarSenha} senhaAtualExt={searchedUser.senha} novaSenha={novaSenha} setNovaSenha={setNovaSenha}/>
+                  <SenhaDialog handleMudarSenha={handleMudarSenha} senhaAtualExt={searchedUser?.senha} novaSenha={novaSenha} setNovaSenha={setNovaSenha}/>
                 </div>,
                 <ConfigOption state={true} text="Permitir que te encontrem na busca" description="Deixe seu perfil visível para outros usuários." size="sm" />,
                 <ConfigOption text="Apenas conexões podem enviar mensagens" description="Restringe o envio de mensagens somente a quem já está na sua rede." size="sm" />,

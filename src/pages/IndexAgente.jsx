@@ -5,11 +5,13 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import { getAll, API_POSTS_URL, API_BASE_URL } from "../services/apiService";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer/Footer";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 export default function IndexAgente() {
   const [posts, setPosts] = useState([]);
   const [jogadoras, setJogadoras] = useState([]);
   const [agentes, setAgentes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
   const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
@@ -24,6 +26,7 @@ export default function IndexAgente() {
       setJogadoras(jogs);
       const olhs = await getAll(API_BASE_URL, "olheiros");
       setAgentes(olhs);
+      setCarregando(false);
     } catch (error) {
       console.error("Erro ao buscar usuários:", error);
     }
@@ -78,6 +81,7 @@ export default function IndexAgente() {
       <Header />
       <div className="flex flex-1 flex-col items-center pt-30 p-6 gap-5 lg:ml-64 lg:pt-30 lg:p-10">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <RadarTalentos />
         <hr className="w-full my-4 border-t-2 border-[#457c50]" />
         {postsComUsuarios.map((post) => (
