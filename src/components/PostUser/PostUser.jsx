@@ -12,6 +12,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
   const isPerfilProprio = Number(post.usuario.id) === Number(idUsuarioLogado);
   const userLogado = usuarioLogado
   const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
+  const tipoUsuarioFormatado = tipoUsuario==="jogadoras" ? "jogadora" : "olheiro"
   const data = new Date(post.datahora);
   const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.getHours()}:${data.getMinutes()}`;
 
@@ -67,7 +68,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
     <div className="bg-white p-4 w-full rounded-xl border border-[#85a095]">
       <div className="flex items-center justify-between">
         <div className="flex gap-4 items-center">
-          <Link to={`/perfil/${tipoUsuario}/${usuario.id}`}>
+          <Link to={`/perfil/${usuario.email!=="pabconnect.fiap@gmail.com" ? tipoUsuarioFormatado : "organizacao"}/${usuario.id}`}>
             <img
               className="w-10 h-10 sm:w-12 sm:h-12 lg:w-15 lg:h-15 ml-3 cursor-pointer rounded-full border-[#705c9b] border-2"
               src={usuario["foto-perfil"]}

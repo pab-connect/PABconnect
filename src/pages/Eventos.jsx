@@ -62,7 +62,7 @@ export default function Eventos() {
                     <section className="w-full relative flex flex-col gap-6 md:gap-4">
                         <CollapsibleGroup key={100} formData={formData} setFormData={setFormData} localizacoes={localizacoes}/>
                         <Separator className={'bg-[#307039]'}/>
-                        <CriarEventoDialog/>
+                        {userLocal.tipo==="organizacao" && <CriarEventoDialog/>}
                         <section className="grid gap-6 justify-center md:grid-cols-1 sm:grid-cols-2">
                             {filtrados.length === 0 ? 
                             <p className="text-center text-gray-600">Nenhum evento encontrado.</p> :
