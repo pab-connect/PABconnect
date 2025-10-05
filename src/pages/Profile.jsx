@@ -10,7 +10,6 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import PostUser from "../components/PostUser/PostUser";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
-// Componente de Card reutilizável e responsivo
 const ProfileCard = ({ title, children }) => (
   <div className="bg-white rounded-lg shadow p-4 sm:p-6">
     <h3 className="text-xl font-bold mb-4 pb-2 border-b border-gray-200">
@@ -33,7 +32,6 @@ const Profile = () => {
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const emailLogado = userLocal?.email;
 
-  // Busca usuários e logado
   useEffect(() => {
     async function fetchUsuarios() {
       if (!emailLogado) return;
@@ -50,6 +48,8 @@ const Profile = () => {
         let perfil = null;
 
         if (tipo === "jogadora") {
+          perfil = todasJogadoras.find((j) => j.id === id);
+        } else if (tipo === "organizacao") {
           perfil = todasJogadoras.find((j) => j.id === id);
         } else if (tipo === "olheiro") {
           perfil = todosOlheiros.find((o) => o.id === id);
@@ -68,7 +68,6 @@ const Profile = () => {
     fetchUsuarios();
   }, [emailLogado, id, tipo]);
 
-  // busca posts
   useEffect(() => {
     async function fetchPosts() {
       if (!perfilVisualizado) return;
@@ -76,22 +75,19 @@ const Profile = () => {
       try {
         const todosPosts = await getAll(API_POSTS_URL, "posts");
 
-        // filtra posts só do perfil visualizado
         const postsPerfilVisualizado = todosPosts
-          .filter(
-            (post) =>
-              post.usuario === perfilVisualizado.id &&
-              post.tipoUsuario ===
-                (tipoPerfilVisualizado === "jogadora"
-                  ? "jogadoras"
-                  : "olheiros")
-          )
+          .filter((post) => {
+            let tipoPost;
+            if (tipoPerfilVisualizado === "jogadora") tipoPost = "jogadoras";
+            else if (tipoPerfilVisualizado === "olheiro") tipoPost = "olheiros";
+            else if (tipoPerfilVisualizado === "organizacao") tipoPost = "jogadoras";
+            return post.usuario === perfilVisualizado.id && post.tipoUsuario === tipoPost;
+          })
           .slice()
           .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
 
         setPosts(postsPerfilVisualizado);
 
-        // separa as midias em imagens e vídeos
         const imagens = postsPerfilVisualizado
           .filter(
             (p) =>
@@ -139,7 +135,6 @@ const Profile = () => {
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* Coluna esquerda */}
             <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
               <ProfileCard title="Sobre mim">
                 <p>{perfilVisualizado?.["sobre-mim"]}</p>
@@ -173,7 +168,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Coluna direita */}
             <div className="flex flex-col gap-6 lg:gap-8">
               {tipoPerfilVisualizado === "jogadora" && (
                 <div className="space-y-6">
@@ -201,6 +195,16 @@ const Profile = () => {
               {tipoPerfilVisualizado === "olheiro" && (
                 <ProfileCard title="Tempo de experiência">
                   <p>{perfilVisualizado?.["tempo-experiencia"]}</p>
+                </ProfileCard>
+              )}
+
+              {tipoPerfilVisualizado === "organizacao" && (
+                <ProfileCard title="Informações da Organização">
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    <li>Nome: {perfilVisualizado?.nome}</li>
+                    <li>Cidade: {perfilVisualizado?.cidade}</li>
+                    <li>Fundação: {perfilVisualizado?.fundacao}</li>
+                  </ul>
                 </ProfileCard>
               )}
 

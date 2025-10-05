@@ -33,7 +33,7 @@ function Auth() {
     const jogadorCheck = checkLogin(dataJogadora, email, senha);
     const olheiroCheck = checkLogin(dataOlheiro, email, senha);
 
-    if (jogadorCheck === "ok") {
+    if (jogadorCheck === "ok" && email!=="pabconnect.fiap@gmail.com") {
       setErro("");
       localStorage.setItem(
         "user",
@@ -47,6 +47,13 @@ function Auth() {
         JSON.stringify({ tipo: "olheiro", email: email })
       );
       navigate("/home/agente");
+    } else if (jogadorCheck === "ok" && email==="pabconnect.fiap@gmail.com") {
+      setErro("");
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ tipo: "organizacao", email: email })
+      );
+      navigate("/home/organizacao");
     } else if (
       jogadorCheck === "senhaErrada" ||
       olheiroCheck === "senhaErrada"

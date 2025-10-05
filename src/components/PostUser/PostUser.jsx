@@ -30,7 +30,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
       : [...userLogado.seguindo, usuario.username];
 
     try {
-      const tipoUsuarioLogado = userLogadoTipo === "jogadora" ? "jogadoras" : "olheiros";
+      const tipoUsuarioLogado = userLogadoTipo === "jogadora" ? "jogadoras" : userLogadoTipo === "organizacao" ? "jogadoras" : "olheiros";
       const dataToSend = { seguindo: novoSeguindo };
       const response = await update(API_BASE_URL, tipoUsuarioLogado, idUsuarioLogado, dataToSend);
 

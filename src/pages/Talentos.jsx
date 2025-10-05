@@ -92,7 +92,9 @@ export default function Talentos() {
               id="jogadoras"
               className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
             >
-              {jogadorasFiltradas.map((j) => (
+              {jogadorasFiltradas
+              .filter(j=>j.email !== "pabconnect.fiap@gmail.com")
+              .map((j) => (
                 <CardTalentos
                   key={j.id}
                   idJogadora={j.id}
