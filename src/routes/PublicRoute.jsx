@@ -11,7 +11,7 @@ export default function PublicRoute({ children }) {
         } else if (tipo === "olheiro") {
             return <Navigate to="/home/agente" replace />;
         } else if (tipo === "organizacao") {
-            return <Navigate to="home/organizacao" replace />
+            return <Navigate to="/home/organizacao" replace />
         }
     }
 
