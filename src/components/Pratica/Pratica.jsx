@@ -1,3 +1,7 @@
+import conexoes from "../../assets/conexoes.png";
+import feed from "../../assets/feed.png";
+import perfil from "../../assets/perfil.png";
+
 export default function Pratica() {
   return (
     <section
@@ -13,19 +17,19 @@ export default function Pratica() {
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <img
-          src="https://picsum.photos/300/400"
+          src={feed}
           alt="Exemplo de uso da plataforma"
-          className="rounded-lg shadow-md mb-4"
+          className="rounded-lg shadow-md mb-4 w-70 sm:w-65 md:w-55 border-black border-y-8 border-3"
         />
         <img
-          src="https://picsum.photos/300/400"
+          src={conexoes}
           alt="Exemplo de uso da plataforma"
-          className="rounded-lg shadow-md mb-4"
+          className="rounded-lg shadow-md mb-4 w-70 sm:w-65 md:w-55 border-black border-y-8 border-3"
         />
         <img
-          src="https://picsum.photos/300/400"
+          src={perfil}
           alt="Exemplo de uso da plataforma"
-          className="rounded-lg shadow-md mb-4"
+          className="rounded-lg shadow-md mb-4 w-70 sm:w-65 md:w-55 border-black border-y-8 border-3"
         />
       </div>
     </section>

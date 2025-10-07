@@ -10,6 +10,8 @@ export default function PublicRoute({ children }) {
             return <Navigate to="/home/jogadora" replace />;
         } else if (tipo === "olheiro") {
             return <Navigate to="/home/agente" replace />;
+        } else if (tipo === "organizacao") {
+            return <Navigate to="/home/organizacao" replace />
         }
     }
 

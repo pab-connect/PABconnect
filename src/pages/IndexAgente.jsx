@@ -4,29 +4,34 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getAll, API_POSTS_URL, API_BASE_URL } from "../services/apiService";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer/Footer";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 export default function IndexAgente() {
   const [posts, setPosts] = useState([]);
   const [jogadoras, setJogadoras] = useState([]);
+  const [agentes, setAgentes] = useState([]);
+  const [carregando, setCarregando] = useState(true);
 
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
-  const usuarioLogado = jogadoras.find(u => u.email === userLogadoEmail);
+  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
+  const usuarioLogado =
+    userLogadoTipo === "jogadora"
+      ? jogadoras.find((u) => u.email === userLogadoEmail)
+      : agentes.find((u) => u.email === userLogadoEmail);
 
-  // Puxa todas as jogadoras
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const users = await getAll(API_BASE_URL, "jogadoras");
-        setJogadoras(users);
-      } catch (error) {
-        console.error("Erro ao buscar jogadoras:", error);
-      }
+  async function fetchUsers() {
+    try {
+      const jogs = await getAll(API_BASE_URL, "jogadoras");
+      setJogadoras(jogs);
+      const olhs = await getAll(API_BASE_URL, "olheiros");
+      setAgentes(olhs);
+      setCarregando(false);
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
     }
+  }
 
-    fetchUsers();
-  }, []);
-
-  // Puxa todos os posts
   async function fetchPosts() {
     try {
       const posts = await getAll(API_POSTS_URL, "posts");
@@ -37,26 +42,62 @@ export default function IndexAgente() {
   }
 
   useEffect(() => {
+    fetchUsers();
     fetchPosts();
   }, []);
 
+  const postsComUsuarios = posts
+    .map((post) => {
+      let usuario = null;
+      let tipoUsuario = "";
+
+      if (
+        jogadoras.some(
+          (j) => j.id === post.usuario && post.tipoUsuario === "jogadoras"
+        )
+      ) {
+        usuario = jogadoras.find((j) => j.id === post.usuario);
+        tipoUsuario = "jogadoras";
+      } else if (
+        agentes.some(
+          (a) => a.id === post.usuario && post.tipoUsuario === "olheiros"
+        )
+      ) {
+        usuario = agentes.find((a) => a.id === post.usuario);
+        tipoUsuario = "olheiros";
+      }
+
+      return { ...post, usuario, tipoUsuario };
+    })
+    .filter((post) => post.usuario)
+    .slice()
+    .sort((a, b) => new Date(b.datahora) - new Date(a.datahora));
+
   return (
-    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-1 bg-[#DAD0F0]">
+    <div
+      style={{ fontFamily: "var(--font-poppins)" }}
+      className="flex flex-col flex-1 bg-[#DAD0F0]"
+    >
       <Header />
       <div className="flex flex-1 flex-col items-center pt-30 p-6 gap-5 lg:ml-64 lg:pt-30 lg:p-10">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <RadarTalentos />
         <hr className="w-full my-4 border-t-2 border-[#457c50]" />
-        {posts.map((post) => (
+        {postsComUsuarios.map((post) => (
           <PostUser
-            key={post.id}
+            key={`${post.tipoUsuario}-${post.id}`}
             post={post}
-            usuario={jogadoras.find(u => u.id === post.usuario) || {}} // dono do post
-            idUsuarioLogado={usuarioLogado?.id}
-            ignore={true}
+            usuario={post.usuario}
+            usuarioLogado={usuarioLogado}
+            tipoUsuario={post.tipoUsuario}
+            setUsuarios={
+              post.tipoUsuario === "jogadoras" ? setJogadoras : setAgentes
+            }
           />
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
