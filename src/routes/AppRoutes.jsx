@@ -10,6 +10,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import Profile from "../pages/Profile";
 import Conexoes from "../pages/Conexoes";
+import Mensagem from "../pages/Mensagem";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +78,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute> 
         <Conexoes />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/mensagem',
+    element: (
+      <ProtectedRoute>
+        <Mensagem />
       </ProtectedRoute>
     )
   }
