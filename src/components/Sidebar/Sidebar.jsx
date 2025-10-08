@@ -11,6 +11,7 @@ import {
   X,
   Star,
   LogOut,
+  CalendarDays,
 } from "lucide-react";
 
 export default function Sidebar({ onClose, isDesktop = false }) {
@@ -27,7 +28,7 @@ export default function Sidebar({ onClose, isDesktop = false }) {
       if (!emailLogado) return;
 
       try {
-        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras"); // ou "agentes"
+        const todosUsuarios = await getAll(API_BASE_URL, "jogadoras");
         const encontrado = todosUsuarios.find((u) => u.email === emailLogado);
         setUsuarioLogado(encontrado || null);
       } catch (error) {
@@ -44,22 +45,29 @@ export default function Sidebar({ onClose, isDesktop = false }) {
       setTipoUsuario(usuario.tipo);
     }
   }, []);
-  // Sidebar para desktop
+
   if (isDesktop) {
     return (
       <aside className="hidden lg:block fixed left-0 top-[88px] h-[calc(100vh-88px)] w-64 bg-[#314334] text-white p-4 z-30">
-        {/* Links navegacao */}
         <nav>
           <ul className="flex flex-col gap-4">
             <li>
               <Link
                 to={`/home/${
-                  tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                  tipoUsuario === "jogadora"
+                    ? "jogadora"
+                    : tipoUsuario === "organizacao"
+                    ? "organizacao"
+                    : "agente"
                 }`}
                 className={`flex items-center gap-3 font-semibold ${
                   isActive(
                     `/home/${
-                      tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                      tipoUsuario === "jogadora"
+                        ? "jogadora"
+                        : tipoUsuario === "organizacao"
+                        ? "organizacao"
+                        : "agente"
                     }`
                   )
                     ? "underline"
@@ -70,22 +78,53 @@ export default function Sidebar({ onClose, isDesktop = false }) {
               </Link>
             </li>
             <li>
+              {tipoUsuario === "organizacao" ? (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to="/talentos"
+                    className={`flex items-center gap-3 font-semibold ${
+                      isActive("/talentos") ? "underline" : ""
+                    } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
+                  >
+                    <Star className="w-8 h-8" /> Talentos
+                  </Link>
+                  <Link
+                    to="/conexoes"
+                    className={`flex items-center gap-3 font-semibold ${
+                      isActive("/conexoes") ? "underline" : ""
+                    } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
+                  >
+                    <UsersRound className="w-8 h-8" /> Conexões
+                  </Link>
+                </div>
+              ) : (
+                <Link
+                  to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
+                  className={`flex items-center gap-3 font-semibold ${
+                    isActive(
+                      `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
+                    )
+                      ? "underline"
+                      : ""
+                  } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
+                >
+                  {tipoUsuario === "jogadora" ? (
+                    <UsersRound className="w-8 h-8" />
+                  ) : (
+                    <Star className="w-8 h-8" />
+                  )}
+                  {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+                </Link>
+              )}
+            </li>
+            <li>
               <Link
-                to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
+                to="/eventos"
                 className={`flex items-center gap-3 font-semibold ${
-                  isActive(
-                    `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
-                  )
-                    ? "underline"
-                    : ""
+                  isActive("/eventos") ? "underline" : ""
                 } text-lg hover:text-[#DAD0F0] transition-colors p-2 rounded hover:bg-[#3a4d3d]`}
               >
-                {tipoUsuario === "jogadora" ? (
-                  <UsersRound className="w-8 h-8" />
-                ) : (
-                  <Star className="w-8 h-8" />
-                )}
-                {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+                <CalendarDays className="w-8 h-8" /> Eventos
               </Link>
             </li>
             <li>
@@ -98,10 +137,10 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                 <Bell className="w-8 h-8" /> Notificações
               </Link>
             </li>
+  
           </ul>
         </nav>
 
-        {/* Configuracoes */}
         <div className="mt-7">
           <Link
             to="/configuracoes"
@@ -114,7 +153,6 @@ export default function Sidebar({ onClose, isDesktop = false }) {
           </Link>
         </div>
 
-        {/* Sair */}
         <div className="mt-7" onClick={() => localStorage.clear()}>
           <Link
             to="/"
@@ -127,18 +165,14 @@ export default function Sidebar({ onClose, isDesktop = false }) {
       </aside>
     );
   }
-  // Sidebar para mobile
+
   return (
     <>
-      {/* Overlay para fechar o menu ao clicar fora */}
       <div
         className="fixed inset-0 bg-black opacity-50 z-40 lg:hidden"
         onClick={onClose}
       />
-
-      {/* Sidebar */}
       <aside className="fixed top-0 right-0 h-full w-80 bg-[#314334] text-white p-4 z-50 lg:hidden transform transition-transform duration-300 ease-in-out">
-        {/* botao de fechar */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl text-center leading-none">
             PAB<span className="block text-2xl font-bold -mt-1">CONNECT</span>
@@ -147,30 +181,25 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <X className="w-7 h-7" />
           </button>
         </div>
-
-        {/* Mobile: barra de pesquisa */}
-        <div className="mb-4 flex items-center w-full bg-[#DAD0F0] rounded-lg px-3 py-2 text-[#705C9B] cursor-pointer hover:shadow-md hover:bg-[#cec4e4] focus:bg-[#cec4e4] transition-all duration-300 ease-in-out">
-          <input
-            type="text"
-            name="busca"
-            id="busca"
-            className="flex-1 outline-none bg-transparent text-lg"
-          />
-          <Search className="w-7 h-7" />
-        </div>
-
-        {/* Links navegacao */}
         <nav>
           <ul className="flex flex-col gap-4">
             <li>
               <Link
                 to={`/home/${
-                  tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                  tipoUsuario === "jogadora"
+                    ? "jogadora"
+                    : tipoUsuario === "organizacao"
+                    ? "organizacao"
+                    : "agente"
                 }`}
                 className={`flex items-center gap-3 font-semibold ${
                   isActive(
                     `/home/${
-                      tipoUsuario === "jogadora" ? "jogadora" : "agente"
+                      tipoUsuario === "jogadora"
+                        ? "jogadora"
+                        : tipoUsuario === "organizacao"
+                        ? "organizacao"
+                        : "agente"
                     }`
                   )
                     ? "underline"
@@ -181,22 +210,53 @@ export default function Sidebar({ onClose, isDesktop = false }) {
               </Link>
             </li>
             <li>
+              {tipoUsuario === "organizacao" ? (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to="/talentos"
+                    className={`flex items-center gap-3 font-semibold ${
+                      isActive("/talentos") ? "underline" : ""
+                    } text-lg hover:text-[#DAD0F0] transition-colors`}
+                  >
+                    <Star className="w-8 h-8" /> Talentos
+                  </Link>
+                  <Link
+                    to="/conexoes"
+                    className={`flex items-center gap-3 font-semibold ${
+                      isActive("/conexoes") ? "underline" : ""
+                    } text-lg hover:text-[#DAD0F0] transition-colors`}
+                  >
+                    <UsersRound className="w-8 h-8" /> Conexões
+                  </Link>
+                </div>
+              ) : (
+                <Link
+                  to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
+                  className={`flex items-center gap-3 font-semibold ${
+                    isActive(
+                      `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
+                    )
+                      ? "underline"
+                      : ""
+                  } text-lg hover:text-[#DAD0F0] transition-colors`}
+                >
+                  {tipoUsuario === "jogadora" ? (
+                    <UsersRound className="w-8 h-8" />
+                  ) : (
+                    <Star className="w-8 h-8" />
+                  )}
+                  {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+                </Link>
+              )}
+            </li>
+            <li>
               <Link
-                to={`/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`}
+                to="/eventos"
                 className={`flex items-center gap-3 font-semibold ${
-                  isActive(
-                    `/${tipoUsuario === "jogadora" ? "conexoes" : "talentos"}`
-                  )
-                    ? "underline"
-                    : ""
+                  isActive("/eventos") ? "underline" : ""
                 } text-lg hover:text-[#DAD0F0] transition-colors`}
               >
-                {tipoUsuario === "jogadora" ? (
-                  <UsersRound className="w-8 h-8" />
-                ) : (
-                  <Star className="w-8 h-8" />
-                )}
-                {tipoUsuario === "jogadora" ? "Conexões" : "Talentos"}
+                <CalendarDays className="w-8 h-8" /> Eventos
               </Link>
             </li>
             <li>
@@ -209,20 +269,8 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                 <Bell className="w-8 h-8" /> Notificações
               </Link>
             </li>
-            <li>
-              <Link
-                to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}
-                className={`flex items-center gap-3 font-semibold ${
-                  isActive("/perfil") ? "underline" : ""
-                } text-lg hover:text-[#DAD0F0] transition-colors`}
-              >
-                <CircleUserRoundIcon className="w-8 h-8" /> Perfil
-              </Link>
-            </li>
           </ul>
         </nav>
-
-        {/* Configuracoes */}
         <div className="mt-7">
           <Link
             to="/configuracoes"
@@ -234,8 +282,6 @@ export default function Sidebar({ onClose, isDesktop = false }) {
             <span>Configurações</span>
           </Link>
         </div>
-
-        {/* Sair */}
         <div className="mt-7" onClick={() => localStorage.clear()}>
           <Link
             to="/"

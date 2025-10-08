@@ -10,14 +10,18 @@ import UploadAndDisplayImage from "../components/Cadastro/UploadAndDisplayImage"
 import InputWithLabel from "../components/Configuracoes/InputWithLabel";
 import {getAll, update, API_BASE_URL } from ".././services/apiService.js"
 import { Toastify } from "../components/Toastify/Toastify.jsx"
+import SenhaDialog from "@/components/DialogComponents/SenhaDialog";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 
 export default function Configuracoes() {
   const [ configChoice, setConfigChoice ] = useState("Conta")
   const [dataJogadora, setDataJogadora] = useState([])
   const [dataOlheiro, setDataOlheiro] = useState([]);
+  const [novaSenha, setNovaSenha] = useState("")
+  const [carregando, setCarregando] = useState(true);
   const user = JSON.parse(localStorage.getItem("user"));
-  const tipo = user?.tipo === "jogadora" ? "jogadoras" : "olheiros";
+  const tipo = user?.tipo === "jogadora" ? "jogadoras" : user?.tipo === "organizacao" ? "jogadoras" : "olheiros";
   const email = user?.email;
 
 
@@ -67,6 +71,7 @@ export default function Configuracoes() {
   useEffect(() => {
     getAll(API_BASE_URL, "jogadoras").then(setDataJogadora);
     getAll(API_BASE_URL, "olheiros").then(setDataOlheiro);
+    setCarregando(false);
   }, []);
 
   // efeito pra atualizar formData quando os dados e o email existirem
@@ -109,25 +114,6 @@ export default function Configuracoes() {
   };
 
   async function handleMudarSenha() {
-    if (!searchedUser) return Toastify.erro("Usuário não encontrado.");
-
-    const senhaAtual = prompt("Digite sua senha atual:");
-    if (senhaAtual === null) return; // cancelou
-    if (senhaAtual !== searchedUser.senha) return Toastify.erro("Senha atual incorreta.");
-
-    const novaSenha = prompt("Digite sua nova senha:");
-    if (novaSenha === null) return; // cancelou
-
-    const novaSenhaConfirmada = prompt("Confirme a nova senha:");
-    if (novaSenhaConfirmada === null) return; // cancelou
-    if (novaSenha !== novaSenhaConfirmada) return Toastify.erro("As senhas não coincidem.");
-
-    const confirma = confirm("Você confirma que quer mudar sua senha?");
-    if (!confirma) {
-      Toastify.info("Alteração de senha cancelada pelo usuário.");
-      return;
-    }
-
     try {
       const response = await update(API_BASE_URL, tipo, formData.id, { senha: novaSenha });
       if (response) {
@@ -151,6 +137,7 @@ export default function Configuracoes() {
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <main className="flex flex-1 flex-col md:grid md:grid-cols-[1fr_3fr] md:grid-rows-[2.5rem_1fr] gap-4 lg:ml-64 p-8 md:pr-10 ">
           <h2 className="text-3xl md:col-span-2 md:font-bold sm:text-4xl md:text-3xl text-center md:text-left font-semibold mb-2 md:px-2">Configurações</h2>
           <section className="bg-white md:bg-transparent font-(family-name:--font-inter) w-full p-2 rounded-lg flex flex-col">
@@ -198,7 +185,7 @@ export default function Configuracoes() {
               items={[
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Mudar senha</p>
-                  <button onClick={handleMudarSenha} className="bg-gray-200 sm:text-xl md:text-lg md:p-1 sm:w-40 hover:bg-yellow-200 hover:scale-99 transition-all hover:border-yellow-400 cursor-pointer p-2 text-wrap w-32 rounded-md ml-auto border-[#8CAB91] border-1 font-semibold">Alterar Senha</button>
+                  <SenhaDialog handleMudarSenha={handleMudarSenha} senhaAtualExt={searchedUser?.senha} novaSenha={novaSenha} setNovaSenha={setNovaSenha}/>
                 </div>,
                 <ConfigOption state={true} text="Permitir que te encontrem na busca" description="Deixe seu perfil visível para outros usuários." size="sm" />,
                 <ConfigOption text="Apenas conexões podem enviar mensagens" description="Restringe o envio de mensagens somente a quem já está na sua rede." size="sm" />,

@@ -5,15 +5,16 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import { getAll, API_POSTS_URL, API_BASE_URL } from "../services/apiService";
 import { useEffect, useState } from "react";
 import Footer from "../components/Footer/Footer";
+import RadarTalentos from "@/components/RadarTalentos/RadarTalentos";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
-export default function IndexJogadora() {
+export default function IndexOrganizacao() {
   const [posts, setPosts] = useState([]);
   const [jogadoras, setJogadoras] = useState([]);
   const [agentes, setAgentes] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const userLogadoEmail = JSON.parse(localStorage.getItem("user"))?.email;
-  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
+  const userLogadoTipo = "jogadora";
   const usuarioLogado =
     userLogadoTipo === "jogadora"
       ? jogadoras.find((u) => u.email === userLogadoEmail)
@@ -23,6 +24,7 @@ export default function IndexJogadora() {
     try {
       const posts = await getAll(API_POSTS_URL, "posts");
       setPosts(posts);
+      setCarregando(false);
     } catch (error) {
       console.error("Erro ao buscar posts:", error);
     }
@@ -33,7 +35,6 @@ export default function IndexJogadora() {
       try {
         const jogs = await getAll(API_BASE_URL, "jogadoras");
         setJogadoras(jogs);
-        setCarregando(false);
       } catch (error) {
         console.error("Erro ao buscar jogadoras:", error);
       }
@@ -87,6 +88,7 @@ export default function IndexJogadora() {
       <div className="flex flex-1 flex-col items-center pt-30 p-6 gap-5 lg:ml-64 lg:pt-30 lg:p-10">
         <Sidebar isDesktop={true} />
         {carregando && <LoadingOverlay />}
+        <RadarTalentos/>
         <CriarPostIndexJogadora
           idJogadora={usuarioLogado?.id}
           onPostCreated={fetchPosts}

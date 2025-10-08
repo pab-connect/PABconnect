@@ -1,6 +1,23 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getAll, API_BASE_URL } from "../../services/apiService.js";
 
 export default function RadarTalentos() {
+  const [jogadoras, setJogadoras] = useState([]);
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const jogs = await getAll(API_BASE_URL, "jogadoras");
+        setJogadoras(jogs);
+      } catch (error) {
+        console.error("Erro ao buscar jogadoras:", error);
+      }
+    }
+    fetchUsers();
+  }, []);
+
+  const contagemJogadoras = jogadoras?.length
+
   return (
     <div className="flex flex-col bg-gradient-to-r from-[#3b8734] to-[#325d54] p-4 w-full rounded-xl">
       <div className="flex-1 m-3">
@@ -11,7 +28,7 @@ export default function RadarTalentos() {
             </span>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-white font-bold text-4xl md:text-5xl lg:text-6xl">
-                250
+                {contagemJogadoras !== 0 ? contagemJogadoras : "..."}
               </span>
               <span className="text-white text-sm md:text-base lg:text-lg font-bold items-center">
                 Talentos

@@ -6,7 +6,9 @@ import Filtros from "../components/Filtros/Filtros";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
+import BarChartTalentos from "../components/BarChartTalentos/BarChartTalentos";
 import { useLocation } from "react-router-dom";
+import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 
 export default function Talentos() {
   const location = useLocation();
@@ -15,6 +17,7 @@ export default function Talentos() {
   const [jogadoras, setJogadoras] = useState([]);
   const [olheiro, setOlheiro] = useState(null);
   const [filtro, setFiltro] = useState(filtroInicial);
+  const [carregando, setCarregando] = useState(true);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const emailOlheiro = user?.tipo === "olheiro" ? user.email : null;
@@ -37,6 +40,7 @@ export default function Talentos() {
     async function fetchJogadoras() {
       const data = await getAll(API_BASE_URL, "jogadoras");
       setJogadoras(data);
+      setCarregando(false);
     }
 
     fetchJogadoras();
@@ -75,16 +79,23 @@ export default function Talentos() {
   }, [jogadoras, filtro, olheiro]);
 
   return (
-    <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col min-h-screen bg-[#DAD0F0]">
+    <div
+      style={{ fontFamily: "var(--font-poppins)" }}
+      className="flex flex-col min-h-screen bg-[#DAD0F0]"
+    >
       <Header />
       <div className="flex flex-1 pt-[88px]">
         <Sidebar isDesktop={true} />
+        {carregando && <LoadingOverlay />}
         <main className="flex flex-1 flex-col items-center gap-4 lg:ml-64 p-4 text-[#705C9B]">
           <h2 className="text-4xl font-semibold mb-4">Talentos</h2>
           <div className="flex flex-col md:flex-row-reverse gap-8">
             {/* filtros - sidebar em desktop */}
-            <aside className="md:w-64 md:flex-shrink-0">
+            <aside className="md:w-64 md:flex-shrink-0 flex flex-col gap-6">
               <Filtros filtro={filtro} setFiltro={setFiltro} />
+
+              {/* Gráfico aqui */}
+              <BarChartTalentos jogadoras={jogadorasFiltradas} />
             </aside>
 
             {/* cards */}
@@ -92,7 +103,9 @@ export default function Talentos() {
               id="jogadoras"
               className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
             >
-              {jogadorasFiltradas.map((j) => (
+              {jogadorasFiltradas
+              .filter(j=>j.email !== "pabconnect.fiap@gmail.com")
+              .map((j) => (
                 <CardTalentos
                   key={j.id}
                   idJogadora={j.id}
@@ -108,5 +121,5 @@ export default function Talentos() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
