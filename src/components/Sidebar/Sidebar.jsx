@@ -269,6 +269,16 @@ export default function Sidebar({ onClose, isDesktop = false }) {
                 <Bell className="w-8 h-8" /> Notificações
               </Link>
             </li>
+            <li>
+              <Link
+                to={`/perfil/${userLocal?.tipo}/${usuarioLogado?.id}`}
+                className={`flex items-center gap-3 font-semibold ${
+                  isActive("/perfil") ? "underline" : ""
+                } text-lg hover:text-[#DAD0F0] transition-colors`}
+              >
+                <CircleUserRoundIcon className="w-8 h-8" /> Perfil
+              </Link>
+            </li>
           </ul>
         </nav>
         <div className="mt-7">
