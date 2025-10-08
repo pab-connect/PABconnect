@@ -54,7 +54,7 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
     if (!usuario) return;
 
     const novasCurtidas = curtido ? post.curtidas - 1 : post.curtidas + 1;
-    const postAtualizado = { ...post, curtidas: novasCurtidas };
+    const postAtualizado = { ...post, usuario: post.usuario.id || post.usuario, curtidas: novasCurtidas };
 
     try {
       await update(API_POSTS_URL, "posts", post.id, postAtualizado);
