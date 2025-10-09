@@ -50,6 +50,28 @@ Funcionalidades principais:
 
 ---
 
+## 🚀 Changelog - Versão 2.0
+ 
+## 🆕 Novidades
+- Adicionada a **página de eventos**, com visual moderno e integração total com o sistema.  
+- Criada a **conta de organizador**, permitindo acesso a todas as funcionalidades do sistema.  
+- Agora **posts de olheiros também aparecem** no feed.  
+- Novos **toasts** adicionados no projeto , deixando a experiência mais fluida.  
+- Na área **"Sugestões para você"**, agora é possível seguir jogadoras clicando no **“+”**, com alerta visual de confirmação.  
+- Implementado **sistema de loading** em várias partes do site, melhorando o feedback durante as ações.  
+- Adicionado **modal em algumas páginas** para exibir informações e ações de forma mais intuitiva.  
+- **Radar de talentos** agora mostra a **contagem total de contas** da plataforma.
+- **Shadcn** foi integrado ao projeto para melhorar a consistência e o design dos componentes de UI.
+ 
+## 🧹 Melhorias e Ajustes
+- Removida a **barra de pesquisa** temporariamente para simplificar a navegação.  
+- Substituímos **prompts** por **modais**, deixando as interações mais modernas e menos intrusivas.  
+- Diversas **correções de bugs menores** e **ajustes visuais** em toda a plataforma.
+- Diversas **correções na lógica de posts**, deixando o feed mais estável.  
+- **Footer atualizado** com novo visual e informações.  
+
+---
+
 ## 🚀 Deploy
 
 O projeto será hospedado na Vercel.  
