@@ -70,7 +70,7 @@ function Auth() {
         setDataJogadora(jogadoras);
       })
       .finally(() => {
-        console.log("Carregamento de jogadoras finalizado!");
+        
       });
 
     getAll(API_BASE_URL, "olheiros")
@@ -78,7 +78,7 @@ function Auth() {
         setDataOlheiro(olheiros);
       })
       .finally(() => {
-        console.log("Carregamento de olheiros finalizado!");
+        
       });
   }, []);
 

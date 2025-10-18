@@ -27,8 +27,8 @@ export default function IndexAgente() {
       const olhs = await getAll(API_BASE_URL, "olheiros");
       setAgentes(olhs);
       setCarregando(false);
-    } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
+    } catch  {
+      console.error("Erro ao buscar usuários");
     }
   }
 
@@ -36,8 +36,8 @@ export default function IndexAgente() {
     try {
       const posts = await getAll(API_POSTS_URL, "posts");
       setPosts(posts);
-    } catch (error) {
-      console.error("Erro ao buscar posts:", error);
+    } catch {
+      console.error("Erro ao buscar posts");
     }
   }
 

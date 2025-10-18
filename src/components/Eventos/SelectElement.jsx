@@ -10,9 +10,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export default function SelectElement({ title, placeholder, options, name, onChange, className="padrao" }) {
+export default function SelectElement({ title, value="", placeholder, options, name, onChange, className="padrao" }) {
   return (
-    <Select onValueChange={(value) => onChange({ name, value })} name={name}>
+    <Select value={value} onValueChange={(value) => onChange({ name, value })} name={name}>
       <SelectTrigger className={className==="padrao" ? "w-full sm:max-w-50 min-h-12 md:shadow-gray-500 text-md bg-white" : className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
