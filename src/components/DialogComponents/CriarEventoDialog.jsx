@@ -33,7 +33,8 @@ export default function CriarEventoDialog() {
         periodoInscricao: "",
         vagas: 0,
         inscritas: 0,
-        jogadorasInscritas: []
+        jogadorasInscritas: [],
+        jogadorasAprovadas: []
     });
 
     const handleChange = ({ name, value }) => {
@@ -59,13 +60,11 @@ export default function CriarEventoDialog() {
                 setTimeout(() => {
                     window.location.reload();
                 }, 500);
-                console.log("Evento criado com sucesso! Resposta da API:", response);
             } else {
                 Toastify.erro("Erro ao fazer o evento. Por favor, tente novamente.");
             }
-        } catch (error) {
+        } catch {
             Toastify.erro("Erro ao enviar o evento. Verifique sua conexão e tente novamente.");
-            console.error(error);
         }
     }
 
