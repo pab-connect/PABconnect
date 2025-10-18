@@ -12,8 +12,8 @@ export const getAll = (url, endpoint) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao buscar dados de ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao buscar dados de ${endpoint}`);
       return [];
     });
 };
@@ -31,8 +31,8 @@ export const create = (url, endpoint, data) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao criar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao criar item em ${endpoint}`);
       return null;
     });
 };
@@ -50,8 +50,8 @@ export const update = (url, endpoint, id, data) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao atualizar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao atualizar item em ${endpoint}`);
       return null;
     });
 };
@@ -67,8 +67,8 @@ export const remove = (url, endpoint, id) => {
       }
       return true;
     })
-    .catch(error => {
-      console.error(`Erro ao deletar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao deletar item em ${endpoint}`);
       return false;
     });
 };

@@ -27,8 +27,8 @@ export default function CardUserAdd({ usuario, usuarioLogado }) {
                     window.location.reload();
                 }, 500);
             }
-        } catch (error) {
-            console.error("Erro ao atualizar:", error);
+        } catch {
+            console.error("Erro ao atualizar");
         }
     }
 

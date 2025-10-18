@@ -23,7 +23,6 @@ export default function IndexDialog({ setImgUrl, imgUrl }) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(imgUrl)
         if (imgUrl) {
             Toastify.sucesso("Mídia adicionada!")
             setOpen(false)

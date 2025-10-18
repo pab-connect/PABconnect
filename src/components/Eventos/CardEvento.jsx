@@ -1,6 +1,7 @@
 import { Calendar, MapPin, X, Check, Hourglass } from 'lucide-react';
 import InfoDialog from '../DialogComponents/InfoDialog';
 import InscricaoDialog from '../DialogComponents/InscricaoDialog';
+import { Link } from 'react-router-dom';
 
 export default function CardEvento({ situacao="aberto", evento, jogadoras, title, img, localization, date, description, faixaEtaria, periodoInscricao, vagas, inscritas, userLocal }) {
     const userLogadoTipo = userLocal?.tipo === "olheiro" ? "olheiro": "jogadora";
@@ -57,11 +58,15 @@ export default function CardEvento({ situacao="aberto", evento, jogadoras, title
                     faixaEtaria={faixaEtaria}
                     periodoInscricao={periodoInscricao}
                     vagas={vagas}
-                    inscritas={evento.jogadorasInscritas?.length || 0}
+                    inscritas={evento.jogadorasInscritas?.length + evento.jogadorasAprovadas?.length || 0}
                 />
-                {(situacao == "aberto" && userLogadoTipo==="jogadora" && !jogadoraInscrita ) && <InscricaoDialog evento={evento} jogadoras={jogadoras} userLocal={userLocal} title={title} localization={localization} date={date}/>}
+                {(situacao == "aberto" && userLogadoTipo==="jogadora" && userLocal.tipo!=="organizacao" && !jogadoraInscrita ) && <InscricaoDialog evento={evento} jogadoras={jogadoras} userLocal={userLocal} title={title} localization={localization} date={date}/>}
                 {jogadoraInscrita && <span className='text-[#307039] px-6 py-2 rounded-lg sm:text-lg'>Jogadora inscrita</span>}
-
+                {userLocal?.tipo==="organizacao" && 
+                    <Link to={`/evento/${evento.id}`} className='flex items-center cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
+                        <span className='bg-[#307039] hover:scale-99 hover:bg-gradient-to-b from-[#307039] to-[#295f30] transition-all cursor-pointer text-white px-6 py-2 rounded-lg sm:text-lg'>Dashboard</span>
+                    </Link>                
+                }
             </section>
         </div>
     )

@@ -103,13 +103,11 @@ export default function Configuracoes() {
       const response = await update(API_BASE_URL, tipo, formData.id, dataToSend);
       if (response) {
         Toastify.sucesso("Suas informações foram atualizadas com sucesso")
-        console.log("Atualizado com sucesso")
       } else {
         Toastify.erro("Erro ao atualizar o cadastro. Por favor, tente novamente.");
       }
-    } catch (error) {
+    } catch {
       Toastify.erro("Erro ao atualizar. Verifique sua conexão e tente novamente.");
-      console.error(error);
     }
   };
 
@@ -124,8 +122,7 @@ export default function Configuracoes() {
       } else {
         Toastify.erro("Erro ao atualizar a senha.");
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       Toastify.erro("Erro de conexão ao atualizar a senha.");
     }
   }
@@ -205,18 +202,18 @@ export default function Configuracoes() {
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Email de contato</p>
                   <a 
                     href="mailto:pabconnect.fiap@gmail.com" 
-                    className="ml-auto sm:text-xl md:text-lg text-center text-purple-700 text-wrap w-40 sm:w-47 md:text-nowrap md:w-auto font-medium underline"
+                    className="ml-auto text-xs sm:text-xl md:text-lg text-center text-purple-700 text-wrap w-40 sm:w-47 md:text-nowrap md:w-auto font-medium underline"
                   >
                     pabconnect.fiap@gmail.com
                   </a>
                 </div>,
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Versão do site</p>
-                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">v2.0.0</span>
+                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">v2.1.0</span>
                 </div>,
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Última atualização</p>
-                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">08/10/2025</span>
+                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">17/10/2025</span>
                 </div>
               ]}
             />

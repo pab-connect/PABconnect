@@ -60,8 +60,8 @@ const Profile = () => {
         setJogadoras(todasJogadoras);
         setAgentes(todosOlheiros);
         setCarregando(false);
-      } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
+      } catch {
+        console.error("Erro ao buscar usuários");
       }
     }
 
@@ -104,8 +104,8 @@ const Profile = () => {
 
         setMidia({ imagens, videos });
         setCarregando(false);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
+      } catch {
+        console.error("Erro ao buscar posts");
       }
     }
 
