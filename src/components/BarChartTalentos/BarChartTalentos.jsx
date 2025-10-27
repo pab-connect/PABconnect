@@ -16,7 +16,11 @@ export default function BarChartTalentos({ jogadoras }) {
     return acc
   }, {})
 
-  const data = Object.keys(posicoesCount).map((pos) => ({
+  const data = Object.keys(posicoesCount)
+  .filter(pos=>(
+    pos !== "Organização"
+  ))
+  .map((pos) => ({
     posicao: pos,
     total: posicoesCount[pos],
   }))
@@ -26,10 +30,10 @@ export default function BarChartTalentos({ jogadoras }) {
       <h3 className="text-lg font-semibold mb-2">Jogadoras por posição</h3>
       <p className="text-sm mb-4">Distribuição atual no sistema</p>
 
-      <ResponsiveContainer width="100%" height={250}>
+      <ResponsiveContainer width="100%" height={270}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#7E68B0" />
-          <XAxis dataKey="posicao" stroke="#E6DAFF" />
+          <XAxis dataKey="posicao" stroke="#E6DAFF" angle={-90} textAnchor="end" height={100} />
           <YAxis stroke="#E6DAFF" />
           <Tooltip
             contentStyle={{ backgroundColor: "#3B2D5F", borderRadius: "8px" }}
