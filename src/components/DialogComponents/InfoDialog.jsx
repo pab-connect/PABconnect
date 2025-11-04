@@ -24,7 +24,6 @@ export default function InfoDialog({
   inscritas=0
 }) {
   const [open, setOpen] = useState(false)
-  console.log(inscritas)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

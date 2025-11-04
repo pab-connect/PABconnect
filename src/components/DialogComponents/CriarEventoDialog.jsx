@@ -34,7 +34,9 @@ export default function CriarEventoDialog() {
         vagas: 0,
         inscritas: 0,
         jogadorasInscritas: [],
-        jogadorasAprovadas: []
+        jogadorasAprovadas: [],
+        qtdTimes: 0,
+        times: []
     });
 
     const handleChange = ({ name, value }) => {
@@ -104,6 +106,10 @@ export default function CriarEventoDialog() {
                         <Input id="faixaEtaria" required name="faixaEtaria" value={formData.faixaEtaria} onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="Sub-17 (2007–2009)"/>
                     </div>
                     <div className="grid gap-3 md:gap-2">
+                        <Label htmlFor="qtdTimes" className={"sm:text-lg"}>Número de times:</Label>
+                        <Input id="qtdTimes" type={"number"} min={0} step={1} name="qtdTimes" value={formData.qtdTimes} onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="0"/>
+                    </div>
+                    <div className="grid gap-3 md:gap-2">
                         <Label htmlFor="vagas" className={"sm:text-lg"}>Número de vagas:</Label>
                         <Input id="vagas" type={"number"} min={0} step={1} required name="vagas" value={formData.vagas} onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="0"/>
                     </div>
@@ -131,7 +137,7 @@ export default function CriarEventoDialog() {
                 <DialogClose asChild>
                 <Button variant="outline" className={"sm:text-lg cursor-pointer"}>Cancelar</Button>
                 </DialogClose>
-                <Button type="submit" className={"cursor-pointer bg-[#307039] hover:bg-[#46844e] sm:text-lg sm:mb-2"}>Inscrever-se</Button>
+                <Button type="submit" className={"cursor-pointer bg-[#307039] hover:bg-[#46844e] sm:text-lg sm:mb-2"}>Cadastrar</Button>
             </DialogFooter>
             </form>
         </DialogContent>

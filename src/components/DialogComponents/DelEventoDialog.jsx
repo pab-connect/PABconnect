@@ -16,8 +16,8 @@ export default function DelEventoDialog({handle}) {
     const [open, setOpen] = useState(false)
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>
-                <Button type="button" className={"cursor-pointer bg-[#703030] hover:bg-[#d20000] sm:text-lg sm:px-7 "}>Excluir evento</Button>
+            <DialogTrigger type="button" className="text-white rounded-md p-1 cursor-pointer bg-[#703030] hover:bg-[#d20000] sm:text-lg sm:px-7 ">
+                Excluir evento
             </DialogTrigger>
 
             <DialogContent>

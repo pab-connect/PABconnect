@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import AccordionEvento from "@/components/Eventos/AccordionEvento";
+import TimesEvento from "@/components/Eventos/TimesEvento";
 import useData from "@/services/useData";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 import { useState, useEffect } from "react";
@@ -33,7 +34,8 @@ export default function EventosConfig() {
         localization: "",
         date: "",
         description: "",
-        faixaEtaria: ""
+        faixaEtaria: "",
+        qtdTimes: 0
     });
 
     const handleChange = ({ name, value }) => {
@@ -84,6 +86,9 @@ export default function EventosConfig() {
             const response = await update(API_POSTS_URL, "eventos", evento.id, novoEvento);
             if (response) {
                 Toastify.sucesso("Evento atualizado com sucesso!");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 800);
             } else {
                 Toastify.erro("Erro ao atualizar o evento. Tente novamente.");
             }
@@ -145,6 +150,7 @@ export default function EventosConfig() {
     return (
         <div style={{ fontFamily: "var(--font-poppins)" }} className="flex flex-col bg-[#DAD0F0] min-h-screen">
             <Header />
+            
             <div className="flex flex-1 pt-[88px]">
                 <Sidebar isDesktop={true} />
                 {(loadingEventos || loadingJogadoras) && <LoadingOverlay />}
@@ -180,6 +186,7 @@ export default function EventosConfig() {
                                     ))}
                                 </ul>
                             }/>
+                            <TimesEvento evento={evento} jogadoras={jogadoras}/>
                         </div>
                         <div className="bg-white rounded-md p-3 md:h-fit md:w-2/3">
                             <h2 className="text-lg font-medium mb-3">Editar informações do evento</h2>
@@ -195,6 +202,10 @@ export default function EventosConfig() {
                                 <div className="grid gap-1 md:gap-2">
                                     <Label htmlFor="localization" className={"sm:text-lg"}>Localização:</Label>
                                     <Input id="localization" required name="localization" value={formData.localization} onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="Título"/>
+                                </div>
+                                <div className="grid gap-1 md:gap-2">
+                                    <Label htmlFor="qtdTimes" className={"sm:text-lg"}>Número de times:</Label>
+                                    <Input id="qtdTimes" type={"number"} min={0} step={1} name="qtdTimes" value={formData.qtdTimes} onChange={(e) => handleChange({ name: e.target.name, value: e.target.value })} className={"focus-visible:border-[#46844e] focus-visible:ring-[#a0b5a3] selection:bg-[#a0b5a3] sm:text-lg md:text-lg"} placeholder="Sub-17 (2007–2009)"/>
                                 </div>
                                 <div className="grid gap-1 md:gap-2">
                                     <Label htmlFor="faixaEtaria" className={"sm:text-lg"}>Faixa Etária:</Label>
