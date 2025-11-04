@@ -132,6 +132,7 @@ const Profile = () => {
             perfilVisualizado={perfilVisualizado}
             ehMeuPerfil={ehMeuPerfil}
             usuarioLogado={usuarioLogado}
+            tipoPerfilVisualizado={tipoPerfilVisualizado}
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
