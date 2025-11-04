@@ -79,8 +79,8 @@ const ProfileHeader = ({
     }
   };
 
+  // atualiza seguidores e seguindo apos seguir/deixar de seguir no modal
   const handleAtualizacaoSeguidores = (targetUsername, acao) => {
-    // Atualiza o "seguindo" do usuário logado
     setSeguindoUsuario((prev) => {
       const atual = Array.isArray(prev) ? prev : [];
 
@@ -92,7 +92,6 @@ const ProfileHeader = ({
       }
     });
 
-    // Atualiza os seguidores do perfil visualizado — somente se o alvo for o próprio perfil visualizado
     if (perfilVisualizado?.username === targetUsername) {
       setSeguidoresPerfil((prev) => {
         const atual = Array.isArray(prev) ? prev : [];

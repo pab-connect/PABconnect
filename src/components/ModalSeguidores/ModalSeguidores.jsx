@@ -5,7 +5,6 @@ import { getAll, API_BASE_URL, update } from "../../services/apiService";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
 import { Link } from "react-router-dom";
 import { Toastify } from "../Toastify/Toastify";
-import { ja } from "date-fns/locale";
 
 export default function ModalSeguidores({
   aberto,
@@ -28,6 +27,7 @@ export default function ModalSeguidores({
     }
   }, [aberto, usernames]);
 
+  // filtra usuarios que esta seguindo ou seguidores
   const buscarUsuarios = async () => {
     try {
       setCarregando(true);
@@ -58,6 +58,7 @@ export default function ModalSeguidores({
     }
   };
 
+  // segue ou deixar de seguir as pessoas no modal
   const handleSeguir = async (e, usuario) => {
     e.preventDefault();
 
@@ -152,7 +153,7 @@ export default function ModalSeguidores({
                     </div>
                   </Link>
 
-                  {/* Botão de seguir/deixar de seguir */}
+                  {/* Botao de seguir/deixar de seguir */}
                   {!ehMeuPerfil && (
                     <button
                       onClick={(e) => handleSeguir(e, usuario)}
