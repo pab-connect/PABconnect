@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Plus, Check } from "lucide-react";
-import { update, API_BASE_URL } from "../../services/apiService";
 import { Toastify } from "../Toastify/Toastify";
 import { useState } from "react";
 
@@ -8,31 +7,8 @@ export default function CardUserAdd({ usuario, usuarioLogado }) {
     const [segue, setSegue] = useState(usuarioLogado.seguindo.includes(usuario.username));
 
     async function handleClick() {
-        try {
-            const novoSeguindo = segue ? usuarioLogado.seguindo.filter(username => username !== usuario.username) : [...usuarioLogado.seguindo, usuario.username];
-
-            const dataToSend = { seguindo: novoSeguindo };
-            const response = await update(API_BASE_URL, "jogadoras", usuarioLogado.id, dataToSend);
-
-            if (response) {
-                const novoSegue = !segue;
-                setSegue(novoSegue);
-
-                if (novoSegue) {
-                    Toastify.sucesso(`Você começou a seguir ${usuario.nome}`);
-                } else {
-                    Toastify.sucesso(`Você parou de seguir ${usuario.nome}`);
-                }
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
-            }
-        } catch {
-            console.error("Erro ao atualizar");
-        }
+        Toastify.erro("Função não disponivel em preview")
     }
-
-
 
     return (
         <div className="bg-white py-2 flex gap-2 justify-between items-center rounded-lg">

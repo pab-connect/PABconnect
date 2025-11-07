@@ -1,17 +1,14 @@
 import { ThumbsUp, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { update, API_BASE_URL, API_POSTS_URL } from "../../services/apiService";
 import { useState, useEffect } from "react";
 import { Toastify } from "../Toastify/Toastify";
 
-export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "jogadora", setUsuarios }) {
+export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "jogadora" }) {
   const [seguindo, setSeguindo] = useState(false)
   const isVideo = post.midia?.endsWith(".mp4") || post.midia?.endsWith(".mov");
   const [curtido, setCurtir] = useState(false);
   const idUsuarioLogado = usuarioLogado?.id;
   const isPerfilProprio = Number(post.usuario.id) === Number(idUsuarioLogado);
-  const userLogado = usuarioLogado
-  const userLogadoTipo = JSON.parse(localStorage.getItem("user"))?.tipo;
   const tipoUsuarioFormatado = tipoUsuario==="jogadoras" ? "jogadora" : "olheiro"
   const data = new Date(post.datahora);
   const dataFormatada = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()} às ${data.getHours()}:${data.getMinutes()}`;
@@ -23,45 +20,12 @@ export default function PostUser({ post, usuario, usuarioLogado, tipoUsuario = "
   }, [usuarioLogado, usuario]);
 
   async function handleSeguir() {
-    if (!userLogado || !usuario) return;
-
-    const jaSegue = userLogado.seguindo.includes(usuario.username);
-    const novoSeguindo = jaSegue
-      ? userLogado.seguindo.filter(username => username !== usuario.username)
-      : [...userLogado.seguindo, usuario.username];
-
-    try {
-      const tipoUsuarioLogado = userLogadoTipo === "jogadora" ? "jogadoras" : userLogadoTipo === "organizacao" ? "jogadoras" : "olheiros";
-      const dataToSend = { seguindo: novoSeguindo };
-      const response = await update(API_BASE_URL, tipoUsuarioLogado, idUsuarioLogado, dataToSend);
-
-      if (response) {
-        setUsuarios(prev =>
-          prev.map(j => j.id === idUsuarioLogado ? { ...j, seguindo: novoSeguindo } : j)
-        );
-        setSeguindo(!seguindo);
-        jaSegue ? Toastify.sucesso(`Você parou de seguir ${usuario.nome}`) : Toastify.sucesso(`Você começou a seguir ${usuario.nome}`)
-      } else {
-        console.error("Erro ao atualizar o cadastro.");
-      }
-    } catch (error) {
-      console.error("Erro ao atualizar:", error);
-    }
+    Toastify.erro("Função não disponivel em preview")
   }
 
 
   async function handleCurtir() {
-    if (!usuario) return;
-
-    const novasCurtidas = curtido ? post.curtidas - 1 : post.curtidas + 1;
-    const postAtualizado = { ...post, usuario: post.usuario.id || post.usuario, curtidas: novasCurtidas };
-
-    try {
-      await update(API_POSTS_URL, "posts", post.id, postAtualizado);
-      setCurtir(!curtido);
-    } catch (error) {
-      console.error("Erro ao atualizar curtidas:", error);
-    }
+    Toastify.erro("Função não disponivel em preview")
   }
 
   return (

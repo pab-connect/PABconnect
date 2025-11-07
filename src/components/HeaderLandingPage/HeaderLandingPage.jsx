@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function HeaderLandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate()
+
+  function handleLogin() {
+    setIsMenuOpen(false)
+    localStorage.setItem(
+        "user",
+        JSON.stringify({ tipo: "organizacao", email: "pabconnect.fiap@gmail.com" })
+    );
+    navigate("/home/organizacao");
+  }
 
   return (
     <header className="w-full bg-[#307039] text-white p-4 relative">
@@ -59,12 +69,10 @@ export default function HeaderLandingPage() {
         </nav>
 
         {/* Login desktop */}
-        <Link
-          to="/login"
-          className="hidden lg:block cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
-        >
+        
+        <button className="hidden lg:block cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300" onClick={()=>handleLogin()}>
           Entrar
-        </Link>
+        </button>
 
         {/* Menu hamburguer mobile */}
         <button
@@ -133,13 +141,9 @@ export default function HeaderLandingPage() {
 
             {/* Botão Login Mobile */}
             <div className="mt-4 pt-4">
-              <Link
-                to="/login"
-                className="w-full cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
+              <button className="w-full cursor-pointer text-white border px-6 py-2 rounded-md hover:bg-white hover:text-[#307039] transition-colors duration-300" onClick={()=>handleLogin()}>
                 Entrar
-              </Link>
+              </button>
             </div>
           </nav>
         </div>

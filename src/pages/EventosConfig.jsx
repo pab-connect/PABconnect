@@ -2,8 +2,7 @@ import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { Check, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -13,7 +12,6 @@ import useData from "@/services/useData";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
 import { useState, useEffect } from "react";
 import SelectElement from "../components/Eventos/SelectElement"
-import { update, API_POSTS_URL, remove } from "@/services/apiService";
 import { Toastify } from "@/components/Toastify/Toastify";
 import TooltipCase from "@/components/Eventos/TooltipCase";
 import InfoJogadoraDialog from "@/components/DialogComponents/InfoJogadoraDialog";
@@ -22,7 +20,6 @@ import DelEventoDialog from "@/components/DialogComponents/DelEventoDialog";
 
 export default function EventosConfig() {
     const params = useParams()
-    const navigate = useNavigate()
     const idEvento = params.id
     const { data: eventos, loading: loadingEventos } = useData("eventos");
     const { data: jogadoras, loading: loadingJogadoras } = useData("jogadoras");
@@ -58,93 +55,21 @@ export default function EventosConfig() {
     const originalDate = formData.date ? formData.date.split(" ")[0].split("/").reverse().join("-") : "";
     
     async function handleDeleteSubmit(e) {
-        e.preventDefault
-        try {
-            const response = await remove(API_POSTS_URL, "eventos", evento.id);
-            if (response) {
-                Toastify.sucesso("Evento deletado com sucesso!");
-                setTimeout(() => {
-                    navigate("/eventos")
-                }, 800);
-            } else {
-                Toastify.erro("Erro ao deletar o evento. Tente novamente.");
-            }
-        } catch {
-            Toastify.erro("Erro ao enviar o evento. Verifique sua conexão.");
-        }
+        e.preventDefault()
+        Toastify.erro("Função não disponivel em preview")
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        
-        if (!evento) return;
-
-        const [dia, mes, ano] = formData.date.split("/");
-        const novoEvento = { ...formData, date: `${dia}/${mes}/${ano}` };;
-
-        try {
-            const response = await update(API_POSTS_URL, "eventos", evento.id, novoEvento);
-            if (response) {
-                Toastify.sucesso("Evento atualizado com sucesso!");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 800);
-            } else {
-                Toastify.erro("Erro ao atualizar o evento. Tente novamente.");
-            }
-        } catch {
-            Toastify.erro("Erro ao enviar o evento. Verifique sua conexão.");
-        }
+        e.preventDefault()
+        Toastify.erro("Função não disponivel em preview")
     }
 
-    async function removerJogadora(id, jogadoraAprovada=false) {
-        if (!evento) return;
-        const lista = jogadoraAprovada ? evento?.jogadorasAprovadas : evento?.jogadorasInscritas
-        const novaLista = lista.filter(j=>j.id!==id)
-
-        const vagasAtualizadas = evento.vagas + 1 
-        const inscritasAtualizadas = evento.inscritas - 1
-        const objetoAlterado = jogadoraAprovada ? { jogadorasAprovadas : novaLista, vagas: vagasAtualizadas, inscritas: inscritasAtualizadas } : { jogadorasInscritas: novaLista, vagas: vagasAtualizadas, inscritas: inscritasAtualizadas }
-
-        try {
-            const response = await update(API_POSTS_URL, "eventos", evento.id, objetoAlterado);
-            if (response) {
-                const mensagem = jogadoraAprovada ? "Jogadora removida da lista de aprovadas!" : "Jogadora recusada com sucesso!";
-
-                Toastify.sucesso(mensagem);
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 800);
-            } else {
-                Toastify.erro("Erro ao atualizar o evento. Tente novamente.");
-            }
-        } catch {
-            Toastify.erro("Erro ao enviar o evento. Verifique sua conexão.");
-
-        }
+    async function removerJogadora() {
+        Toastify.erro("Função não disponivel em preview")
     }
 
-    async function aceitarJogadora(id) {
-        if (!evento) return;
-        const novaListaInscritas = evento?.jogadorasInscritas.filter(j=>j.id!==id)
-        
-        const objetoJogadoraInscrita = evento?.jogadorasInscritas.filter(j=>j.id===id)[0]
-        
-        const novaListaAprovadas = [...evento?.jogadorasAprovadas, objetoJogadoraInscrita]
-        try {
-            const response = await update(API_POSTS_URL, "eventos", evento.id, { jogadorasInscritas: novaListaInscritas, jogadorasAprovadas: novaListaAprovadas });
-            if (response) {
-                Toastify.sucesso("Jogadora aceita com sucesso!");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 800);
-            } else {
-                Toastify.erro("Erro ao atualizar o evento. Tente novamente.");
-            }
-        } catch {
-            Toastify.erro("Erro ao enviar o evento. Verifique sua conexão.");
-        }
+    async function aceitarJogadora() {
+        Toastify.erro("Função não disponivel em preview")
     }
 
     return (
@@ -166,8 +91,8 @@ export default function EventosConfig() {
                                                 <TooltipCase trigger={<InfoJogadoraDialog cpf={j.cpf} contato={j.contato} nome={jogadoras?.filter(jg=>jg.id==j.id)[0]?.nome} id={jogadoras?.filter(jg=>jg.id==j.id)[0]?.id} idade={jogadoras?.filter(jg=>jg.id==j.id)[0]?.idade} img={jogadoras?.filter(jg=>jg.id==j.id)[0]?.["foto-perfil"]} />} children={`Clique aqui pra ver mais informações`} />
                                             }
                                             <div className="flex gap-4">
-                                                <X onClick={()=>removerJogadora(j.id)} size={30} color="white" className="bg-[#703030] hover:bg-red-500 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
-                                                <Check onClick={()=>aceitarJogadora(j.id)} size={30} color="white" className="bg-[#307033] hover:bg-green-600 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
+                                                <X onClick={()=>removerJogadora()} size={30} color="white" className="bg-[#703030] hover:bg-red-500 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
+                                                <Check onClick={()=>aceitarJogadora()} size={30} color="white" className="bg-[#307033] hover:bg-green-600 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
                                             </div>
                                         </li>
                                     ))}
@@ -180,7 +105,7 @@ export default function EventosConfig() {
                                                 <TooltipCase trigger={<InfoJogadoraDialog cpf={j.cpf} contato={j.contato} nome={jogadoras?.filter(jg=>jg.id==j.id)[0]?.nome} id={jogadoras?.filter(jg=>jg.id==j.id)[0]?.id} idade={jogadoras?.filter(jg=>jg.id==j.id)[0]?.idade} img={jogadoras?.filter(jg=>jg.id==j.id)[0]?.["foto-perfil"]} />} children={`Clique aqui pra ver mais informações`} />
                                             }
                                             <div className="flex gap-4">
-                                                <X onClick={()=>removerJogadora(j.id, true)} size={30} color="white" className="bg-[#703030] hover:bg-red-500 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
+                                                <X onClick={()=>removerJogadora()} size={30} color="white" className="bg-[#703030] hover:bg-red-500 hover:scale-102 transition-all cursor-pointer rounded-sm w-8 h-8 p-1"/>
                                             </div>
                                         </li>
                                     ))}

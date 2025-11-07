@@ -23,13 +23,7 @@ export default function IndexDialog({ setImgUrl, imgUrl }) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if (imgUrl) {
-            Toastify.sucesso("Mídia adicionada!")
-            setOpen(false)
-        } else {
-            Toastify.erro("O campo da url está vazio")
-        }
-        
+        Toastify.erro("Função não disponivel em preview")
     }
 
     return (

@@ -8,7 +8,7 @@ import ConfigCard from "../components/Configuracoes/ConfigCard";
 import ConfigOption from "../components/Configuracoes/ConfigOption";
 import UploadAndDisplayImage from "../components/Cadastro/UploadAndDisplayImage";
 import InputWithLabel from "../components/Configuracoes/InputWithLabel";
-import {getAll, update, API_BASE_URL } from ".././services/apiService.js"
+import {getAll, API_BASE_URL } from ".././services/apiService.js"
 import { Toastify } from "../components/Toastify/Toastify.jsx"
 import SenhaDialog from "@/components/DialogComponents/SenhaDialog";
 import LoadingOverlay from "@/components/LoadingOverlay/LoadingOverlay";
@@ -81,50 +81,12 @@ export default function Configuracoes() {
     }
   }, [searchedUser]);
 
-  function tempo(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   const handleSubmit = async () => {
-    const idadeNumero = Number(formData.idade);
-
-    if (isNaN(idadeNumero) || idadeNumero < 10 || idadeNumero > 150) {
-      Toastify.erro("Por favor, digite uma idade válida (entre 10 e 150 anos).");
-      return;
-    }
-
-    const dataToSend = {
-      ...formData,
-      idade: idadeNumero
-    };
-    
-    
-    try {
-      const response = await update(API_BASE_URL, tipo, formData.id, dataToSend);
-      if (response) {
-        Toastify.sucesso("Suas informações foram atualizadas com sucesso")
-      } else {
-        Toastify.erro("Erro ao atualizar o cadastro. Por favor, tente novamente.");
-      }
-    } catch {
-      Toastify.erro("Erro ao atualizar. Verifique sua conexão e tente novamente.");
-    }
+    Toastify.erro("Função não disponivel em preview")
   };
 
   async function handleMudarSenha() {
-    try {
-      const response = await update(API_BASE_URL, tipo, formData.id, { senha: novaSenha });
-      if (response) {
-        Toastify.sucesso("Senha atualizada com sucesso!");
-        await tempo(1800)
-        localStorage.clear();
-        window.location.href = "/";
-      } else {
-        Toastify.erro("Erro ao atualizar a senha.");
-      }
-    } catch {
-      Toastify.erro("Erro de conexão ao atualizar a senha.");
-    }
+    Toastify.erro("Função não disponivel em preview")
   }
 
 
