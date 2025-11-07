@@ -202,18 +202,18 @@ export default function Configuracoes() {
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Email de contato</p>
                   <a 
                     href="mailto:pabconnect.fiap@gmail.com" 
-                    className="ml-auto text-xs sm:text-xl md:text-lg text-center text-purple-700 text-wrap w-40 sm:w-47 md:text-nowrap md:w-auto font-medium underline"
+                    className="ml-auto text-xs md:text-lg text-center text-purple-700 text-wrap w-40 sm:w-47 md:text-nowrap md:w-auto font-medium underline"
                   >
                     pabconnect.fiap@gmail.com
                   </a>
                 </div>,
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Versão do site</p>
-                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">v2.1.0</span>
+                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">v2.5.0</span>
                 </div>,
                 <div className="flex gap-5 items-center">
                   <p className="text-xl sm:text-2xl md:font-semibold md:text-xl">Última atualização</p>
-                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">17/10/2025</span>
+                  <span className="ml-auto sm:text-xl md:text-lg text-gray-600">07/11/2025</span>
                 </div>
               ]}
             />
