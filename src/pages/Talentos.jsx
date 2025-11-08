@@ -91,7 +91,7 @@ export default function Talentos() {
           <h2 className="text-4xl font-semibold mb-4">Talentos</h2>
           <div className="flex flex-col md:flex-row-reverse gap-8">
             {/* filtros - sidebar em desktop */}
-            <aside className="md:w-64 md:flex-shrink-0 flex flex-col gap-6">
+            <aside className="md:w-80 md:flex-shrink-0 flex flex-col gap-6">
               <Filtros filtro={filtro} setFiltro={setFiltro} />
 
               {/* Gráfico aqui */}

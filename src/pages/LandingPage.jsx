@@ -1,3 +1,4 @@
+import QuemSomos from "../components/QuemSomos/QuemSomos";
 import Banner from "../components/Banner/Banner";
 import ComoFunciona from "../components/ComoFunciona/ComoFunciona";
 import Contato from "../components/Contato/Contato";
@@ -14,6 +15,7 @@ export default function LandingPage() {
       <ComoFunciona />
       <ParaQuem />
       <Pratica />
+      <QuemSomos/>
       <Contato />
       <Footer tipo="landing" />
     </div>

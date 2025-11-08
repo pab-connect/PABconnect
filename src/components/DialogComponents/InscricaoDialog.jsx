@@ -44,8 +44,7 @@ export default function InscricaoDialog({ title, evento, localization, date, use
         } else {
           Toastify.erro("Erro ao inscrever-se.");
         }
-      } catch (error) {
-        console.error(error);
+      } catch {
         Toastify.erro("Erro de conexão ao inscrever-se.");
       }
     }
@@ -54,7 +53,7 @@ export default function InscricaoDialog({ title, evento, localization, date, use
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className='flex items-center cursor-pointer text-[#307039] hover:scale-102 duration-300 transition-all'>
-        <span className='bg-[#307039] hover:scale-99 hover:bg-gradient-to-b from-[#307039] to-[#295f30] transition-all cursor-pointer text-white px-6 py-2 rounded-lg sm:text-lg'>Inscrever-se</span>
+        <span className='bg-[#307039] hover:bg-gradient-to-b from-[#307039] to-[#295f30] transition-all cursor-pointer text-white px-6 py-2 rounded-lg sm:text-lg'>Inscrever-se</span>
       </DialogTrigger>
 
       <DialogContent showCloseButton={false} className="sm:w-3/4 md:max-w-[750px] p-0 flex flex-col mx-auto border-1 border-[#307039] rounded-xl">

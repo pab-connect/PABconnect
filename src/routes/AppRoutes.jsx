@@ -13,6 +13,7 @@ import Profile from "../pages/Profile";
 import Conexoes from "../pages/Conexoes";
 import Mensagem from "../pages/Mensagem";
 import Eventos from "../pages/Eventos";
+import EventosConfig from "@/pages/EventosConfig";
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +89,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Profile />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/evento/:id',
+    element: (
+      <ProtectedRoute org={true}>
+        <EventosConfig/>
       </ProtectedRoute>
     )
   },

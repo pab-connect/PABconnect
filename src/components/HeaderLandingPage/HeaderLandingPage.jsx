@@ -41,6 +41,14 @@ export default function HeaderLandingPage() {
             </li>
             <li>
               <a
+                href="#quemSomos"
+                className="hover:text-[#DAD0F0] transition-colors"
+              >
+                Quem somos
+              </a>
+            </li>
+            <li>
+              <a
                 href="#contato"
                 className="hover:text-[#DAD0F0] transition-colors"
               >
@@ -101,6 +109,15 @@ export default function HeaderLandingPage() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Veja na prática
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#quemSomos"
+                  className="block py-2 hover:text-[#DAD0F0] transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Quem somos
                 </a>
               </li>
               <li>

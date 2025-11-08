@@ -33,8 +33,8 @@ Funcionalidades principais:
 - Perfis personalizados com informações atléticas e conquistas  
 - Feed de postagens com fotos e vídeos  
 - Sistema de conexões e visualização de jogadoras  
-- Área de mensagens integrada via e-mail  
-- Notificações e gerenciamento de conta  
+- Criação, inscrição e gerenciamento de eventos
+- Gerenciamento de conta  
 
 ---
 
@@ -44,9 +44,25 @@ Funcionalidades principais:
 - **JavaScript**  
 - **Tailwind CSS**  
 - **Lucide React** (ícones)  
-- **React Hot Toast** (notificações)  
+- **React Hot Toast** (notificações)
+- **ShadCN** (componentes React)
 - **Google Fonts**  
 - **MockAPI** (criação e consumo de API)  
+
+---
+
+## 🚀 Changelog - Versão 2.5
+ 
+## 🆕 Novidades
+- Dashboard de **gerenciamento de eventos**
+- Implementada funcionalidade de **criação de times**
+- Landing Page agora tem informações do **Passa a Bola**
+- Novo modal para vizualizar **seguidores** e **seguindo**
+ 
+## 🧹 Melhorias e Ajustes
+- Removidos logs de **desenvolvimento**
+- **Responsividade ajustada** em algumas páginas
+- **Segurança da API** melhorada com .env
 
 ---
 

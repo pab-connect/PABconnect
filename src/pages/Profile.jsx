@@ -60,8 +60,8 @@ const Profile = () => {
         setJogadoras(todasJogadoras);
         setAgentes(todosOlheiros);
         setCarregando(false);
-      } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
+      } catch {
+        console.error("Erro ao buscar usuários");
       }
     }
 
@@ -104,8 +104,8 @@ const Profile = () => {
 
         setMidia({ imagens, videos });
         setCarregando(false);
-      } catch (error) {
-        console.error("Erro ao buscar posts:", error);
+      } catch {
+        console.error("Erro ao buscar posts");
       }
     }
 
@@ -132,6 +132,7 @@ const Profile = () => {
             perfilVisualizado={perfilVisualizado}
             ehMeuPerfil={ehMeuPerfil}
             usuarioLogado={usuarioLogado}
+            tipoPerfilVisualizado={tipoPerfilVisualizado}
           />
 
           <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">

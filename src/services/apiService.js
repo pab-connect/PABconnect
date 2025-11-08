@@ -1,7 +1,7 @@
 // URL para os recursos (jogadoras, olheiros)
-export const API_BASE_URL = "https://68c4584781ff90c8e61bf8e9.mockapi.io";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // URL para os posts
-export const API_POSTS_URL = "https://68c4a03581ff90c8e61caffa.mockapi.io";
+export const API_POSTS_URL = import.meta.env.VITE_API_POSTS_URL;
 
 // READ
 export const getAll = (url, endpoint) => {
@@ -12,8 +12,8 @@ export const getAll = (url, endpoint) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao buscar dados de ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao buscar dados de ${endpoint}`);
       return [];
     });
 };
@@ -31,8 +31,8 @@ export const create = (url, endpoint, data) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao criar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao criar item em ${endpoint}`);
       return null;
     });
 };
@@ -50,8 +50,8 @@ export const update = (url, endpoint, id, data) => {
       }
       return response.json();
     })
-    .catch(error => {
-      console.error(`Erro ao atualizar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao atualizar item em ${endpoint}`);
       return null;
     });
 };
@@ -67,8 +67,8 @@ export const remove = (url, endpoint, id) => {
       }
       return true;
     })
-    .catch(error => {
-      console.error(`Erro ao deletar item em ${endpoint}:`, error);
+    .catch(() => {
+      console.error(`Erro ao deletar item em ${endpoint}`);
       return false;
     });
 };

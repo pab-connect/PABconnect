@@ -25,8 +25,8 @@ export default function IndexOrganizacao() {
       const posts = await getAll(API_POSTS_URL, "posts");
       setPosts(posts);
       setCarregando(false);
-    } catch (error) {
-      console.error("Erro ao buscar posts:", error);
+    } catch {
+      console.error("Erro ao buscar posts");
     }
   }
 
@@ -35,15 +35,15 @@ export default function IndexOrganizacao() {
       try {
         const jogs = await getAll(API_BASE_URL, "jogadoras");
         setJogadoras(jogs);
-      } catch (error) {
-        console.error("Erro ao buscar jogadoras:", error);
+      } catch {
+        console.error("Erro ao buscar jogadoras");
       }
 
       try {
         const olhs = await getAll(API_BASE_URL, "olheiros");
         setAgentes(olhs);
-      } catch (error) {
-        console.error("Erro ao buscar olheiros:", error);
+      } catch {
+        console.error("Erro ao buscar olheiros");
       }
     }
 

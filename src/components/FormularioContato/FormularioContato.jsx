@@ -28,7 +28,7 @@ export default function FormularioContato() {
           type="submit"
           className="border rounded-md py-2 cursor-pointer hover:bg-white hover:text-[#307039] transition duration-300"
         >
-          Enviar
+          <a href="mailto:pabconnect.fiap@gmail.com">Enviar</a>
         </button>
         <p className="text-[10px]">Responderemos em até 48h. Sua mensagem é muito importante!</p>
       </form>
