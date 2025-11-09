@@ -51,6 +51,13 @@ Funcionalidades principais:
 
 ---
 
+## 🏆 Prêmios e Reconhecimento
+
+-   🥉 **3º Lugar no Challenge "Passa a Bola" - Next FIAP 2025**
+    -   O PAB Connect foi premiado com o 3º lugar no challenge "Passa a Bola" durante o Next FIAP (08/11/2025), destacando-se entre mais de 100 projetos concorrentes.
+
+---
+
 ## 🚀 Changelog - Versão 2.5
  
 ## 🆕 Novidades
